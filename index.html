@@ -35,28 +35,37 @@ th{font-size:.78rem;color:var(--mu);font-weight:600}
 code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 </style></head><body><div class="w">
 
-<div id="lg" class="c" style="max-width:340px;margin:60px auto">
-<h2>Sign in to Asaan Library</h2>
-<label for="em">Username or email</label><input id="em" type="text" autocomplete="username" autocapitalize="none"><br><br>
+<div id="lg" class="c" style="max-width:360px;margin:50px auto">
+<div style="text-align:center;margin-bottom:16px"><img src="icon-192.png" alt="" width="64" height="64" style="border-radius:14px"><h1 style="font-size:1.25rem;line-height:1.3;margin:12px 0 4px">Welcome to Asaan Library Management System</h1><p class="mu" style="margin:0">Sign in to continue</p></div>
+<label for="em">Email</label><input id="em" type="text" inputmode="email" autocomplete="username" autocapitalize="none" placeholder="you@example.com"><br><br>
 <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"><br><br>
-<button onclick="login()">Sign in</button>
-<p id="le" class="bad"></p>
+<button onclick="login()">Sign in</button> <button class="o" onclick="forgot()">Forgot password?</button>
+<p id="le" class="bad"></p><p id="lm" class="mu"></p>
 </div>
 
+<div id="ac" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:center;justify-content:center;padding:12px"><div class="c" style="max-width:400px;width:100%;max-height:92vh;overflow:auto;margin:0">
+<h3>My account</h3><p class="mu">Signed in as <b id="ac_e"></b></p>
+<label>Current password (needed for any change)</label><input id="ac_cp" type="password" autocomplete="current-password"><br><br>
+<label>New password (min 8 characters)</label><input id="ac_np" type="password" autocomplete="new-password"><br><br>
+<button onclick="changePw()">Change password</button><hr style="border:0;border-top:1px solid var(--hi);margin:16px 0">
+<label>New email address</label><input id="ac_ne" type="text" inputmode="email" autocapitalize="none" autocomplete="off" placeholder="you@example.com"><br><br>
+<button onclick="changeEm()">Change email</button> <button class="o" onclick="mailReset()">Email me a reset link</button>
+<p id="ac_m" class="mu"></p><button class="o s" onclick="closeAcc()">Close</button></div></div>
+
 <div id="sa" class="hide">
-<div class="top"><h2 style="margin:0">Libraries</h2><button class="o s" onclick="logout()">Sign out</button></div>
+<div class="top"><h2 style="margin:0">Libraries</h2><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
 <div class="c"><h3>Add library</h3>
 <div class="f"><div><label>Library name</label><input id="n_n"></div><div><label>Plan name</label><input id="n_p" placeholder="e.g. Monthly"></div><div><label>Trial days</label><input id="n_d" type="number" value="30"></div><button onclick="addLib()">Add library</button></div></div>
 <div class="c"><h3>Create library login</h3>
-<p class="mu">Create the owner's username and password here. The owner can then create their own staff logins. Usernames are shared across all libraries, so make each one unique (for example <code>ramesh.lib1</code>).</p>
-<div class="f"><div><label>Library</label><select id="k_l"></select></div><div><label>Username (a-z, 0-9, . _ -)</label><input id="k_u" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="k_p" autocomplete="new-password"></div><div><label>Role</label><select id="k_r"><option value="owner">Owner</option><option value="staff">Staff</option></select></div><button id="kb" onclick="mkUser()">Create login</button></div>
+<p class="mu">Enter the owner's real email address and set a password. The owner can change the password later, or get a reset link by email, and can create their own staff logins. Double-check the email: reset links are sent there.</p>
+<div class="f"><div><label>Library</label><select id="k_l"></select></div><div><label>Email</label><input id="k_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="k_p" autocomplete="new-password"></div><div><label>Role</label><select id="k_r"><option value="owner">Owner</option><option value="staff">Staff</option></select></div><button id="kb" onclick="mkUser()">Create login</button></div>
 <p id="km" class="mu"></p></div>
 <div class="c"><h3>All logins</h3><div class="tw" id="ul"></div></div>
 <div class="c"><div class="tw" id="ll"></div></div>
 </div>
 
 <div id="lb" class="hide">
-<div class="top"><div><h2 id="ln" style="margin:0"></h2><span id="sb" class="mu"></span></div><button class="o s" onclick="logout()">Sign out</button></div>
+<div class="top"><div><h2 id="ln" style="margin:0"></h2><span id="sb" class="mu"></span></div><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
 <div class="tabs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_set" class="hide" onclick="tab('set')">Public page</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button></div>
 <div id="t_dash"><div class="k" id="kp"></div>
 <div class="c"><h3>Last 6 months</h3><div id="ch"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
@@ -81,7 +90,7 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <div id="t_exp" class="hide"><div class="c"><h3>Add expense</h3><div class="f"><div><label>Date</label><input id="x_d" type="date"></div><div><label>Category</label><select id="x_c"><option>Rent</option><option>Electricity</option><option>Internet</option><option>Salary</option><option>Maintenance</option><option>Other</option></select></div><div><label>Amount (₹)</label><input id="x_a" type="number"></div><div><label>Note</label><input id="x_n"></div><button id="xb" onclick="addExp()">Add expense</button></div></div>
 <div class="c"><div class="top"><h3 style="margin:0">Expenses</h3><input id="x_m" type="month" style="max-width:170px" onchange="drawExp()"></div><p id="xs" class="mu"></p><div class="tw" id="xl"></div></div></div>
 <div id="t_apr" class="hide"><div class="c"><h3>Approval requests</h3><p class="mu">Staff cannot delete a student, change a student's details or fee, or change or delete a payment directly. They send a request here, and nothing changes until the owner approves it.</p><div class="tw" id="al"></div></div></div>
-<div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Note down the password and share it with the staff member. Use a unique username, for example <code>yourlibrary.anil</code>.</p><div class="f"><div><label>Username (a-z, 0-9, . _ -)</label><input id="f_u" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
+<div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Use the staff member's real email address and set a password. Note it down and share it with them. They can change it later or get a reset link by email.</p><div class="f"><div><label>Staff email</label><input id="f_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
 <div class="c"><h3>Logins in this library</h3><div class="tw" id="fl"></div></div></div>
 <div id="t_set" class="hide"><div class="c"><h3>Public page</h3><p class="mu">Share this page with students. It shows only what you enter below.</p><div class="f"><div><label>Link name (3-30 letters, numbers, dashes)</label><input id="s_s"></div><div><label>Display name</label><input id="s_n"></div><div><label>Phone</label><input id="s_p"></div><div><label>Address</label><input id="s_a"></div><div><label>Google Maps link</label><input id="s_m"></div><div><label>About</label><input id="s_b"></div><button onclick="saveSet()">Save public page</button></div><p id="sm" class="mu"></p></div></div>
 </div>
@@ -90,7 +99,7 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 </div>
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,sendPasswordResetEmail,reauthenticateWithCredential,EmailAuthProvider,updatePassword,verifyBeforeUpdateEmail}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import{getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,getDoc,getDocs,writeBatch,onSnapshot,query,orderBy,where,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 // Paste your NEW Firebase project's config here (Project settings > Your apps > Web app)
@@ -110,13 +119,18 @@ const show=v=>['lg','sa','lb','pb'].forEach(i=>$(i).classList.toggle('hide',i!==
 const expOf=l=>l&&l.expiry&&l.expiry.toDate?l.expiry.toDate():null;
 const isLive=l=>{const e=expOf(l);return !!(l&&l.active&&e&&e>new Date())};
 
-async function login(){try{const v=$('em').value.trim().toLowerCase();await signInWithEmailAndPassword(auth,v.includes('@')?v:v+'@'+app.options.authDomain,$('pw').value);$('le').textContent=''}catch(e){$('le').textContent='Sign in failed ('+e.code+')'}}
+async function login(){$('lm').textContent='';try{const v=$('em').value.trim().toLowerCase();await signInWithEmailAndPassword(auth,v.includes('@')?v:v+'@'+app.options.authDomain,$('pw').value);$('le').textContent=''}catch(e){$('le').textContent=e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found'?'Wrong email or password.':'Sign in failed ('+e.code+')'}}
+async function forgot(){const v=$('em').value.trim().toLowerCase(),le=$('le'),lm=$('lm');le.textContent='';lm.textContent='';
+ if(!EMRE.test(v)){le.textContent='Type your email in the box above, then tap Forgot password.';return}
+ if(FAKE(v)){le.textContent='This login has no email on file. Ask your library owner or provider to reset it.';return}
+ try{await sendPasswordResetEmail(auth,v);lm.textContent='If this email has a login, a reset link has been sent. Please check your inbox and spam folder.'}
+ catch(e){le.textContent=e.code==='auth/too-many-requests'?'Too many attempts. Please try again later.':'Could not send the email ('+e.code+')'}}
 function logout(){signOut(auth)}
 
 onAuthStateChanged(auth,async u=>{
  unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];
  if(!u){show(PUB?'pb':'lg');return}
- try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data()}
+ try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
  if(me.role==='super'){
   show('sa');
@@ -144,39 +158,40 @@ async function addLib(){const n=$('n_n').value.trim(),d=+$('n_d').value||30;if(!
 async function ext(id){const l=LIBS.find(x=>x.id===id),d=+prompt('Extend by how many days?','30');if(!(d>0))return;
  const b=Math.max(Date.now(),expOf(l)?expOf(l).getTime():0);await updateDoc(doc(db,'libraries',id),{expiry:new Date(b+d*864e5)})}
 async function tog(id,v){await updateDoc(doc(db,'libraries',id),{active:v})}
-const UNRE=/^[a-z0-9._-]{3,30}$/;
-const cerr=e=>e.code==='auth/email-already-in-use'?'This username is already taken. Choose another.':e.code==='auth/weak-password'?'Password is too weak. Use 8 or more characters.':e.code==='permission-denied'?'Not allowed. The subscription may be inactive.':'Could not create login ('+(e.code||e.message)+')';
-async function mkLogin(un,pw,role,lid){
- const c=await createUserWithEmailAndPassword(auxAuth,un+'@'+app.options.authDomain,pw);
- try{await setDoc(doc(db,'users',c.user.uid),{role,libId:lid,username:un,createdAt:serverTimestamp()})}
+const EMRE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/,FAKE=e=>!e||e.endsWith('@'+app.options.authDomain);
+const ulab=u=>u.email&&!FAKE(u.email)?u.email:(u.username||u.email||u.id.slice(0,8)+'…');
+const cerr=e=>e.code==='auth/email-already-in-use'?'This email already has a login.':e.code==='auth/invalid-email'?'This email address is not valid.':e.code==='auth/weak-password'?'Password is too weak. Use 8 or more characters.':e.code==='permission-denied'?'Not allowed. The subscription may be inactive.':'Could not create login ('+(e.code||e.message)+')';
+async function mkLogin(em,pw,role,lid){
+ const c=await createUserWithEmailAndPassword(auxAuth,em,pw);
+ try{await setDoc(doc(db,'users',c.user.uid),{role,libId:lid,email:em,createdAt:serverTimestamp()})}
  catch(e){await c.user.delete().catch(()=>{});throw e}
  finally{await signOut(auxAuth).catch(()=>{})}
 }
-async function mkUser(){const m=$('km'),un=$('k_u').value.trim().toLowerCase(),pw=$('k_p').value,l=$('k_l').value,r=$('k_r').value;
+async function mkUser(){const m=$('km'),em=$('k_u').value.trim().toLowerCase(),pw=$('k_p').value,l=$('k_l').value,r=$('k_r').value;
  if(!l){m.textContent='Add a library first.';return}
- if(!UNRE.test(un)){m.textContent='Username: 3-30 characters, only a-z, 0-9, dot, dash or underscore.';return}
+ if(!EMRE.test(em)){m.textContent='Enter a valid email address.';return}
  if(pw.length<8){m.textContent='Password must be at least 8 characters.';return}
  $('kb').disabled=true;
- try{await mkLogin(un,pw,r,l);m.textContent='Login created. Username: '+un+'  Password: '+pw+'  (share these with the '+r+')';$('k_u').value='';$('k_p').value=''}catch(e){m.textContent=cerr(e)}
+ try{await mkLogin(em,pw,r,l);m.textContent='Login created. Email: '+em+'  Password: '+pw+'  (share these with the '+r+')';$('k_u').value='';$('k_p').value=''}catch(e){m.textContent=cerr(e)}
  $('kb').disabled=false}
 function drawUsers(){
  const sel=$('k_l'),cur=sel.value;
  sel.innerHTML=LIBS.map(l=>`<option value="${l.id}">${esc(l.name)}</option>`).join('');
  if(LIBS.some(l=>l.id===cur))sel.value=cur;
  const nm=id=>(LIBS.find(l=>l.id===id)||{}).name||'-';
- $('ul').innerHTML=US.length?'<table><tr><th>Username</th><th>Role</th><th>Library</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(u.username||u.id.slice(0,8)+'…')}</td><td>${esc(u.role)}</td><td>${esc(u.role==='super'?'-':nm(u.libId))}</td><td>${u.role==='super'?'':`<button class="s r" onclick="rmUser('${u.id}')">Remove</button>`}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>';
+ $('ul').innerHTML=US.length?'<table><tr><th>Login</th><th>Role</th><th>Library</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(ulab(u))}</td><td>${esc(u.role)}</td><td>${esc(u.role==='super'?'-':nm(u.libId))}</td><td>${u.role==='super'?'':`<button class="s r" onclick="rmUser('${u.id}')">Remove</button>`}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>';
 }
 async function rmUser(id){const u=US.find(x=>x.id===id);if(!u||u.role==='super')return;
- if(!confirm('Remove login "'+(u.username||id)+'"? They will no longer be able to use the app.'))return;
+ if(!confirm('Remove login "'+ulab(u)+'"? They will no longer be able to use the app.'))return;
  try{await deleteDoc(doc(db,'users',id))}catch(e){alert('Could not remove ('+e.code+')')}}
-async function mkStaff(){if(!LIVE||!OWN())return;const m=$('fm'),un=$('f_u').value.trim().toLowerCase(),pw=$('f_p').value;
- if(!UNRE.test(un)){m.textContent='Username: 3-30 characters, only a-z, 0-9, dot, dash or underscore.';return}
+async function mkStaff(){if(!LIVE||!OWN())return;const m=$('fm'),em=$('f_u').value.trim().toLowerCase(),pw=$('f_p').value;
+ if(!EMRE.test(em)){m.textContent='Enter a valid email address.';return}
  if(pw.length<8){m.textContent='Password must be at least 8 characters.';return}
  $('fb').disabled=true;
- try{await mkLogin(un,pw,'staff',libId);m.textContent='Staff login created. Username: '+un+'  Password: '+pw+'  (share these with your staff member)';$('f_u').value='';$('f_p').value=''}catch(e){m.textContent=cerr(e)}
+ try{await mkLogin(em,pw,'staff',libId);m.textContent='Staff login created. Email: '+em+'  Password: '+pw+'  (share these with your staff member)';$('f_u').value='';$('f_p').value=''}catch(e){m.textContent=cerr(e)}
  $('fb').disabled=!LIVE}
 function drawStf(){if(!OWN())return;
- $('fl').innerHTML=US.length?'<table><tr><th>Username</th><th>Role</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(u.username||u.id.slice(0,8)+'…')}</td><td>${esc(u.role)}</td><td>${u.role==='staff'?`<button class="s r" onclick="rmUser('${u.id}')">Remove</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>'}
+ $('fl').innerHTML=US.length?'<table><tr><th>Login</th><th>Role</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(ulab(u))}</td><td>${esc(u.role)}</td><td>${u.role==='staff'?`<button class="s r" onclick="rmUser('${u.id}')">Remove</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>'}
 
 /* ---------- Library panel ---------- */
 function drawLB(){
@@ -306,7 +321,24 @@ async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){
   if(ex){if(upOK){const d={name:n,fee};if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;b.update(doc(col,ex.id),d);upd++}else kept++}
   else{const j=jn||today();b.set(doc(col),{name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,createdAt:serverTimestamp()});add++}}
  try{await b.commit();m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(all.length>450?' Only the first 450 rows were read.':'')}catch(e){m.textContent='Import failed ('+e.code+').'}}
+const aerr=e=>({'app/need-password':'Enter your current password first.','auth/wrong-password':'Current password is wrong.','auth/invalid-credential':'Current password is wrong.','auth/weak-password':'New password is too weak. Use 8 or more characters.','auth/email-already-in-use':'That email is already used by another login.','auth/invalid-email':'That email address is not valid.','auth/too-many-requests':'Too many attempts. Please try again later.','auth/requires-recent-login':'Please sign out, sign in again and retry.'}[e.code]||'Failed ('+(e.code||e.message)+')');
+function openAcc(){const u=auth.currentUser;if(!u)return;
+ $('ac_e').textContent=FAKE(u.email)?u.email.split('@')[0]+' (no real email added yet)':u.email;
+ ['ac_cp','ac_np','ac_ne'].forEach(i=>$(i).value='');
+ $('ac_m').textContent=FAKE(u.email)?'This login has no real email yet. Add one with "Change email" so you can reset your password by email.':'';
+ $('ac').style.display='flex'}
+function closeAcc(){$('ac').style.display='none'}
+async function reauth(){const u=auth.currentUser,cp=$('ac_cp').value;if(!cp)throw{code:'app/need-password'};await reauthenticateWithCredential(u,EmailAuthProvider.credential(u.email,cp))}
+async function changePw(){const m=$('ac_m'),np=$('ac_np').value;m.textContent='';
+ if(np.length<8){m.textContent='New password must be at least 8 characters.';return}
+ try{await reauth();await updatePassword(auth.currentUser,np);$('ac_cp').value='';$('ac_np').value='';m.textContent='Password changed. Use the new password next time you sign in.'}catch(e){m.textContent=aerr(e)}}
+async function changeEm(){const m=$('ac_m'),ne=$('ac_ne').value.trim().toLowerCase();m.textContent='';
+ if(!EMRE.test(ne)||FAKE(ne)){m.textContent='Enter a valid email address.';return}
+ try{await reauth();await verifyBeforeUpdateEmail(auth.currentUser,ne);m.textContent='A verification link was sent to '+ne+'. Open it to confirm, then sign in with the new email.'}catch(e){m.textContent=aerr(e)}}
+async function mailReset(){const m=$('ac_m'),u=auth.currentUser;m.textContent='';
+ if(!u||FAKE(u.email)){m.textContent='Add a real email first using "Change email".';return}
+ try{await sendPasswordResetEmail(auth,u.email);m.textContent='Reset link sent to '+u.email+'. Check your inbox and spam folder.'}catch(e){m.textContent=aerr(e)}}
 if(PUB){show('pb');loadPub()}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
+Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
 </script></body></html>

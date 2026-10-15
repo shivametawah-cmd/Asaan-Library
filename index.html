@@ -75,7 +75,7 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <p id="am" class="mu"></p></div>
 <div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
 <div class="c"><div class="top"><h3 style="margin:0">Students</h3><input id="q" placeholder="Search name, phone or seat" style="max-width:240px" oninput="drawLB()"></div><div class="tw" id="sl"></div></div>
-<div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (owner only, matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
+<div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (owner only, matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">In the blank template, Next Due fills in automatically as the same date one month after Join Date (you can overwrite it). Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
 </div>
 <div id="t_pay" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Payments</h3><input id="p_m" type="month" style="max-width:170px" onchange="drawPay()"></div><p class="mu">Staff cannot change or delete a payment directly. They send a request, and nothing changes until the owner approves it in the Approvals tab.</p><p id="ps" class="mu"></p><div class="tw" id="pt"></div></div></div>
 <div id="t_exp" class="hide"><div class="c"><h3>Add expense</h3><div class="f"><div><label>Date</label><input id="x_d" type="date"></div><div><label>Category</label><select id="x_c"><option>Rent</option><option>Electricity</option><option>Internet</option><option>Salary</option><option>Maintenance</option><option>Other</option></select></div><div><label>Amount (₹)</label><input id="x_a" type="number"></div><div><label>Note</label><input id="x_n"></div><button id="xb" onclick="addExp()">Add expense</button></div></div>
@@ -287,12 +287,17 @@ async function loadPub(){try{const r=await getDoc(doc(db,'publicPages',PUB));
 const HD=['Name','Mobile','Seat','Monthly Fee','Join Date','Aadhaar Last 4','Next Due'];
 const dx=v=>v instanceof Date?iso(new Date(v.getTime()+12*36e5)):/^\d{4}-\d{2}-\d{2}$/.test(String(v).trim())?String(v).trim():'';
 const sv=(rows,n)=>{const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,XLSX.utils.aoa_to_sheet(rows),'Students');XLSX.writeFile(b,n)};
-function tpl(){sv([HD,['Example Student','9876543210','A1',500,today(),'1234','']],'students-template.xlsx')}
+function tpl(){const n=new Date(),ws=XLSX.utils.aoa_to_sheet([HD,['Example Student','9876543210','A1',500,'','1234','']]);
+ // Join Date is a real date; Next Due (column G) is a formula: the same date one month after the Join Date
+ ws.E2={t:'d',v:new Date(n.getFullYear(),n.getMonth(),n.getDate(),12),z:'yyyy-mm-dd'};
+ for(let r=2;r<=451;r++)ws['G'+r]={t:'n',f:`IF(E${r}="","",EDATE(E${r},1))`,z:'yyyy-mm-dd'};
+ ws['!ref']='A1:G451';ws['!cols']=[{wch:22},{wch:14},{wch:8},{wch:12},{wch:13},{wch:15},{wch:13}];
+ const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,ws,'Students');XLSX.writeFile(b,'students-template.xlsx',{cellDates:true})}
 function expX(){sv([HD,...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue])],'students.xlsx')}
 async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){m.textContent='Choose a file first.';return}
  const upOK=$('xu').checked&&OWN();let wb;
  try{wb=XLSX.read(await f.arrayBuffer(),{cellDates:true})}catch(e){m.textContent='Could not read this file.';return}
- const all=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}),rows=all.slice(0,450);
+ const all=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}).filter(r=>String(r['Name']).trim()||String(r['Mobile']).trim()),rows=all.slice(0,450);
  const b=writeBatch(db),col=collection(db,'libraries',libId,'students'),seen=new Set();let add=0,upd=0,bad=0,kept=0;
  for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=String(r['Name']).trim().slice(0,80),fee=+r['Monthly Fee'];
   if(!n||p.length!==10||!(fee>0)||seen.has(p)){bad++;continue}

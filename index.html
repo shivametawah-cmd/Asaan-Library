@@ -37,7 +37,7 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 
 <div id="lg" class="c" style="max-width:340px;margin:60px auto">
 <h2>Sign in to Asaan Library</h2>
-<label for="em">Email</label><input id="em" type="email" autocomplete="username"><br><br>
+<label for="em">Username or email</label><input id="em" type="text" autocomplete="username" autocapitalize="none"><br><br>
 <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"><br><br>
 <button onclick="login()">Sign in</button>
 <p id="le" class="bad"></p>
@@ -47,37 +47,42 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <div class="top"><h2 style="margin:0">Libraries</h2><button class="o s" onclick="logout()">Sign out</button></div>
 <div class="c"><h3>Add library</h3>
 <div class="f"><div><label>Library name</label><input id="n_n"></div><div><label>Plan name</label><input id="n_p" placeholder="e.g. Monthly"></div><div><label>Trial days</label><input id="n_d" type="number" value="30"></div><button onclick="addLib()">Add library</button></div></div>
-<div class="c"><h3>Link a login to a library</h3>
-<p class="mu">Create the user in Firebase Console, then paste their UID and the Library ID below.</p>
-<div class="f"><div><label>User UID</label><input id="k_u"></div><div><label>Library ID</label><input id="k_l"></div><div><label>Role</label><select id="k_r"><option value="owner">Owner</option><option value="staff">Staff</option></select></div><button onclick="link()">Link login</button></div>
+<div class="c"><h3>Create library login</h3>
+<p class="mu">Create the owner's username and password here. The owner can then create their own staff logins. Usernames are shared across all libraries, so make each one unique (for example <code>ramesh.lib1</code>).</p>
+<div class="f"><div><label>Library</label><select id="k_l"></select></div><div><label>Username (a-z, 0-9, . _ -)</label><input id="k_u" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="k_p" autocomplete="new-password"></div><div><label>Role</label><select id="k_r"><option value="owner">Owner</option><option value="staff">Staff</option></select></div><button id="kb" onclick="mkUser()">Create login</button></div>
 <p id="km" class="mu"></p></div>
+<div class="c"><h3>All logins</h3><div class="tw" id="ul"></div></div>
 <div class="c"><div class="tw" id="ll"></div></div>
 </div>
 
 <div id="lb" class="hide">
 <div class="top"><div><h2 id="ln" style="margin:0"></h2><span id="sb" class="mu"></span></div><button class="o s" onclick="logout()">Sign out</button></div>
-<div class="tabs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_set" class="hide" onclick="tab('set')">Public page</button></div>
+<div class="tabs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_set" class="hide" onclick="tab('set')">Public page</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button></div>
 <div id="t_dash"><div class="k" id="kp"></div>
 <div class="c"><h3>Last 6 months</h3><div id="ch"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
 <div class="c"><h3>Fees due in the next 3 days or overdue</h3><div class="tw" id="ds"></div></div>
 <div class="c"><h3>Payments this month</h3><div class="tw" id="pl"></div></div></div>
 <div id="t_stu" class="hide"><div class="c"><h3>New admission</h3>
 <div class="f">
-<div><label>Name</label><input id="a_n"></div>
+<div><label>Name</label><input id="a_n" maxlength="80"></div>
 <div><label>Mobile (10 digits)</label><input id="a_p" inputmode="numeric" maxlength="10"></div>
-<div><label>Seat</label><input id="a_s"></div>
+<div><label>Seat</label><input id="a_s" maxlength="20"></div>
 <div><label>Monthly fee (₹)</label><input id="a_f" type="number"></div>
 <div><label>Join date</label><input id="a_j" type="date"></div>
 <div><label>Aadhaar last 4 digits</label><input id="a_a" inputmode="numeric" maxlength="4"></div>
 <button id="ad" onclick="admit()">Admit student</button></div>
 <p class="mu">Only the last 4 digits of Aadhaar are stored. No Aadhaar photo or full number is accepted.</p>
 <p id="am" class="mu"></p></div>
+<div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
 <div class="c"><div class="top"><h3 style="margin:0">Students</h3><input id="q" placeholder="Search name, phone or seat" style="max-width:240px" oninput="drawLB()"></div><div class="tw" id="sl"></div></div>
-<div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
+<div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (owner only, matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
 </div>
+<div id="t_pay" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Payments</h3><input id="p_m" type="month" style="max-width:170px" onchange="drawPay()"></div><p class="mu">Staff cannot change or delete a payment directly. They send a request, and nothing changes until the owner approves it in the Approvals tab.</p><p id="ps" class="mu"></p><div class="tw" id="pt"></div></div></div>
 <div id="t_exp" class="hide"><div class="c"><h3>Add expense</h3><div class="f"><div><label>Date</label><input id="x_d" type="date"></div><div><label>Category</label><select id="x_c"><option>Rent</option><option>Electricity</option><option>Internet</option><option>Salary</option><option>Maintenance</option><option>Other</option></select></div><div><label>Amount (₹)</label><input id="x_a" type="number"></div><div><label>Note</label><input id="x_n"></div><button id="xb" onclick="addExp()">Add expense</button></div></div>
 <div class="c"><div class="top"><h3 style="margin:0">Expenses</h3><input id="x_m" type="month" style="max-width:170px" onchange="drawExp()"></div><p id="xs" class="mu"></p><div class="tw" id="xl"></div></div></div>
-<div id="t_apr" class="hide"><div class="c"><h3>Approval requests</h3><p class="mu">Staff cannot delete students directly. They send a request and the owner approves it here.</p><div class="tw" id="al"></div></div></div>
+<div id="t_apr" class="hide"><div class="c"><h3>Approval requests</h3><p class="mu">Staff cannot delete a student, change a student's details or fee, or change or delete a payment directly. They send a request here, and nothing changes until the owner approves it.</p><div class="tw" id="al"></div></div></div>
+<div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Note down the password and share it with the staff member. Use a unique username, for example <code>yourlibrary.anil</code>.</p><div class="f"><div><label>Username (a-z, 0-9, . _ -)</label><input id="f_u" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
+<div class="c"><h3>Logins in this library</h3><div class="tw" id="fl"></div></div></div>
 <div id="t_set" class="hide"><div class="c"><h3>Public page</h3><p class="mu">Share this page with students. It shows only what you enter below.</p><div class="f"><div><label>Link name (3-30 letters, numbers, dashes)</label><input id="s_s"></div><div><label>Display name</label><input id="s_n"></div><div><label>Phone</label><input id="s_p"></div><div><label>Address</label><input id="s_a"></div><div><label>Google Maps link</label><input id="s_m"></div><div><label>About</label><input id="s_b"></div><button onclick="saveSet()">Save public page</button></div><p id="sm" class="mu"></p></div></div>
 </div>
 <div id="pb" class="hide"><div class="c" style="max-width:560px;margin:40px auto" id="pc"></div></div>
@@ -85,14 +90,16 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 </div>
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import{getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,getDoc,getDocs,writeBatch,onSnapshot,query,orderBy,where,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 // Paste your NEW Firebase project's config here (Project settings > Your apps > Web app)
 const app=initializeApp({apiKey:"AIzaSyA1nn1WCo7YKAPgDfVr_wAPHhuJi8Zy1bk",authDomain:"asaan-library.firebaseapp.com",projectId:"asaan-library"});
 const auth=getAuth(app),db=getFirestore(app);
+// Second app instance: used only to create new logins without signing the current user out
+const auxAuth=getAuth(initializeApp(app.options,'aux'));
 
-let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],EX=[],AP=[],LIVE=false,unsubs=[];
+let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],EX=[],AP=[],LIVE=false,unsubs=[];
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -103,29 +110,31 @@ const show=v=>['lg','sa','lb','pb'].forEach(i=>$(i).classList.toggle('hide',i!==
 const expOf=l=>l&&l.expiry&&l.expiry.toDate?l.expiry.toDate():null;
 const isLive=l=>{const e=expOf(l);return !!(l&&l.active&&e&&e>new Date())};
 
-async function login(){try{await signInWithEmailAndPassword(auth,$('em').value.trim(),$('pw').value);$('le').textContent=''}catch(e){$('le').textContent='Sign in failed ('+e.code+')'}}
+async function login(){try{const v=$('em').value.trim().toLowerCase();await signInWithEmailAndPassword(auth,v.includes('@')?v:v+'@'+app.options.authDomain,$('pw').value);$('le').textContent=''}catch(e){$('le').textContent='Sign in failed ('+e.code+')'}}
 function logout(){signOut(auth)}
 
 onAuthStateChanged(auth,async u=>{
- unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];
+ unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];
  if(!u){show(PUB?'pb':'lg');return}
  try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data()}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
  if(me.role==='super'){
   show('sa');
   unsubs.push(onSnapshot(query(collection(db,'libraries'),orderBy('createdAt','desc')),s=>{LIBS=s.docs.map(d=>({id:d.id,...d.data()}));drawSA()},e=>alert('Libraries: '+e.code)));
+  unsubs.push(onSnapshot(collection(db,'users'),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawUsers()},e=>alert('Logins: '+e.code)));
  }else{
-  libId=me.libId;show('lb');$('x_m').value=ym();$('x_m').min=FROM().slice(0,7);$('x_d').value=today();$('a_j').value=today();tab('dash');loadSet();
+  libId=me.libId;show('lb');$('x_m').value=ym();$('x_m').min=FROM().slice(0,7);$('p_m').value=ym();$('p_m').min=FROM().slice(0,7);$('x_d').value=today();$('a_j').value=today();tab('dash');loadSet();
   unsubs.push(onSnapshot(doc(db,'libraries',libId),s=>{lib=s.exists()?s.data():null;drawLB()},e=>alert('Library: '+e.code)));
   unsubs.push(onSnapshot(collection(db,'libraries',libId,'students'),s=>{ST=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Students: '+e.code)));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'payments'),where('date','>=',FROM()),orderBy('date','desc')),s=>{PY=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Payments: '+e.code)));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'expenses'),where('date','>=',FROM()),orderBy('date','desc')),s=>{EX=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Expenses: '+e.code)));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'approvals'),orderBy('createdAt','desc')),s=>{AP=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Approvals: '+e.code)));
+  if(me.role==='owner')unsubs.push(onSnapshot(query(collection(db,'users'),where('libId','==',libId)),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawStf()},e=>alert('Logins: '+e.code)));
  }
 });
 
 /* ---------- Super admin ---------- */
-function drawSA(){
+function drawSA(){drawUsers();
  $('ll').innerHTML='<table><tr><th>Library</th><th>Library ID</th><th>Plan</th><th>Valid till</th><th>Status</th><th></th></tr>'+LIBS.map(l=>{
   const e=expOf(l),live=isLive(l);
   return`<tr><td>${esc(l.name)}</td><td><code>${l.id}</code></td><td>${esc(l.plan||'')}</td><td>${e?iso(e):'-'}</td><td class="${live?'':'bad'}">${live?'Active':l.active?'Expired':'Suspended'}</td><td><button class="s" onclick="ext('${l.id}')">Extend</button> <button class="s o" onclick="tog('${l.id}',${!l.active})">${l.active?'Suspend':'Activate'}</button></td></tr>`}).join('')+'</table>'+(LIBS.length?'':'<p class="mu">No libraries yet. Add your first one above.</p>');
@@ -135,9 +144,39 @@ async function addLib(){const n=$('n_n').value.trim(),d=+$('n_d').value||30;if(!
 async function ext(id){const l=LIBS.find(x=>x.id===id),d=+prompt('Extend by how many days?','30');if(!(d>0))return;
  const b=Math.max(Date.now(),expOf(l)?expOf(l).getTime():0);await updateDoc(doc(db,'libraries',id),{expiry:new Date(b+d*864e5)})}
 async function tog(id,v){await updateDoc(doc(db,'libraries',id),{active:v})}
-async function link(){const u=$('k_u').value.trim(),l=$('k_l').value.trim();if(!u||!l)return;
- if(!LIBS.some(x=>x.id===l)){$('km').textContent='Library ID not found.';return}
- await setDoc(doc(db,'users',u),{role:$('k_r').value,libId:l});$('km').textContent='Login linked.';$('k_u').value='';$('k_l').value=''}
+const UNRE=/^[a-z0-9._-]{3,30}$/;
+const cerr=e=>e.code==='auth/email-already-in-use'?'This username is already taken. Choose another.':e.code==='auth/weak-password'?'Password is too weak. Use 8 or more characters.':e.code==='permission-denied'?'Not allowed. The subscription may be inactive.':'Could not create login ('+(e.code||e.message)+')';
+async function mkLogin(un,pw,role,lid){
+ const c=await createUserWithEmailAndPassword(auxAuth,un+'@'+app.options.authDomain,pw);
+ try{await setDoc(doc(db,'users',c.user.uid),{role,libId:lid,username:un,createdAt:serverTimestamp()})}
+ catch(e){await c.user.delete().catch(()=>{});throw e}
+ finally{await signOut(auxAuth).catch(()=>{})}
+}
+async function mkUser(){const m=$('km'),un=$('k_u').value.trim().toLowerCase(),pw=$('k_p').value,l=$('k_l').value,r=$('k_r').value;
+ if(!l){m.textContent='Add a library first.';return}
+ if(!UNRE.test(un)){m.textContent='Username: 3-30 characters, only a-z, 0-9, dot, dash or underscore.';return}
+ if(pw.length<8){m.textContent='Password must be at least 8 characters.';return}
+ $('kb').disabled=true;
+ try{await mkLogin(un,pw,r,l);m.textContent='Login created. Username: '+un+'  Password: '+pw+'  (share these with the '+r+')';$('k_u').value='';$('k_p').value=''}catch(e){m.textContent=cerr(e)}
+ $('kb').disabled=false}
+function drawUsers(){
+ const sel=$('k_l'),cur=sel.value;
+ sel.innerHTML=LIBS.map(l=>`<option value="${l.id}">${esc(l.name)}</option>`).join('');
+ if(LIBS.some(l=>l.id===cur))sel.value=cur;
+ const nm=id=>(LIBS.find(l=>l.id===id)||{}).name||'-';
+ $('ul').innerHTML=US.length?'<table><tr><th>Username</th><th>Role</th><th>Library</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(u.username||u.id.slice(0,8)+'…')}</td><td>${esc(u.role)}</td><td>${esc(u.role==='super'?'-':nm(u.libId))}</td><td>${u.role==='super'?'':`<button class="s r" onclick="rmUser('${u.id}')">Remove</button>`}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>';
+}
+async function rmUser(id){const u=US.find(x=>x.id===id);if(!u||u.role==='super')return;
+ if(!confirm('Remove login "'+(u.username||id)+'"? They will no longer be able to use the app.'))return;
+ try{await deleteDoc(doc(db,'users',id))}catch(e){alert('Could not remove ('+e.code+')')}}
+async function mkStaff(){if(!LIVE||!OWN())return;const m=$('fm'),un=$('f_u').value.trim().toLowerCase(),pw=$('f_p').value;
+ if(!UNRE.test(un)){m.textContent='Username: 3-30 characters, only a-z, 0-9, dot, dash or underscore.';return}
+ if(pw.length<8){m.textContent='Password must be at least 8 characters.';return}
+ $('fb').disabled=true;
+ try{await mkLogin(un,pw,'staff',libId);m.textContent='Staff login created. Username: '+un+'  Password: '+pw+'  (share these with your staff member)';$('f_u').value='';$('f_p').value=''}catch(e){m.textContent=cerr(e)}
+ $('fb').disabled=!LIVE}
+function drawStf(){if(!OWN())return;
+ $('fl').innerHTML=US.length?'<table><tr><th>Username</th><th>Role</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(u.username||u.id.slice(0,8)+'…')}</td><td>${esc(u.role)}</td><td>${u.role==='staff'?`<button class="s r" onclick="rmUser('${u.id}')">Remove</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>'}
 
 /* ---------- Library panel ---------- */
 function drawLB(){
@@ -145,16 +184,16 @@ function drawLB(){
  LIVE=isLive(lib);const e=expOf(lib),t=today(),M=ym(),q=$('q').value.toLowerCase(),lim=iso(new Date(Date.now()+3*864e5));
  $('ln').textContent=lib.name;
  $('sb').innerHTML=LIVE?`Plan: ${esc(lib.plan||'-')}, valid till ${e?iso(e):'-'}`:'<span class="bad">Subscription inactive or expired. You can view data but not change it. Contact your provider to renew.</span>';
- ['ad','xb','xi'].forEach(i=>$(i).disabled=!LIVE);$('tb_set').classList.toggle('hide',!OWN());
+ ['ad','xb','xi','fb','eb'].forEach(i=>$(i).disabled=!LIVE);$('xu').disabled=!OWN();$('tb_set').classList.toggle('hide',!OWN());$('tb_stf').classList.toggle('hide',!OWN());drawStf();
  const due=ST.filter(s=>s.nextDue<=t),pm=PY.filter(p=>p.date.startsWith(M)),coll=pm.reduce((a,p)=>a+p.amt,0),spent=EX.filter(x=>x.date.startsWith(M)).reduce((a,x)=>a+x.amt,0);
  $('kp').innerHTML=`<div><b>${ST.length}</b><span>Students</span></div><div><b class="${due.length?'bad':''}">${due.length}</b><span>Fee due (${inr(due.reduce((a,s)=>a+s.fee,0))})</span></div><div><b>${inr(coll)}</b><span>Collected this month</span></div><div><b>${inr(spent)}</b><span>Spent this month</span></div><div><b>${inr(coll-spent)}</b><span>Net this month</span></div>`;
  $('ch').innerHTML=chart();
  const sr=ST.filter(s=>s.nextDue<=lim).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
- $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${s.nextDue}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp reminder</button></td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
+ $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp reminder</button></td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
  const rows=ST.filter(s=>!q||(s.name+s.phone+s.seat).toLowerCase().includes(q)).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
- $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${s.nextDue}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp</button> <button class="s" onclick="pay('${s.id}')" ${LIVE?'':'disabled'}>Collect fee</button> <button class="s r" onclick="del('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No students yet. Add the first admission, or import an Excel file.</p>';
- $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${p.date}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
- drawExp();drawApr();
+ $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp</button> <button class="s" onclick="pay('${s.id}')" ${LIVE?'':'disabled'}>Collect fee</button> <button class="s o" onclick="editStu('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" onclick="del('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No students yet. Add the first admission, or import an Excel file.</p>';
+ $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
+ drawExp();drawApr();drawPay();
 }
 async function admit(){
  if(!LIVE)return;const v=i=>$(i).value.trim(),a=v('a_a'),m=$('am');
@@ -165,15 +204,47 @@ async function admit(){
 }
 async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
  const a=+prompt('Amount received from '+s.name+' (₹)',s.fee);if(!(a>0))return;
- const mode=prompt('Payment mode','Cash')||'Cash';
- try{await addDoc(collection(db,'libraries',libId,'payments'),{studentId:id,studentName:s.name,amt:a,date:today(),mode});
-  await updateDoc(doc(db,'libraries',libId,'students',id),{nextDue:addM(s.nextDue,1)})}catch(e){alert('Could not save ('+e.code+')')}}
+ if(a<s.fee&&!confirm('This is less than the monthly fee ('+inr(s.fee)+'). Mark this month as paid anyway?'))return;
+ const mode=(prompt('Payment mode','Cash')||'Cash').trim().slice(0,30)||'Cash';
+ try{const b=writeBatch(db);
+  b.set(doc(collection(db,'libraries',libId,'payments')),{studentId:id,studentName:s.name,amt:a,date:today(),mode});
+  b.update(doc(db,'libraries',libId,'students',id),{nextDue:addM(s.nextDue.slice(0,8)+(s.joined||s.nextDue).slice(8,10),1)});
+  await b.commit()}catch(e){alert('Could not save ('+e.code+')')}}
 const PUB=new URLSearchParams(location.search).get('lib'),FROM=()=>addM(today().slice(0,8)+'01',-5),ym=()=>today().slice(0,7),OWN=()=>!!me&&me.role==='owner';
-function tab(n){['dash','stu','exp','apr','set'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)})}
+function tab(n){['dash','stu','pay','exp','apr','set','stf'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)})}
+async function req(type,sid,sname,extra){
+ if(AP.some(a=>a.status==='pending'&&(a.type===type||(type==='delete_student'&&a.type==='delete'))&&a.studentId===sid&&(a.paymentId||'')===((extra&&extra.paymentId)||''))){alert('A similar request is already waiting for the owner.');return false}
+ try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:sname,...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
+  alert('Request sent to the owner. Nothing changes until the owner approves it.');return true}catch(e){alert('Could not send the request ('+e.code+')');return false}}
 async function del(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
  try{if(OWN()){if(confirm('Delete '+s.name+' permanently? This cannot be undone.'))await deleteDoc(doc(db,'libraries',libId,'students',id))}
- else if(AP.some(a=>a.studentId===id&&a.status==='pending'))alert('A delete request for this student is already waiting for the owner.')
- else if(confirm('Send a delete request for '+s.name+' to the owner?'))await addDoc(collection(db,'libraries',libId,'approvals'),{type:'delete',studentId:id,studentName:s.name,by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()})}catch(e){alert('Could not save ('+e.code+')')}}
+  else if(confirm('Send a delete request for '+s.name+' to the owner?'))await req('delete_student',id,s.name)}catch(e){alert('Could not save ('+e.code+')')}}
+let EID='';
+function editStu(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;EID=id;
+ $('e_n').value=s.name;$('e_p').value=s.phone;$('e_s').value=s.seat||'';$('e_f').value=s.fee;$('e_d').value=s.nextDue;$('emsg').textContent='';
+ $('eh').textContent=OWN()?'Editing '+s.name+'. Changes are saved immediately.':'Editing '+s.name+'. Your changes will be sent to the owner and applied only after approval.';
+ $('ec').classList.remove('hide');$('ec').scrollIntoView({behavior:'smooth',block:'center'})}
+function cancelEdit(){EID='';$('ec').classList.add('hide')}
+async function saveStu(){const s=ST.find(x=>x.id===EID),m=$('emsg');if(!s||!LIVE)return;
+ const n=$('e_n').value.trim(),p=$('e_p').value.trim(),st=$('e_s').value.trim(),f=+$('e_f').value,d=$('e_d').value;
+ if(!n||!/^\d{10}$/.test(p)||!(f>0)||!d){m.textContent='Name, a 10-digit mobile number, fee and next due date are required.';return}
+ const ch={};if(n!==s.name)ch.name=n;if(p!==s.phone)ch.phone=p;if(st!==(s.seat||''))ch.seat=st;if(f!==s.fee)ch.fee=f;if(d!==s.nextDue)ch.nextDue=d;
+ if(!Object.keys(ch).length){m.textContent='Nothing was changed.';return}
+ try{if(OWN()){await updateDoc(doc(db,'libraries',libId,'students',EID),ch);cancelEdit()}
+  else if(await req('edit_student',EID,s.name,{changes:ch}))cancelEdit()}catch(e){m.textContent='Could not save ('+e.code+')'}}
+function drawPay(){const m=$('p_m').value||ym(),r=PY.filter(p=>p.date.startsWith(m));
+ $('ps').textContent='Total '+inr(r.reduce((a,p)=>a+p.amt,0))+' from '+r.length+' payment'+(r.length===1?'':'s')+'. Showing the last 6 months.';
+ $('pt').innerHTML=r.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+r.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s o" onclick="editPay('${p.id}')" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" onclick="delPay('${p.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded for this month.</p>'}
+async function editPay(id){const p=PY.find(x=>x.id===id);if(!p||!LIVE)return;
+ const a=+prompt('New amount for '+p.studentName+' (₹)',p.amt);if(!(a>0))return;
+ const md=(prompt('Payment mode',p.mode)||p.mode).trim().slice(0,30);
+ const ch={};if(a!==p.amt)ch.amt=a;if(md&&md!==p.mode)ch.mode=md;
+ if(!Object.keys(ch).length){alert('Nothing was changed.');return}
+ try{if(OWN())await updateDoc(doc(db,'libraries',libId,'payments',id),ch);
+  else if(confirm('Send this change to the owner for approval?'))await req('edit_payment',p.studentId,p.studentName,{paymentId:id,changes:ch})}catch(e){alert('Could not save ('+e.code+')')}}
+async function delPay(id){const p=PY.find(x=>x.id===id);if(!p||!LIVE)return;
+ try{if(OWN()){if(confirm('Delete the payment of '+inr(p.amt)+' from '+p.studentName+'? This cannot be undone. The next due date is not changed; edit the student if needed.'))await deleteDoc(doc(db,'libraries',libId,'payments',id))}
+  else if(confirm('Send a delete request for this payment to the owner?'))await req('delete_payment',p.studentId,p.studentName,{paymentId:id})}catch(e){alert('Could not save ('+e.code+')')}}
 function chart(){const b=addM(today().slice(0,8)+'01',-5),ms=[0,1,2,3,4,5].map(i=>addM(b,i).slice(0,7)),sum=(a,m)=>a.filter(x=>x.date.startsWith(m)).reduce((t,x)=>t+x.amt,0),inc=ms.map(m=>sum(PY,m)),ex=ms.map(m=>sum(EX,m)),mx=Math.max(1,...inc,...ex);
  return'<svg viewBox="0 0 360 140" width="100%" role="img" aria-label="Fees collected and expenses for the last 6 months">'+ms.map((m,i)=>{const x=12+i*58,h1=inc[i]/mx*100,h2=ex[i]/mx*100;return`<rect x="${x}" y="${105-h1}" width="22" height="${h1}" fill="#1d5a47"><title>${m} collected ${inr(inc[i])}</title></rect><rect x="${x+24}" y="${105-h2}" width="22" height="${h2}" fill="#c9892b"><title>${m} spent ${inr(ex[i])}</title></rect><text x="${x+23}" y="124" font-size="11" text-anchor="middle" fill="currentColor">${m.slice(5)}/${m.slice(2,4)}</text>`}).join('')+'</svg>'}
 function remind(id){const s=ST.find(x=>x.id===id);if(!s)return;const d=String(s.phone).replace(/\D/g,'').slice(-10);if(d.length!==10){alert('This student has no valid 10-digit mobile number.');return}
@@ -182,14 +253,29 @@ function remind(id){const s=ST.find(x=>x.id===id);if(!s)return;const d=String(s.
  window.open('https://wa.me/91'+d+'?text='+encodeURIComponent(m),'_blank')}
 function drawExp(){const m=$('x_m').value||ym(),r=EX.filter(x=>x.date.startsWith(m)),by={};r.forEach(x=>by[x.cat]=(by[x.cat]||0)+x.amt);
  $('xs').textContent='Total '+inr(r.reduce((a,x)=>a+x.amt,0))+(r.length?': '+Object.entries(by).map(([k,v])=>k+' '+inr(v)).join(', '):'')+'. Showing the last 6 months.';
- $('xl').innerHTML=r.length?'<table><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th><th></th></tr>'+r.map(x=>`<tr><td>${x.date}</td><td>${esc(x.cat)}</td><td>${inr(x.amt)}</td><td>${esc(x.note)}</td><td><button class="s r" onclick="delExp('${x.id}')" ${LIVE?'':'disabled'}>Delete</button></td></tr>`).join('')+'</table>':'<p class="mu">No expenses recorded for this month.</p>'}
+ $('xl').innerHTML=r.length?'<table><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th><th></th></tr>'+r.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.cat)}</td><td>${inr(x.amt)}</td><td>${esc(x.note)}</td><td><button class="s r" onclick="delExp('${x.id}')" ${LIVE?'':'disabled'}>Delete</button></td></tr>`).join('')+'</table>':'<p class="mu">No expenses recorded for this month.</p>'}
 async function addExp(){if(!LIVE)return;const d=$('x_d').value,a=+$('x_a').value;if(!d||!(a>0)){alert('Enter a date and an amount.');return}
  try{await addDoc(collection(db,'libraries',libId,'expenses'),{date:d,cat:$('x_c').value,amt:a,note:$('x_n').value.trim()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
 async function delExp(id){if(!LIVE||!confirm('Delete this expense?'))return;try{await deleteDoc(doc(db,'libraries',libId,'expenses',id))}catch(e){alert('Could not delete ('+e.code+')')}}
+const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode'};
+const chg=(c,o)=>Object.entries(c||{}).map(([k,v])=>(LBL[k]||esc(k))+': '+(o&&o[k]!==undefined?esc(o[k])+' → ':'')+esc(v)).join(', ');
+function aDesc(a){const pend=a.status==='pending',s=pend?ST.find(x=>x.id===a.studentId):null,p=PY.find(x=>x.id===a.paymentId),nm=esc(a.studentName),pd=p?inr(p.amt)+' on '+esc(p.date):'an older payment';
+ if(a.type==='delete_student'||a.type==='delete')return'Delete student: '+nm;
+ if(a.type==='delete_payment')return'Delete payment ('+pd+') of '+nm;
+ if(a.type==='edit_student')return'Change details of '+nm+' — '+chg(a.changes,s);
+ if(a.type==='edit_payment')return'Change payment ('+pd+') of '+nm+' — '+chg(a.changes,pend?p:null);
+ return esc(a.type)+': '+nm}
 function drawApr(){const n=AP.filter(a=>a.status==='pending').length;$('tb_apr').textContent='Approvals'+(n?' ('+n+')':'');
- $('al').innerHTML=AP.length?'<table><tr><th>Request</th><th>Status</th><th></th></tr>'+AP.map(a=>`<tr><td>Delete student: ${esc(a.studentName)}</td><td class="${a.status==='pending'?'bad':''}">${a.status}</td><td>${a.status==='pending'&&OWN()&&LIVE?`<button class="s r" onclick="decide('${a.id}',1)">Approve and delete</button> <button class="s o" onclick="decide('${a.id}',0)">Reject</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No requests yet.</p>'}
-async function decide(id,ok){const a=AP.find(x=>x.id===id);if(!a||!OWN()||!LIVE)return;
- try{if(ok)await deleteDoc(doc(db,'libraries',libId,'students',a.studentId)).catch(()=>{});await updateDoc(doc(db,'libraries',libId,'approvals',id),{status:ok?'approved':'rejected'})}catch(e){alert('Could not save ('+e.code+')')}}
+ $('al').innerHTML=AP.length?'<table><tr><th>Request</th><th>Status</th><th></th></tr>'+AP.map(a=>`<tr><td style="white-space:normal">${aDesc(a)}</td><td class="${a.status==='pending'?'bad':''}">${esc(a.status)}</td><td>${a.status==='pending'&&OWN()&&LIVE?`<button class="s" onclick="decide('${a.id}',1)">Approve</button> <button class="s o" onclick="decide('${a.id}',0)">Reject</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No requests yet.</p>'}
+async function decide(id,ok){const a=AP.find(x=>x.id===id);if(!a||!OWN()||!LIVE||a.status!=='pending')return;
+ const b=writeBatch(db),ar=doc(db,'libraries',libId,'approvals',id),sr=doc(db,'libraries',libId,'students',a.studentId),pr=a.paymentId?doc(db,'libraries',libId,'payments',a.paymentId):null,t=a.type==='delete'?'delete_student':a.type;
+ if(ok){if(t==='delete_student')b.delete(sr);
+  else if(t==='delete_payment'&&pr)b.delete(pr);
+  else if(t==='edit_student'&&a.changes)b.update(sr,a.changes);
+  else if(t==='edit_payment'&&pr&&a.changes)b.update(pr,a.changes);
+  else{alert('This request is incomplete and cannot be applied. Please reject it.');return}}
+ b.update(ar,{status:ok?'approved':'rejected'});
+ try{await b.commit()}catch(e){alert('Could not apply ('+e.code+'). The student or payment may no longer exist.')}}
 async function loadSet(){if(!OWN())return;try{const q=await getDocs(query(collection(db,'publicPages'),where('libId','==',libId)));if(q.empty)return;const d=q.docs[0].data(),id=q.docs[0].id;
  $('s_s').value=id;$('s_s').disabled=true;$('s_n').value=d.name||'';$('s_p').value=d.phone||'';$('s_a').value=d.address||'';$('s_m').value=d.mapsUrl||'';$('s_b').value=d.about||'';$('sm').textContent='Your link: '+location.origin+location.pathname+'?lib='+id}catch(e){}}
 async function saveSet(){const sl=$('s_s').value.trim().toLowerCase(),mu=$('s_m').value.trim(),n=$('s_n').value.trim();
@@ -204,14 +290,18 @@ const sv=(rows,n)=>{const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b
 function tpl(){sv([HD,['Example Student','9876543210','A1',500,today(),'1234','']],'students-template.xlsx')}
 function expX(){sv([HD,...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue])],'students.xlsx')}
 async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){m.textContent='Choose a file first.';return}
- const wb=XLSX.read(await f.arrayBuffer(),{cellDates:true}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}).slice(0,450);
- const b=writeBatch(db),col=collection(db,'libraries',libId,'students');let add=0,upd=0,bad=0;
- for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),j=dx(r['Join Date'])||today(),n=String(r['Name']).trim(),fee=+r['Monthly Fee'];
-  if(!n||p.length!==10||!(fee>0)){bad++;continue}
-  const d={name:n,phone:p,seat:String(r['Seat']).trim(),fee,joined:j,nextDue:dx(r['Next Due'])||j,aadhaarLast4:String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4)},ex=ST.find(x=>x.phone===p);
-  if(ex){if($('xu').checked){b.update(doc(col,ex.id),d);upd++}}else{b.set(doc(col),{...d,createdAt:serverTimestamp()});add++}}
- try{await b.commit();m.textContent=`Imported ${add} new, updated ${upd}, skipped ${bad} invalid rows.`}catch(e){m.textContent='Import failed ('+e.code+').'}}
+ const upOK=$('xu').checked&&OWN();let wb;
+ try{wb=XLSX.read(await f.arrayBuffer(),{cellDates:true})}catch(e){m.textContent='Could not read this file.';return}
+ const all=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}),rows=all.slice(0,450);
+ const b=writeBatch(db),col=collection(db,'libraries',libId,'students'),seen=new Set();let add=0,upd=0,bad=0,kept=0;
+ for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=String(r['Name']).trim().slice(0,80),fee=+r['Monthly Fee'];
+  if(!n||p.length!==10||!(fee>0)||seen.has(p)){bad++;continue}
+  seen.add(p);
+  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=String(r['Seat']).trim().slice(0,20),ex=ST.find(x=>x.phone===p);
+  if(ex){if(upOK){const d={name:n,fee};if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;b.update(doc(col,ex.id),d);upd++}else kept++}
+  else{const j=jn||today();b.set(doc(col),{name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,createdAt:serverTimestamp()});add++}}
+ try{await b.commit();m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(all.length>450?' Only the first 450 rows were read.':'')}catch(e){m.textContent='Import failed ('+e.code+').'}}
 if(PUB){show('pb');loadPub()}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{login,logout,addLib,ext,tog,link,admit,pay,del,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
+Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
 </script></body></html>

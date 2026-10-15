@@ -89,7 +89,7 @@ import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut}from'https:
 import{getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,getDoc,getDocs,writeBatch,onSnapshot,query,orderBy,where,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 // Paste your NEW Firebase project's config here (Project settings > Your apps > Web app)
-const app=initializeApp({apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT"});
+const app=initializeApp({apiKey:"AIzaSyA1nn1WCo7YKAPgDfVr_wAPHhuJi8Zy1bk",authDomain:"asaan-library.firebaseapp.com",projectId:"asaan-library"});
 const auth=getAuth(app),db=getFirestore(app);
 
 let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],EX=[],AP=[],LIVE=false,unsubs=[];

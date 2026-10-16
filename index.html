@@ -43,12 +43,13 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <p id="le" class="bad"></p><p id="lm" class="mu"></p>
 </div>
 
+<div id="rcb" style="display:none;position:fixed;left:10px;right:10px;bottom:12px;z-index:45;max-width:520px;margin:0 auto;background:var(--c);color:var(--tx);border:1px solid var(--ac);border-radius:12px;padding:10px 12px;box-shadow:0 6px 24px rgba(0,0,0,.22);align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><span id="rct" style="font-size:.9rem"></span><span style="display:flex;gap:6px"><button class="s" onclick="rcSendPdf()">Send PDF receipt</button><button class="s o" onclick="rcSend()">Text on WhatsApp</button><button class="s o" onclick="rcClose()">Dismiss</button></span></div>
 <div id="tt" style="display:none;position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1d5a47;color:#fff;padding:10px 16px;border-radius:10px;z-index:60;max-width:90%;font-size:.9rem"></div>
 <div id="ac" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:center;justify-content:center;padding:12px"><div class="c" style="max-width:400px;width:100%;max-height:92vh;overflow:auto;margin:0">
 <h3>My account</h3><p class="mu">Signed in as <b id="ac_e"></b></p>
 <label>Current password (needed for any change)</label><input id="ac_cp" type="password" autocomplete="current-password"><br><br>
 <label>New password (min 8 characters)</label><input id="ac_np" type="password" autocomplete="new-password"><br><br>
-<button onclick="changePw()">Change password</button><hr style="border:0;border-top:1px solid var(--hi);margin:16px 0">
+<button onclick="changePw()">Change password</button><hr style="border:0;border-top:1px solid var(--bd);margin:16px 0">
 <label>New email address</label><input id="ac_ne" type="text" inputmode="email" autocapitalize="none" autocomplete="off" placeholder="you@example.com"><br><br>
 <button onclick="changeEm()">Change email</button> <button class="o" onclick="mailReset()">Email me a reset link</button>
 <p id="ac_m" class="mu"></p><button class="o s" onclick="closeAcc()">Close</button></div></div>
@@ -118,7 +119,7 @@ const auth=getAuth(app),db=getFirestore(app);
 // Second app instance: used only to create new logins without signing the current user out
 const auxAuth=getAuth(initializeApp(app.options,'aux'));
 
-let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],EX=[],AP=[],LIVE=false,BKDONE=false,unsubs=[];
+let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],EX=[],AP=[],LIVE=false,BKDONE=false,RC=null,unsubs=[];
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -138,7 +139,7 @@ async function forgot(){const v=$('em').value.trim().toLowerCase(),le=$('le'),lm
 function logout(){signOut(auth)}
 
 onAuthStateChanged(auth,async u=>{
- unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];BKDONE=false;
+ unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];BKDONE=false;RC=null;$('rcb').style.display='none';
  if(!u){show(PUB?'pb':'lg');return}
  try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
@@ -217,7 +218,7 @@ function drawLB(){
  $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp reminder</button></td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
  const rows=ST.filter(s=>!q||(s.name+s.phone+s.seat).toLowerCase().includes(q)).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
  $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp</button> <button class="s" onclick="pay('${s.id}')" ${LIVE?'':'disabled'}>Collect fee</button> <button class="s o" onclick="editStu('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" onclick="del('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No students yet. Add the first admission, or import an Excel file.</p>';
- $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
+ $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s o" onclick="rcpt('${p.id}')">Receipt</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
  drawExp();drawApr();drawPay();
 }
 async function admit(){
@@ -232,9 +233,60 @@ async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
  if(a<s.fee&&!confirm('This is less than the monthly fee ('+inr(s.fee)+'). Mark this month as paid anyway?'))return;
  const mode=(prompt('Payment mode','Cash')||'Cash').trim().slice(0,30)||'Cash';
  try{const b=writeBatch(db);
-  b.set(doc(collection(db,'libraries',libId,'payments')),{studentId:id,studentName:s.name,amt:a,date:today(),mode});
-  b.update(doc(db,'libraries',libId,'students',id),{nextDue:addM(s.nextDue.slice(0,8)+(s.joined||s.nextDue).slice(8,10),1)});
-  await b.commit()}catch(e){alert('Could not save ('+e.code+')')}}
+  const pr=doc(collection(db,'libraries',libId,'payments')),nd=addM(s.nextDue.slice(0,8)+(s.joined||s.nextDue).slice(8,10),1);
+  b.set(pr,{studentId:id,studentName:s.name,amt:a,date:today(),mode});
+  b.update(doc(db,'libraries',libId,'students',id),{nextDue:nd});
+  await b.commit();
+  const rp={id:pr.id,date:today(),studentName:s.name,amt:a,mode};RC={phone:s.phone,p:rp,nd,text:rcText(rp,nd)};
+  $('rct').textContent='Fee of '+inr(a)+' received from '+s.name+'.';$('rcb').style.display='flex'}catch(e){alert('Could not save ('+e.code+')')}}
+/* ---------- WhatsApp receipt ---------- */
+const fmtD=d=>{const[y,m,x]=String(d).split('-');return +x+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1]+' '+y};
+function rcText(p,nd){return `*Fee Receipt*\n*${lib.name}*\n\nReceipt no: ${p.id.slice(0,6).toUpperCase()}\nDate: ${fmtD(p.date)}\nStudent: ${p.studentName}\nAmount received: ${inr(p.amt)}\nPayment mode: ${p.mode}`+(nd?`\nNext due date: ${fmtD(nd)}`:'')+`\n\nDhanyawad 🙏`}
+function waOpen(phone,text){const d=String(phone).replace(/\D/g,'').slice(-10);if(d.length!==10){alert('This student has no valid 10-digit mobile number.');return}window.open('https://wa.me/91'+d+'?text='+encodeURIComponent(text),'_blank')}
+function rcSend(){if(!RC)return;waOpen(RC.phone,RC.text);rcClose()}
+function rcClose(){RC=null;$('rcb').style.display='none'}
+function rcpt(id){const p=PY.find(x=>x.id===id);if(!p)return;const s=ST.find(x=>x.id===p.studentId);
+ if(!s){alert('This student is no longer in the list, so there is no mobile number to send to.');return}
+ rcShare(p,null,s.phone)}
+/* ---------- PDF receipt: drawn on a canvas (so Hindi names and the rupee sign work), then wrapped into a PDF ---------- */
+function drawReceipt(p,nd){
+ const c=document.createElement('canvas');c.width=840;c.height=1000;const g=c.getContext('2d'),F='system-ui,"Segoe UI","Noto Sans","Noto Sans Devanagari",sans-serif';
+ const txt=(t,x,y,size,w,col,al,maxW)=>{let z=size;g.font=w+' '+z+'px '+F;if(maxW)while(z>18&&g.measureText(t).width>maxW){z-=2;g.font=w+' '+z+'px '+F}g.fillStyle=col;g.textAlign=al;g.fillText(t,x,y)};
+ const row=(lab,val,y)=>{txt(lab,60,y,24,'400','#667069','left');txt(val,780,y,30,'700','#1b211e','right',480);g.fillStyle='#dde2dc';g.fillRect(60,y+24,720,2)};
+ g.fillStyle='#fff';g.fillRect(0,0,840,1000);
+ g.fillStyle='#1d5a47';g.fillRect(0,0,840,170);
+ txt(lib.name,420,90,44,'700','#fff','center',760);txt('FEE RECEIPT',420,138,26,'600','#cfe3da','center');
+ txt('Receipt no',60,235,22,'400','#667069','left');txt(p.id.slice(0,6).toUpperCase(),60,272,32,'700','#1b211e','left');
+ txt('Date',780,235,22,'400','#667069','right');txt(fmtD(p.date),780,272,32,'700','#1b211e','right');
+ g.fillStyle='#dde2dc';g.fillRect(60,305,720,2);
+ row('Student',p.studentName,375);row('Payment mode',p.mode,455);if(nd)row('Next due date',fmtD(nd),535);
+ g.fillStyle='#e9f1ed';g.fillRect(60,630,720,170);
+ txt('Amount received',420,685,24,'400','#667069','center');txt(inr(p.amt),420,770,76,'700','#1d5a47','center',680);
+ txt('Thank you! Dhanyawad',420,885,32,'600','#1b211e','center');
+ txt('This is a computer-generated receipt. No signature is required.',420,940,20,'400','#667069','center',760);
+ return c}
+function jpgToPdf(jpg,w,h,pw,ph){const enc=new TextEncoder(),parts=[],off=[];let len=0;
+ const push=x=>{const b=typeof x==='string'?enc.encode(x):x;parts.push(b);len+=b.length};
+ const obj=(n,body)=>{off[n]=len;push(n+' 0 obj\n'+body+'\nendobj\n')};
+ push('%PDF-1.4\n');
+ obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+ obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pw+' '+ph+'] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>');
+ const cs='q '+pw+' 0 0 '+ph+' 0 0 cm /Im0 Do Q';obj(4,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
+ off[5]=len;push('5 0 obj\n<< /Type /XObject /Subtype /Image /Width '+w+' /Height '+h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>\nstream\n');push(jpg);push('\nendstream\nendobj\n');
+ const x=len;let t='xref\n0 6\n0000000000 65535 f \n';for(let i=1;i<=5;i++)t+=String(off[i]).padStart(10,'0')+' 00000 n \n';
+ push(t+'trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+x+'\n%%EOF');
+ const out=new Uint8Array(len);let q=0;for(const b of parts){out.set(b,q);q+=b.length}return out}
+async function rcPdf(p,nd){const c=drawReceipt(p,nd),blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+ return new File([jpgToPdf(new Uint8Array(await blob.arrayBuffer()),c.width,c.height,420,500)],'Receipt-'+p.id.slice(0,6).toUpperCase()+'.pdf',{type:'application/pdf'})}
+async function rcShare(p,nd,phone){let f;
+ try{f=await rcPdf(p,nd)}catch(e){alert('Could not make the PDF receipt.');return false}
+ try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Fee receipt',text:'Fee receipt for '+p.studentName+' from '+lib.name});return true}}
+ catch(e){if(e&&e.name==='AbortError')return false}
+ // No file sharing on this device: save the PDF and open the student's WhatsApp chat so it can be attached
+ const u=URL.createObjectURL(f),a=document.createElement('a');a.href=u;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);
+ toast('Receipt PDF saved ('+f.name+'). Attach it in the WhatsApp chat that opens.');
+ waOpen(phone,'Namaste '+p.studentName+' ji,\n'+lib.name+' ki taraf se aapki fee ka PDF receipt bhej rahe hain. Dhanyawad 🙏');return true}
+async function rcSendPdf(){if(!RC)return;if(await rcShare(RC.p,RC.nd,RC.phone))rcClose()}
 const PUB=new URLSearchParams(location.search).get('lib'),FROM=()=>addM(today().slice(0,8)+'01',-5),ym=()=>today().slice(0,7),OWN=()=>!!me&&me.role==='owner';
 function tab(n){['dash','stu','pay','exp','apr','set','stf','bk'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)})}
 async function req(type,sid,sname,extra){
@@ -259,7 +311,7 @@ async function saveStu(){const s=ST.find(x=>x.id===EID),m=$('emsg');if(!s||!LIVE
   else if(await req('edit_student',EID,s.name,{changes:ch}))cancelEdit()}catch(e){m.textContent='Could not save ('+e.code+')'}}
 function drawPay(){const m=$('p_m').value||ym(),r=PY.filter(p=>p.date.startsWith(m));
  $('ps').textContent='Total '+inr(r.reduce((a,p)=>a+p.amt,0))+' from '+r.length+' payment'+(r.length===1?'':'s')+'. Showing the last 6 months.';
- $('pt').innerHTML=r.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+r.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s o" onclick="editPay('${p.id}')" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" onclick="delPay('${p.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded for this month.</p>'}
+ $('pt').innerHTML=r.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+r.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s" onclick="rcpt('${p.id}')">Receipt</button> <button class="s o" onclick="editPay('${p.id}')" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" onclick="delPay('${p.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded for this month.</p>'}
 async function editPay(id){const p=PY.find(x=>x.id===id);if(!p||!LIVE)return;
  const a=+prompt('New amount for '+p.studentName+' (₹)',p.amt);if(!(a>0))return;
  const md=(prompt('Payment mode',p.mode)||p.mode).trim().slice(0,30);
@@ -383,5 +435,5 @@ async function makeBackup(auto){if(!OWN()||!libId)return;const m=$('bkm'),btn=$(
 
 if(PUB){show('pb');loadPub()}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,bkAuto,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
+Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,bkAuto,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
 </script></body></html>

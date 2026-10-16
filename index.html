@@ -43,6 +43,7 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <p id="le" class="bad"></p><p id="lm" class="mu"></p>
 </div>
 
+<div id="tt" style="display:none;position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1d5a47;color:#fff;padding:10px 16px;border-radius:10px;z-index:60;max-width:90%;font-size:.9rem"></div>
 <div id="ac" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:center;justify-content:center;padding:12px"><div class="c" style="max-width:400px;width:100%;max-height:92vh;overflow:auto;margin:0">
 <h3>My account</h3><p class="mu">Signed in as <b id="ac_e"></b></p>
 <label>Current password (needed for any change)</label><input id="ac_cp" type="password" autocomplete="current-password"><br><br>
@@ -66,7 +67,8 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 
 <div id="lb" class="hide">
 <div class="top"><div><h2 id="ln" style="margin:0"></h2><span id="sb" class="mu"></span></div><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
-<div class="tabs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_set" class="hide" onclick="tab('set')">Public page</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button></div>
+<div class="tabs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_set" class="hide" onclick="tab('set')">Public page</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button></div>
+<div id="bkn" class="c hide"><div class="top"><span id="bkt"></span><button class="s" onclick="makeBackup(false)">Backup now</button></div></div>
 <div id="t_dash"><div class="k" id="kp"></div>
 <div class="c"><h3>Last 6 months</h3><div id="ch"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
 <div class="c"><h3>Fees due in the next 3 days or overdue</h3><div class="tw" id="ds"></div></div>
@@ -92,6 +94,14 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <div id="t_apr" class="hide"><div class="c"><h3>Approval requests</h3><p class="mu">Staff cannot delete a student, change a student's details or fee, or change or delete a payment directly. They send a request here, and nothing changes until the owner approves it.</p><div class="tw" id="al"></div></div></div>
 <div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Use the staff member's real email address and set a password. Note it down and share it with them. They can change it later or get a reset link by email.</p><div class="f"><div><label>Staff email</label><input id="f_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
 <div class="c"><h3>Logins in this library</h3><div class="tw" id="fl"></div></div></div>
+<div id="t_bk" class="hide"><div class="c"><h3>Backup your data</h3>
+<p class="mu">Download everything in your library as one Excel file: students, payments, expenses and approval requests. Save it somewhere safe, for example Google Drive or a pen drive. It contains mobile numbers, so do not share it.</p>
+<button id="bkb" onclick="makeBackup(false)">Download backup now</button>
+<p id="bkl" class="mu"></p>
+<label style="display:flex;gap:6px;align-items:center"><input id="bka" type="checkbox" style="width:auto" onchange="bkAuto()">Automatic weekly backup on this device</label>
+<p class="mu">When this is on, the backup downloads by itself the first time you open Asaan Library after 7 days. It cannot run while the app is closed. Turn it on separately on each phone or computer you use. Your browser may ask permission to download files.</p>
+<p id="bkm" class="mu"></p></div>
+<div class="c"><h3>Restoring from a backup</h3><p class="mu">The first sheet (Students) uses the same columns as the import template. To bring students back, go to Students, choose the backup file under Import, and tick "Update existing" if you also want to correct details (up to 450 rows at a time). Payments, expenses and requests are kept in the file for your records.</p></div></div>
 <div id="t_set" class="hide"><div class="c"><h3>Public page</h3><p class="mu">Share this page with students. It shows only what you enter below.</p><div class="f"><div><label>Link name (3-30 letters, numbers, dashes)</label><input id="s_s"></div><div><label>Display name</label><input id="s_n"></div><div><label>Phone</label><input id="s_p"></div><div><label>Address</label><input id="s_a"></div><div><label>Google Maps link</label><input id="s_m"></div><div><label>About</label><input id="s_b"></div><button onclick="saveSet()">Save public page</button></div><p id="sm" class="mu"></p></div></div>
 </div>
 <div id="pb" class="hide"><div class="c" style="max-width:560px;margin:40px auto" id="pc"></div></div>
@@ -108,7 +118,7 @@ const auth=getAuth(app),db=getFirestore(app);
 // Second app instance: used only to create new logins without signing the current user out
 const auxAuth=getAuth(initializeApp(app.options,'aux'));
 
-let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],EX=[],AP=[],LIVE=false,unsubs=[];
+let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],EX=[],AP=[],LIVE=false,BKDONE=false,unsubs=[];
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -128,7 +138,7 @@ async function forgot(){const v=$('em').value.trim().toLowerCase(),le=$('le'),lm
 function logout(){signOut(auth)}
 
 onAuthStateChanged(auth,async u=>{
- unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];
+ unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];BKDONE=false;
  if(!u){show(PUB?'pb':'lg');return}
  try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
@@ -199,7 +209,7 @@ function drawLB(){
  LIVE=isLive(lib);const e=expOf(lib),t=today(),M=ym(),q=$('q').value.toLowerCase(),lim=iso(new Date(Date.now()+3*864e5));
  $('ln').textContent=lib.name;
  $('sb').innerHTML=LIVE?`Plan: ${esc(lib.plan||'-')}, valid till ${e?iso(e):'-'}`:'<span class="bad">Subscription inactive or expired. You can view data but not change it. Contact your provider to renew.</span>';
- ['ad','xb','xi','fb','eb'].forEach(i=>$(i).disabled=!LIVE);$('xu').disabled=!OWN();$('tb_set').classList.toggle('hide',!OWN());$('tb_stf').classList.toggle('hide',!OWN());drawStf();
+ ['ad','xb','xi','fb','eb'].forEach(i=>$(i).disabled=!LIVE);$('xu').disabled=!OWN();$('tb_set').classList.toggle('hide',!OWN());$('tb_stf').classList.toggle('hide',!OWN());drawStf();$('tb_bk').classList.toggle('hide',!OWN());bkUI();if(!BKDONE&&OWN()){BKDONE=true;autoBackupCheck()}
  const due=ST.filter(s=>s.nextDue<=t),pm=PY.filter(p=>p.date.startsWith(M)),coll=pm.reduce((a,p)=>a+p.amt,0),spent=EX.filter(x=>x.date.startsWith(M)).reduce((a,x)=>a+x.amt,0);
  $('kp').innerHTML=`<div><b>${ST.length}</b><span>Students</span></div><div><b class="${due.length?'bad':''}">${due.length}</b><span>Fee due (${inr(due.reduce((a,s)=>a+s.fee,0))})</span></div><div><b>${inr(coll)}</b><span>Collected this month</span></div><div><b>${inr(spent)}</b><span>Spent this month</span></div><div><b>${inr(coll-spent)}</b><span>Net this month</span></div>`;
  $('ch').innerHTML=chart();
@@ -226,7 +236,7 @@ async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
   b.update(doc(db,'libraries',libId,'students',id),{nextDue:addM(s.nextDue.slice(0,8)+(s.joined||s.nextDue).slice(8,10),1)});
   await b.commit()}catch(e){alert('Could not save ('+e.code+')')}}
 const PUB=new URLSearchParams(location.search).get('lib'),FROM=()=>addM(today().slice(0,8)+'01',-5),ym=()=>today().slice(0,7),OWN=()=>!!me&&me.role==='owner';
-function tab(n){['dash','stu','pay','exp','apr','set','stf'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)})}
+function tab(n){['dash','stu','pay','exp','apr','set','stf','bk'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)})}
 async function req(type,sid,sname,extra){
  if(AP.some(a=>a.status==='pending'&&(a.type===type||(type==='delete_student'&&a.type==='delete'))&&a.studentId===sid&&(a.paymentId||'')===((extra&&extra.paymentId)||''))){alert('A similar request is already waiting for the owner.');return false}
  try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:sname,...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
@@ -338,7 +348,40 @@ async function changeEm(){const m=$('ac_m'),ne=$('ac_ne').value.trim().toLowerCa
 async function mailReset(){const m=$('ac_m'),u=auth.currentUser;m.textContent='';
  if(!u||FAKE(u.email)){m.textContent='Add a real email first using "Change email".';return}
  try{await sendPasswordResetEmail(auth,u.email);m.textContent='Reset link sent to '+u.email+'. Check your inbox and spam folder.'}catch(e){m.textContent=aerr(e)}}
+/* ---------- Backup (owner) ---------- */
+const BKK=()=>'bk_'+libId;
+function bkGet(){try{return JSON.parse(localStorage.getItem(BKK())||'{}')}catch(e){return{}}}
+function bkSet(o){try{localStorage.setItem(BKK(),JSON.stringify(o))}catch(e){}}
+const bkDue=()=>{const g=bkGet();return !g.at||Date.now()-g.at>=7*864e5};
+function toast(t){const e=$('tt');e.textContent=t;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',7000)}
+function bkUI(){if(!OWN()||!$('bkl'))return;const g=bkGet(),d=g.at?Math.floor((Date.now()-g.at)/864e5):0;
+ $('bkl').textContent=g.at?'Last backup on this device: '+iso(new Date(g.at))+' ('+(d===0?'today':d+' day'+(d===1?'':'s')+' ago')+')':'No backup has been taken on this device yet.';
+ $('bka').checked=!!g.auto;
+ const sh=!g.auto&&bkDue();$('bkn').classList.toggle('hide',!sh);
+ if(sh)$('bkt').textContent=g.at?'Your last backup on this device was '+d+' days ago.':'You have not taken a backup on this device yet.'}
+function bkAuto(){const on=$('bka').checked;bkSet({...bkGet(),auto:on});$('bkm').textContent=on?'Automatic weekly backup is on for this device.':'Automatic backup is off.';bkUI();if(on&&bkDue())makeBackup(true)}
+async function autoBackupCheck(){if(OWN()&&bkGet().auto&&bkDue())await makeBackup(true)}
+async function makeBackup(auto){if(!OWN()||!libId)return;const m=$('bkm'),btn=$('bkb');btn.disabled=true;m.textContent='Preparing your backup...';
+ try{
+  const rd=n=>getDocs(collection(db,'libraries',libId,n)).then(r=>r.docs.map(d=>({id:d.id,...d.data()})));
+  const [st,py,ex,ap]=await Promise.all([rd('students'),rd('payments'),rd('expenses'),rd('approvals')]);
+  const by=(k,dir)=>(a,b)=>dir*String(a[k]||'').localeCompare(String(b[k]||''));
+  st.sort(by('name',1));py.sort(by('date',-1));ex.sort(by('date',-1));ap.sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
+  const wb=XLSX.utils.book_new(),add=(n,rows,w)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,n)};
+  add('Students',[HD,...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||''])],[22,14,8,12,12,15,12]);
+  add('Payments',[['Date','Student','Amount','Mode'],...py.map(x=>[x.date,x.studentName,x.amt,x.mode])],[12,22,10,12]);
+  add('Expenses',[['Date','Category','Amount','Note'],...ex.map(x=>[x.date,x.cat,x.amt,x.note||''])],[12,16,10,30]);
+  add('Requests',[['Requested on','Type','Student','Status','Details'],...ap.map(x=>[x.createdAt&&x.createdAt.toDate?iso(x.createdAt.toDate()):'',x.type,x.studentName,x.status,Object.entries(x.changes||{}).map(([k,v])=>k+': '+v).join(', ')])],[14,16,22,10,40]);
+  add('About',[['Library',lib?lib.name:libId],['Backup created',new Date().toLocaleString('en-IN')],['Students',st.length],['Payments',py.length],['Expenses',ex.length],['Made by','Asaan Library Management System']],[18,34]);
+  const slug=((lib&&lib.name)||'library').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30)||'library',fn='asaan-backup-'+slug+'-'+today()+'.xlsx';
+  XLSX.writeFile(wb,fn);
+  bkSet({...bkGet(),at:Date.now()});
+  m.textContent='Backup saved as '+fn+' ('+st.length+' students, '+py.length+' payments, '+ex.length+' expenses). Check your Downloads folder.';
+  if(auto)toast('Weekly backup downloaded to your Downloads folder')
+ }catch(e){m.textContent='Backup failed ('+(e.code||e.message)+'). Please try again.';if(auto)toast('Automatic backup failed. Open the Backup tab and try again.')}
+ btn.disabled=false;bkUI()}
+
 if(PUB){show('pb');loadPub()}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
+Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,bkAuto,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
 </script></body></html>

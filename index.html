@@ -68,7 +68,7 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 
 <div id="lb" class="hide">
 <div class="top"><div><h2 id="ln" style="margin:0"></h2><span id="sb" class="mu"></span></div><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
-<div class="tabs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_set" class="hide" onclick="tab('set')">Public page</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button></div>
+<div class="tabs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_set" class="hide" onclick="tab('set')">Public page</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button><button id="tb_tr" class="hide" onclick="tab('tr')">Recycle bin</button></div>
 <div id="bkn" class="c hide"><div class="top"><span id="bkt"></span><button class="s" onclick="makeBackup(false)">Backup now</button></div></div>
 <div id="t_dash"><div class="k" id="kp"></div>
 <div class="c"><h3>Last 6 months</h3><div id="ch"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
@@ -86,7 +86,7 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <p class="mu">Only the last 4 digits of Aadhaar are stored. No Aadhaar photo or full number is accepted.</p>
 <p id="am" class="mu"></p></div>
 <div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
-<div class="c"><div class="top"><h3 style="margin:0">Students</h3><input id="q" placeholder="Search name, phone or seat" style="max-width:240px" oninput="drawLB()"></div><div class="tw" id="sl"></div></div>
+<div class="c"><div class="top"><h3 style="margin:0">Students</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="sf" style="width:auto" onchange="drawLB()"><option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option></select><input id="q" placeholder="Search name, phone or seat" style="max-width:240px" oninput="drawLB()"></div></div><div class="tw" id="sl"></div></div>
 <div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (owner only, matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">In the blank template, Next Due fills in automatically as the same date one month after Join Date (you can overwrite it). Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
 </div>
 <div id="t_pay" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Payments</h3><input id="p_m" type="month" style="max-width:170px" onchange="drawPay()"></div><p class="mu">Staff cannot change or delete a payment directly. They send a request, and nothing changes until the owner approves it in the Approvals tab.</p><p id="ps" class="mu"></p><div class="tw" id="pt"></div></div></div>
@@ -96,13 +96,14 @@ code{background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
 <div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Use the staff member's real email address and set a password. Note it down and share it with them. They can change it later or get a reset link by email.</p><div class="f"><div><label>Staff email</label><input id="f_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (min 8 characters)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
 <div class="c"><h3>Logins in this library</h3><div class="tw" id="fl"></div></div></div>
 <div id="t_bk" class="hide"><div class="c"><h3>Backup your data</h3>
-<p class="mu">Download everything in your library as one Excel file: students, payments, expenses and approval requests. Save it somewhere safe, for example Google Drive or a pen drive. It contains mobile numbers, so do not share it.</p>
+<p class="mu">Download everything in your library as one Excel file: students (active and inactive), the recycle bin, payments, expenses and approval requests. Save it somewhere safe, for example Google Drive or a pen drive. It contains mobile numbers, so do not share it.</p>
 <button id="bkb" onclick="makeBackup(false)">Download backup now</button>
 <p id="bkl" class="mu"></p>
 <label style="display:flex;gap:6px;align-items:center"><input id="bka" type="checkbox" style="width:auto" onchange="bkAuto()">Automatic weekly backup on this device</label>
 <p class="mu">When this is on, the backup downloads by itself the first time you open Asaan Library after 7 days. It cannot run while the app is closed. Turn it on separately on each phone or computer you use. Your browser may ask permission to download files.</p>
 <p id="bkm" class="mu"></p></div>
 <div class="c"><h3>Restoring from a backup</h3><p class="mu">The first sheet (Students) uses the same columns as the import template. To bring students back, go to Students, choose the backup file under Import, and tick "Update existing" if you also want to correct details (up to 450 rows at a time). Payments, expenses and requests are kept in the file for your records.</p></div></div>
+<div id="t_tr" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Recycle bin</h3><button id="te" class="s r" onclick="emptyTrash()">Empty recycle bin</button></div><p class="mu">Deleted students are kept here with all their details. Restore brings a student back exactly as they were, and their earlier payments stay linked. Delete forever cannot be undone.</p><div class="tw" id="trl"></div></div></div>
 <div id="t_set" class="hide"><div class="c"><h3>Public page</h3><p class="mu">Share this page with students. It shows only what you enter below.</p><div class="f"><div><label>Link name (3-30 letters, numbers, dashes)</label><input id="s_s"></div><div><label>Display name</label><input id="s_n"></div><div><label>Phone</label><input id="s_p"></div><div><label>Address</label><input id="s_a"></div><div><label>Google Maps link</label><input id="s_m"></div><div><label>About</label><input id="s_b"></div><button onclick="saveSet()">Save public page</button></div><p id="sm" class="mu"></p></div></div>
 </div>
 <div id="pb" class="hide"><div class="c" style="max-width:560px;margin:40px auto" id="pc"></div></div>
@@ -119,7 +120,7 @@ const auth=getAuth(app),db=getFirestore(app);
 // Second app instance: used only to create new logins without signing the current user out
 const auxAuth=getAuth(initializeApp(app.options,'aux'));
 
-let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],EX=[],AP=[],LIVE=false,BKDONE=false,RC=null,unsubs=[];
+let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],TR=[],EX=[],AP=[],LIVE=false,BKDONE=false,RC=null,unsubs=[];
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -139,7 +140,7 @@ async function forgot(){const v=$('em').value.trim().toLowerCase(),le=$('le'),lm
 function logout(){signOut(auth)}
 
 onAuthStateChanged(auth,async u=>{
- unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];BKDONE=false;RC=null;$('rcb').style.display='none';
+ unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];TR=[];BKDONE=false;RC=null;$('rcb').style.display='none';
  if(!u){show(PUB?'pb':'lg');return}
  try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
@@ -154,6 +155,7 @@ onAuthStateChanged(auth,async u=>{
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'payments'),where('date','>=',FROM()),orderBy('date','desc')),s=>{PY=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Payments: '+e.code)));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'expenses'),where('date','>=',FROM()),orderBy('date','desc')),s=>{EX=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Expenses: '+e.code)));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'approvals'),orderBy('createdAt','desc')),s=>{AP=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Approvals: '+e.code)));
+  if(me.role==='owner')unsubs.push(onSnapshot(collection(db,'libraries',libId,'trash'),s=>{TR=s.docs.map(d=>({id:d.id,...d.data()}));drawTrash()},e=>alert('Recycle bin: '+e.code)));
   if(me.role==='owner')unsubs.push(onSnapshot(query(collection(db,'users'),where('libId','==',libId)),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawStf()},e=>alert('Logins: '+e.code)));
  }
 });
@@ -210,16 +212,16 @@ function drawLB(){
  LIVE=isLive(lib);const e=expOf(lib),t=today(),M=ym(),q=$('q').value.toLowerCase(),lim=iso(new Date(Date.now()+3*864e5));
  $('ln').textContent=lib.name;
  $('sb').innerHTML=LIVE?`Plan: ${esc(lib.plan||'-')}, valid till ${e?iso(e):'-'}`:'<span class="bad">Subscription inactive or expired. You can view data but not change it. Contact your provider to renew.</span>';
- ['ad','xb','xi','fb','eb'].forEach(i=>$(i).disabled=!LIVE);$('xu').disabled=!OWN();$('tb_set').classList.toggle('hide',!OWN());$('tb_stf').classList.toggle('hide',!OWN());drawStf();$('tb_bk').classList.toggle('hide',!OWN());bkUI();if(!BKDONE&&OWN()){BKDONE=true;autoBackupCheck()}
- const due=ST.filter(s=>s.nextDue<=t),pm=PY.filter(p=>p.date.startsWith(M)),coll=pm.reduce((a,p)=>a+p.amt,0),spent=EX.filter(x=>x.date.startsWith(M)).reduce((a,x)=>a+x.amt,0);
- $('kp').innerHTML=`<div><b>${ST.length}</b><span>Students</span></div><div><b class="${due.length?'bad':''}">${due.length}</b><span>Fee due (${inr(due.reduce((a,s)=>a+s.fee,0))})</span></div><div><b>${inr(coll)}</b><span>Collected this month</span></div><div><b>${inr(spent)}</b><span>Spent this month</span></div><div><b>${inr(coll-spent)}</b><span>Net this month</span></div>`;
+ ['ad','xb','xi','fb','eb'].forEach(i=>$(i).disabled=!LIVE);$('xu').disabled=!OWN();$('tb_set').classList.toggle('hide',!OWN());$('tb_stf').classList.toggle('hide',!OWN());drawStf();$('tb_bk').classList.toggle('hide',!OWN());$('tb_tr').classList.toggle('hide',!OWN());bkUI();if(!BKDONE&&OWN()){BKDONE=true;autoBackupCheck()}
+ const AC=ST.filter(isAct),due=AC.filter(s=>s.nextDue<=t),pm=PY.filter(p=>p.date.startsWith(M)),coll=pm.reduce((a,p)=>a+p.amt,0),spent=EX.filter(x=>x.date.startsWith(M)).reduce((a,x)=>a+x.amt,0);
+ $('kp').innerHTML=`<div><b>${AC.length}</b><span>Active students${ST.length>AC.length?' ('+(ST.length-AC.length)+' inactive)':''}</span></div><div><b class="${due.length?'bad':''}">${due.length}</b><span>Fee due (${inr(due.reduce((a,s)=>a+s.fee,0))})</span></div><div><b>${inr(coll)}</b><span>Collected this month</span></div><div><b>${inr(spent)}</b><span>Spent this month</span></div><div><b>${inr(coll-spent)}</b><span>Net this month</span></div>`;
  $('ch').innerHTML=chart();
- const sr=ST.filter(s=>s.nextDue<=lim).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
+ const sr=AC.filter(s=>s.nextDue<=lim).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
  $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp reminder</button></td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
- const rows=ST.filter(s=>!q||(s.name+s.phone+s.seat).toLowerCase().includes(q)).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
- $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td><button class="s o" onclick="remind('${s.id}')">WhatsApp</button> <button class="s" onclick="pay('${s.id}')" ${LIVE?'':'disabled'}>Collect fee</button> <button class="s o" onclick="editStu('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" onclick="del('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No students yet. Add the first admission, or import an Excel file.</p>';
+ const sf=$('sf').value,rows=ST.filter(s=>(sf==='all'||(sf==='inactive')===!isAct(s))&&(!q||(s.name+s.phone+s.seat).toLowerCase().includes(q))).sort((a,b)=>sf==='inactive'?a.name.localeCompare(b.name):a.nextDue.localeCompare(b.nextDue));
+ $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}${isAct(s)?'':' <span class="mu">(inactive since '+esc(s.inactiveOn||'-')+')</span>'}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${isAct(s)&&s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td>${isAct(s)?`<button class="s o" onclick="remind('${s.id}')">WhatsApp</button> <button class="s" onclick="pay('${s.id}')" ${LIVE?'':'disabled'}>Collect fee</button> `:`<button class="s" onclick="setActive('${s.id}',true)" ${LIVE?'':'disabled'}>${OWN()?'Reactivate':'Request reactivate'}</button> `}<button class="s o" onclick="editStu('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> ${isAct(s)?`<button class="s o" onclick="setActive('${s.id}',false)" ${LIVE?'':'disabled'}>${OWN()?'Make inactive':'Request inactive'}</button> `:''}<button class="s r" onclick="del('${s.id}')" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">'+(ST.length?'No students match this filter.':'No students yet. Add the first admission, or import an Excel file.')+'</p>';
  $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s o" onclick="rcpt('${p.id}')">Receipt</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
- drawExp();drawApr();drawPay();
+ drawExp();drawApr();drawPay();drawTrash();
 }
 async function admit(){
  if(!LIVE)return;const v=i=>$(i).value.trim(),a=v('a_a'),m=$('am');
@@ -228,7 +230,7 @@ async function admit(){
  try{await addDoc(collection(db,'libraries',libId,'students'),{name:v('a_n'),phone:v('a_p'),seat:v('a_s'),fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,createdAt:serverTimestamp()});
   ['a_n','a_p','a_s','a_f','a_a'].forEach(i=>$(i).value='');m.textContent='Student admitted.'}catch(e){m.textContent='Could not save ('+e.code+')'}
 }
-async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
+async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;if(!isAct(s)){alert('This student is inactive. Reactivate the student first.');return}
  const a=+prompt('Amount received from '+s.name+' (₹)',s.fee);if(!(a>0))return;
  if(a<s.fee&&!confirm('This is less than the monthly fee ('+inr(s.fee)+'). Mark this month as paid anyway?'))return;
  const mode=(prompt('Payment mode','Cash')||'Cash').trim().slice(0,30)||'Cash';
@@ -245,7 +247,7 @@ function rcText(p,nd){return `*Fee Receipt*\n*${lib.name}*\n\nReceipt no: ${p.id
 function waOpen(phone,text){const d=String(phone).replace(/\D/g,'').slice(-10);if(d.length!==10){alert('This student has no valid 10-digit mobile number.');return}window.open('https://wa.me/91'+d+'?text='+encodeURIComponent(text),'_blank')}
 function rcSend(){if(!RC)return;waOpen(RC.phone,RC.text);rcClose()}
 function rcClose(){RC=null;$('rcb').style.display='none'}
-function rcpt(id){const p=PY.find(x=>x.id===id);if(!p)return;const s=ST.find(x=>x.id===p.studentId);
+function rcpt(id){const p=PY.find(x=>x.id===id);if(!p)return;const s=ST.find(x=>x.id===p.studentId)||TR.find(x=>x.id===p.studentId);
  if(!s){alert('This student is no longer in the list, so there is no mobile number to send to.');return}
  rcShare(p,null,s.phone)}
 /* ---------- PDF receipt: drawn on a canvas (so Hindi names and the rupee sign work), then wrapped into a PDF ---------- */
@@ -288,14 +290,35 @@ async function rcShare(p,nd,phone){let f;
  waOpen(phone,'Namaste '+p.studentName+' ji,\n'+lib.name+' ki taraf se aapki fee ka PDF receipt bhej rahe hain. Dhanyawad 🙏');return true}
 async function rcSendPdf(){if(!RC)return;if(await rcShare(RC.p,RC.nd,RC.phone))rcClose()}
 const PUB=new URLSearchParams(location.search).get('lib'),FROM=()=>addM(today().slice(0,8)+'01',-5),ym=()=>today().slice(0,7),OWN=()=>!!me&&me.role==='owner';
-function tab(n){['dash','stu','pay','exp','apr','set','stf','bk'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)})}
+function tab(n){['dash','stu','pay','exp','apr','set','stf','bk','tr'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)})}
 async function req(type,sid,sname,extra){
  if(AP.some(a=>a.status==='pending'&&(a.type===type||(type==='delete_student'&&a.type==='delete'))&&a.studentId===sid&&(a.paymentId||'')===((extra&&extra.paymentId)||''))){alert('A similar request is already waiting for the owner.');return false}
  try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:sname,...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
   alert('Request sent to the owner. Nothing changes until the owner approves it.');return true}catch(e){alert('Could not send the request ('+e.code+')');return false}}
+const isAct=s=>s.active!==false;
+function trashOps(b,s){const{id,...d}=s;b.set(doc(db,'libraries',libId,'trash',id),{...d,deletedAt:serverTimestamp(),deletedBy:auth.currentUser.uid});b.delete(doc(db,'libraries',libId,'students',id))}
 async function del(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
- try{if(OWN()){if(confirm('Delete '+s.name+' permanently? This cannot be undone.'))await deleteDoc(doc(db,'libraries',libId,'students',id))}
+ try{if(OWN()){if(confirm('Move '+s.name+' to the Recycle bin? You can restore them from there later.')){const b=writeBatch(db);trashOps(b,s);await b.commit();toast(s.name+' was moved to the Recycle bin.')}}
   else if(confirm('Send a delete request for '+s.name+' to the owner?'))await req('delete_student',id,s.name)}catch(e){alert('Could not save ('+e.code+')')}}
+async function setActive(id,on){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;let ch;
+ if(on){const d=prompt('Next fee due date for '+s.name+' (YYYY-MM-DD)',today());if(d===null)return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(d.trim())||isNaN(new Date(d.trim()+'T00:00:00'))){alert('Enter the date like 2026-11-15.');return}ch={active:true,nextDue:d.trim()}}
+ else{if(!confirm('Make '+s.name+' inactive? They will no longer appear in fee dues or reminders. You can reactivate them any time.'))return;ch={active:false,inactiveOn:today()}}
+ try{if(OWN())await updateDoc(doc(db,'libraries',libId,'students',id),ch);
+  else if(confirm('Send this request to the owner for approval?'))await req('edit_student',id,s.name,{changes:ch})}catch(e){alert('Could not save ('+e.code+')')}}
+function drawTrash(){if(!OWN())return;const n=TR.length;$('tb_tr').textContent='Recycle bin'+(n?' ('+n+')':'');$('te').disabled=!LIVE||!n;
+ const at=x=>(x.deletedAt&&x.deletedAt.seconds)||Infinity;
+ $('trl').innerHTML=n?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Deleted</th><th></th></tr>'+TR.slice().sort((a,b)=>at(b)-at(a)).map(s=>{const d=s.deletedAt&&s.deletedAt.toDate?s.deletedAt.toDate():null,k=d?Math.floor((Date.now()-d)/864e5):0;
+  return`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td>${d?iso(d)+' ('+(k?k+' day'+(k===1?'':'s')+' ago':'today')+')':'-'}</td><td><button class="s" onclick="restoreStu('${s.id}')" ${LIVE?'':'disabled'}>Restore</button> <button class="s r" onclick="purgeStu('${s.id}')" ${LIVE?'':'disabled'}>Delete forever</button></td></tr>`}).join('')+'</table>':'<p class="mu">The recycle bin is empty.</p>'}
+async function restoreStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;const{id:_i,deletedAt,deletedBy,...d}=s;
+ if(ST.some(x=>x.phone===d.phone)&&!confirm('A student with the mobile number '+d.phone+' already exists. Restore anyway?'))return;
+ try{const b=writeBatch(db);b.set(doc(db,'libraries',libId,'students',id),d);b.delete(doc(db,'libraries',libId,'trash',id));await b.commit();toast(s.name+' was restored to Students.')}catch(e){alert('Could not restore ('+e.code+')')}}
+async function purgeStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;
+ if(!confirm('Delete '+s.name+' forever? Their details will be gone and this cannot be undone.'))return;
+ try{await deleteDoc(doc(db,'libraries',libId,'trash',id))}catch(e){alert('Could not delete ('+e.code+')')}}
+async function emptyTrash(){if(!LIVE||!OWN()||!TR.length)return;
+ if(!confirm('Delete all '+TR.length+' students in the Recycle bin forever? This cannot be undone.'))return;
+ try{const b=writeBatch(db);TR.slice(0,450).forEach(x=>b.delete(doc(db,'libraries',libId,'trash',x.id)));await b.commit()}catch(e){alert('Could not empty the bin ('+e.code+')')}}
 let EID='';
 function editStu(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;EID=id;
  $('e_n').value=s.name;$('e_p').value=s.phone;$('e_s').value=s.seat||'';$('e_f').value=s.fee;$('e_d').value=s.nextDue;$('emsg').textContent='';
@@ -334,10 +357,11 @@ function drawExp(){const m=$('x_m').value||ym(),r=EX.filter(x=>x.date.startsWith
 async function addExp(){if(!LIVE)return;const d=$('x_d').value,a=+$('x_a').value;if(!d||!(a>0)){alert('Enter a date and an amount.');return}
  try{await addDoc(collection(db,'libraries',libId,'expenses'),{date:d,cat:$('x_c').value,amt:a,note:$('x_n').value.trim()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
 async function delExp(id){if(!LIVE||!confirm('Delete this expense?'))return;try{await deleteDoc(doc(db,'libraries',libId,'expenses',id))}catch(e){alert('Could not delete ('+e.code+')')}}
-const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode'};
-const chg=(c,o)=>Object.entries(c||{}).map(([k,v])=>(LBL[k]||esc(k))+': '+(o&&o[k]!==undefined?esc(o[k])+' → ':'')+esc(v)).join(', ');
+const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode',active:'status',inactiveOn:'inactive since'};
+const fv=(k,v)=>k==='active'?(v?'Active':'Inactive'):v;
+const chg=(c,o)=>Object.entries(c||{}).map(([k,v])=>(LBL[k]||esc(k))+': '+(o&&o[k]!==undefined?esc(fv(k,o[k]))+' → ':'')+esc(fv(k,v))).join(', ');
 function aDesc(a){const pend=a.status==='pending',s=pend?ST.find(x=>x.id===a.studentId):null,p=PY.find(x=>x.id===a.paymentId),nm=esc(a.studentName),pd=p?inr(p.amt)+' on '+esc(p.date):'an older payment';
- if(a.type==='delete_student'||a.type==='delete')return'Delete student: '+nm;
+ if(a.type==='delete_student'||a.type==='delete')return'Delete student (moves to the Recycle bin): '+nm;
  if(a.type==='delete_payment')return'Delete payment ('+pd+') of '+nm;
  if(a.type==='edit_student')return'Change details of '+nm+' — '+chg(a.changes,s);
  if(a.type==='edit_payment')return'Change payment ('+pd+') of '+nm+' — '+chg(a.changes,pend?p:null);
@@ -346,7 +370,7 @@ function drawApr(){const n=AP.filter(a=>a.status==='pending').length;$('tb_apr')
  $('al').innerHTML=AP.length?'<table><tr><th>Request</th><th>Status</th><th></th></tr>'+AP.map(a=>`<tr><td style="white-space:normal">${aDesc(a)}</td><td class="${a.status==='pending'?'bad':''}">${esc(a.status)}</td><td>${a.status==='pending'&&OWN()&&LIVE?`<button class="s" onclick="decide('${a.id}',1)">Approve</button> <button class="s o" onclick="decide('${a.id}',0)">Reject</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No requests yet.</p>'}
 async function decide(id,ok){const a=AP.find(x=>x.id===id);if(!a||!OWN()||!LIVE||a.status!=='pending')return;
  const b=writeBatch(db),ar=doc(db,'libraries',libId,'approvals',id),sr=doc(db,'libraries',libId,'students',a.studentId),pr=a.paymentId?doc(db,'libraries',libId,'payments',a.paymentId):null,t=a.type==='delete'?'delete_student':a.type;
- if(ok){if(t==='delete_student')b.delete(sr);
+ if(ok){if(t==='delete_student'){const st=ST.find(x=>x.id===a.studentId);if(st)trashOps(b,st)}
   else if(t==='delete_payment'&&pr)b.delete(pr);
   else if(t==='edit_student'&&a.changes)b.update(sr,a.changes);
   else if(t==='edit_payment'&&pr&&a.changes)b.update(pr,a.changes);
@@ -370,7 +394,7 @@ function tpl(){const n=new Date(),ws=XLSX.utils.aoa_to_sheet([HD,['Example Stude
  for(let r=2;r<=451;r++)ws['G'+r]={t:'n',f:`IF(E${r}="","",EDATE(E${r},1))`,z:'yyyy-mm-dd'};
  ws['!ref']='A1:G451';ws['!cols']=[{wch:22},{wch:14},{wch:8},{wch:12},{wch:13},{wch:15},{wch:13}];
  const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,ws,'Students');XLSX.writeFile(b,'students-template.xlsx',{cellDates:true})}
-function expX(){sv([HD,...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue])],'students.xlsx')}
+function expX(){sv([[...HD,'Status'],...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue,isAct(s)?'Active':'Inactive'])],'students.xlsx')}
 async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){m.textContent='Choose a file first.';return}
  const upOK=$('xu').checked&&OWN();let wb;
  try{wb=XLSX.read(await f.arrayBuffer(),{cellDates:true})}catch(e){m.textContent='Could not read this file.';return}
@@ -380,8 +404,9 @@ async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){
   if(!n||p.length!==10||!(fee>0)||seen.has(p)){bad++;continue}
   seen.add(p);
   const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=String(r['Seat']).trim().slice(0,20),ex=ST.find(x=>x.phone===p);
-  if(ex){if(upOK){const d={name:n,fee};if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;b.update(doc(col,ex.id),d);upd++}else kept++}
-  else{const j=jn||today();b.set(doc(col),{name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,createdAt:serverTimestamp()});add++}}
+  const stt=String(r['Status']).trim().toLowerCase();
+  if(ex){if(upOK){const d={name:n,fee};if(stt==='inactive'){d.active=false;d.inactiveOn=today()}else if(stt==='active')d.active=true;if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;b.update(doc(col,ex.id),d);upd++}else kept++}
+  else{const j=jn||today(),nw={name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,createdAt:serverTimestamp()};if(stt==='inactive'){nw.active=false;nw.inactiveOn=today()}b.set(doc(col),nw);add++}}
  try{await b.commit();m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(all.length>450?' Only the first 450 rows were read.':'')}catch(e){m.textContent='Import failed ('+e.code+').'}}
 const aerr=e=>({'app/need-password':'Enter your current password first.','auth/wrong-password':'Current password is wrong.','auth/invalid-credential':'Current password is wrong.','auth/weak-password':'New password is too weak. Use 8 or more characters.','auth/email-already-in-use':'That email is already used by another login.','auth/invalid-email':'That email address is not valid.','auth/too-many-requests':'Too many attempts. Please try again later.','auth/requires-recent-login':'Please sign out, sign in again and retry.'}[e.code]||'Failed ('+(e.code||e.message)+')');
 function openAcc(){const u=auth.currentUser;if(!u)return;
@@ -416,15 +441,16 @@ async function autoBackupCheck(){if(OWN()&&bkGet().auto&&bkDue())await makeBacku
 async function makeBackup(auto){if(!OWN()||!libId)return;const m=$('bkm'),btn=$('bkb');btn.disabled=true;m.textContent='Preparing your backup...';
  try{
   const rd=n=>getDocs(collection(db,'libraries',libId,n)).then(r=>r.docs.map(d=>({id:d.id,...d.data()})));
-  const [st,py,ex,ap]=await Promise.all([rd('students'),rd('payments'),rd('expenses'),rd('approvals')]);
+  const [st,py,ex,ap,tr]=await Promise.all([rd('students'),rd('payments'),rd('expenses'),rd('approvals'),rd('trash')]);
   const by=(k,dir)=>(a,b)=>dir*String(a[k]||'').localeCompare(String(b[k]||''));
-  st.sort(by('name',1));py.sort(by('date',-1));ex.sort(by('date',-1));ap.sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
+  st.sort(by('name',1));tr.sort(by('name',1));py.sort(by('date',-1));ex.sort(by('date',-1));ap.sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
   const wb=XLSX.utils.book_new(),add=(n,rows,w)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,n)};
-  add('Students',[HD,...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||''])],[22,14,8,12,12,15,12]);
+  add('Students',[[...HD,'Status'],...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',isAct(x)?'Active':'Inactive'])],[22,14,8,12,12,15,12,10]);
+  add('Recycle bin',[[...HD,'Deleted on'],...tr.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.deletedAt&&x.deletedAt.toDate?iso(x.deletedAt.toDate()):''])],[22,14,8,12,12,15,12,12]);
   add('Payments',[['Date','Student','Amount','Mode'],...py.map(x=>[x.date,x.studentName,x.amt,x.mode])],[12,22,10,12]);
   add('Expenses',[['Date','Category','Amount','Note'],...ex.map(x=>[x.date,x.cat,x.amt,x.note||''])],[12,16,10,30]);
   add('Requests',[['Requested on','Type','Student','Status','Details'],...ap.map(x=>[x.createdAt&&x.createdAt.toDate?iso(x.createdAt.toDate()):'',x.type,x.studentName,x.status,Object.entries(x.changes||{}).map(([k,v])=>k+': '+v).join(', ')])],[14,16,22,10,40]);
-  add('About',[['Library',lib?lib.name:libId],['Backup created',new Date().toLocaleString('en-IN')],['Students',st.length],['Payments',py.length],['Expenses',ex.length],['Made by','Asaan Library Management System']],[18,34]);
+  add('About',[['Library',lib?lib.name:libId],['Backup created',new Date().toLocaleString('en-IN')],['Students',st.length],['Payments',py.length],['Expenses',ex.length],['In recycle bin',tr.length],['Made by','Asaan Library Management System']],[18,34]);
   const slug=((lib&&lib.name)||'library').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30)||'library',fn='asaan-backup-'+slug+'-'+today()+'.xlsx';
   XLSX.writeFile(wb,fn);
   bkSet({...bkGet(),at:Date.now()});
@@ -435,5 +461,5 @@ async function makeBackup(auto){if(!OWN()||!libId)return;const m=$('bkm'),btn=$(
 
 if(PUB){show('pb');loadPub()}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,bkAuto,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
+Object.assign(window,{login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,bkAuto,setActive,restoreStu,purgeStu,emptyTrash,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,saveSet,tpl,expX,impX});
 </script></body></html>

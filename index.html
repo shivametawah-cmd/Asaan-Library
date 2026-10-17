@@ -249,8 +249,8 @@ function mfaCancel(){MFR=null;$('mfa').classList.add('hide');$('le').textContent
 function mfaStatus(){const u=auth.currentUser;$('mf_s').textContent=u&&multiFactor(u).enrolledFactors.length?'Status: ON. You need a code from your authenticator app to sign in.':'Status: OFF'}
 async function mfaSetup(){const m=$('ac_m'),u=auth.currentUser;m.textContent='';if(!u)return;
  if(FAKE(u.email)){m.textContent='Add a real email first using "Change email".';return}
- try{if(!u.emailVerified){await sendEmailVerification(u);m.textContent='Your email is not verified yet. A verification link was sent to '+u.email+'. Open it, then tap Set up again.';return}
-  await reauth();const ses=await multiFactor(u).getSession();MFS=await TotpMultiFactorGenerator.generateSecret(ses);
+ try{await u.reload();if(!u.emailVerified){await sendEmailVerification(u);m.textContent='Your email is not verified yet. A verification link was sent to '+u.email+'. Open it, then tap Set up again.';return}
+  await reauth();await u.getIdToken(true);const ses=await multiFactor(u).getSession();MFS=await TotpMultiFactorGenerator.generateSecret(ses);
   $('mf_k').textContent=MFS.secretKey;$('mf_c').value='';$('mf_b').classList.remove('hide')}
  catch(e){m.textContent=aerr(e)}}
 async function mfaConfirm(){const m=$('ac_m'),c=$('mf_c').value.trim();if(!MFS)return;

@@ -1,1856 +1,330 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
 <meta name="color-scheme" content="light dark">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.google.com https://*.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
-<script>try{var t=localStorage.getItem("asaan_theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<title>Asaan Library</title>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1d5a47" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0e1512" media="(prefers-color-scheme: dark)"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<title>Asaan Library Management Software for Study Libraries</title>
+<meta name="description" content="Asaan Library Management Software: manage students, seats, monthly fees, receipts and WhatsApp reminders. Plans from ₹299/month. Works on phone and PC.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://asaan-library.web.app/">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#1d5a47">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asaan Library Management Software">
+<meta property="og:title" content="Asaan Library Management Software for Study Libraries">
+<meta property="og:description" content="Asaan Library Management Software: manage students, seats, monthly fees, receipts and WhatsApp reminders. Plans from ₹299/month. Works on phone and PC.">
+<meta property="og:url" content="https://asaan-library.web.app/">
+<meta property="og:image" content="https://asaan-library.web.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Asaan Library Management Software for Study Libraries">
+<meta name="twitter:description" content="Asaan Library Management Software: manage students, seats, monthly fees, receipts and WhatsApp reminders. Plans from ₹299/month. Works on phone and PC.">
+<meta name="twitter:image" content="https://asaan-library.web.app/og-image.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Asaan Library Management Software", "alternateName": "Asaan", "url": "https://asaan-library.web.app/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web browser, Android, Windows", "description": "Library management software for study libraries and reading rooms: students, seats, monthly fees, receipts, WhatsApp reminders, expenses, staff logins and backups.", "offers": [{"@type": "Offer", "name": "Starter - up to 60 students", "price": "299", "priceCurrency": "INR", "description": "Per month"}, {"@type": "Offer", "name": "Standard - up to 120 students", "price": "399", "priceCurrency": "INR", "description": "Per month"}, {"@type": "Offer", "name": "Premium - up to 180 students", "price": "499", "priceCurrency": "INR", "description": "Per month"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is library management software, and who is it for?", "acceptedAnswer": {"@type": "Answer", "text": "Library management software helps you run the daily work of a library: who has joined, which seat they use, what fee they pay, who is due, and how much you earned and spent. Asaan is built for study libraries, self-study reading rooms and similar places that charge students a monthly fee."}}, {"@type": "Question", "name": "Does it work for a self-study library or reading room?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Each student has a seat, a monthly fee and a due date. You see who is due or overdue, collect a fee in one tap, and the next due date moves forward by one month."}}, {"@type": "Question", "name": "How do I get started?", "acceptedAnswer": {"@type": "Answer", "text": "Fill in the form on this page with your library name and number of students. We will contact you, set up your library and share your login. You can then add students one by one or import them from an Excel file."}}, {"@type": "Question", "name": "Do I need to install anything?", "acceptedAnswer": {"@type": "Answer", "text": "No. It runs in your browser on a phone or a computer. You can also add it to your phone's home screen or install it from Chrome, so it opens like an app."}}, {"@type": "Question", "name": "How do WhatsApp fee reminders work?", "acceptedAnswer": {"@type": "Answer", "text": "Tap the reminder button next to a student and WhatsApp opens with the message already written, addressed to that student's number. You press Send yourself. Messages are not sent automatically or in bulk."}}, {"@type": "Question", "name": "Can my staff use it, and what can they do?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You can create separate staff logins. Staff can add students, collect fees and add expenses. Changing or deleting a student or a payment needs your approval, so nothing important changes without you knowing."}}, {"@type": "Question", "name": "Is my library's data safe, and who can see it?", "acceptedAnswer": {"@type": "Answer", "text": "Each library's data is kept separate from every other library. The admin login in the software cannot view your library's records. Passwords must be strong, and you can turn on two-step login with an authenticator app. We do not access your data unless you ask us for support or the law requires it."}}, {"@type": "Question", "name": "Do I need to keep my own backup?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You are responsible for keeping backups of your data. The software makes it a one-click job: download everything as one Excel file, turn on a weekly automatic backup, and restore from a backup file whenever needed. Save the file on Google Drive or a pen drive."}}, {"@type": "Question", "name": "Can I bring my existing students from Excel?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Download the template, fill in your students and import the file. You can also export your students to Excel at any time."}}, {"@type": "Question", "name": "What happens if I have more than 180 students?", "acceptedAnswer": {"@type": "Answer", "text": "We can make a custom plan for larger libraries. Use the form below, tell us how many students you have, and we will suggest a plan."}}, {"@type": "Question", "name": "How does billing work?", "acceptedAnswer": {"@type": "Answer", "text": "Plans are monthly subscriptions based on the number of students: ₹299 for up to 60, ₹399 for up to 120 and ₹499 for up to 180 students. We share the payment details when we set up your library."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Asaan Library Management Software", "alternateName": "Asaan", "url": "https://asaan-library.web.app/", "logo": "https://asaan-library.web.app/icon-192.png"}</script>
 <style>
-:root{--bg:#f2f4f1;--c:#fff;--tx:#1b211e;--mu:#667069;--ac:#1d5a47;--ac2:#2f8f6f;--ln:#1d5a47;--bd:#dde2dc;--bda:rgba(221,226,220,.9);--bdh:#c3ccc5;--bad:#b3402f;--badt:#b3402f;--hi:#e9f1ed;--th:#f2f7f4;--rh:#f6faf8;--tbg:rgba(255,255,255,.82);--g1:rgba(47,143,111,.20);--g2:rgba(201,137,43,.15);--g3:rgba(59,91,219,.08);--h1a:#164a3a;--h1b:#2f8f6f;--k1c:#1d5a47;--k1t:#e1f0e9;--k2c:#c2410c;--k2t:#fdeadf;--k3c:#0f766e;--k3t:#d9f2ee;--k4c:#b7791f;--k4t:#fbefd2;--k5c:#3b5bdb;--k5t:#e4e9fc;--sh:0 1px 2px rgba(18,43,33,.06),0 10px 28px -14px rgba(18,43,33,.18);color-scheme:light}
-:root[data-theme=dark]{--bg:#0e1512;--c:#17201c;--tx:#e8f0ea;--mu:#9fb0a6;--ac:#1d5a47;--ac2:#28805f;--ln:#74dbb0;--bd:#2d3a34;--bda:#2d3a34;--bdh:#43544b;--bad:#c2503f;--badt:#ff9483;--hi:#20322a;--th:#1c2823;--rh:#1d2a24;--tbg:rgba(23,32,28,.88);--g1:rgba(47,143,111,.13);--g2:rgba(201,137,43,.07);--g3:rgba(59,91,219,.08);--h1a:#9fe8c8;--h1b:#52c99f;--k1c:#74dbb0;--k1t:#1c3a2f;--k2c:#ffa56e;--k2t:#3d2a1d;--k3c:#62d6ca;--k3t:#17373a;--k4c:#f3c65c;--k4t:#3a3018;--k5c:#93a9ff;--k5t:#232c52;--sh:0 1px 2px rgba(0,0,0,.45),0 10px 28px -14px rgba(0,0,0,.7);color-scheme:dark}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1512;--c:#17201c;--tx:#e8f0ea;--mu:#9fb0a6;--ac:#1d5a47;--ac2:#28805f;--ln:#74dbb0;--bd:#2d3a34;--bda:#2d3a34;--bdh:#43544b;--bad:#c2503f;--badt:#ff9483;--hi:#20322a;--th:#1c2823;--rh:#1d2a24;--tbg:rgba(23,32,28,.88);--g1:rgba(47,143,111,.13);--g2:rgba(201,137,43,.07);--g3:rgba(59,91,219,.08);--h1a:#9fe8c8;--h1b:#52c99f;--k1c:#74dbb0;--k1t:#1c3a2f;--k2c:#ffa56e;--k2t:#3d2a1d;--k3c:#62d6ca;--k3t:#17373a;--k4c:#f3c65c;--k4t:#3a3018;--k5c:#93a9ff;--k5t:#232c52;--sh:0 1px 2px rgba(0,0,0,.45),0 10px 28px -14px rgba(0,0,0,.7);color-scheme:dark}}
+:root{--bg:#f5f7f4;--c:#fff;--tx:#1b211e;--mu:#58635c;--ac:#1d5a47;--ac2:#2f8f6f;--bd:#dde2dc;--hi:#e9f1ed;--hero1:#164a3a;--hero2:#2f8f6f;--warn:#b3402f;--sh:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(0,0,0,.06)}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1512;--c:#17201c;--tx:#e8f0ea;--mu:#a3b3a9;--ac:#2f8f6f;--ac2:#52c99f;--bd:#2d3a34;--hi:#20322a;--hero1:#0f2f25;--hero2:#1d5a47;--warn:#ff9483;--sh:none}}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",sans-serif;min-height:100vh;
- background:radial-gradient(900px 480px at 6% -8%,var(--g1),transparent 62%),radial-gradient(760px 420px at 100% 0,var(--g2),transparent 58%),radial-gradient(700px 500px at 50% 112%,var(--g3),transparent 60%),var(--bg);background-attachment:fixed}
-.w{max-width:1040px;margin:auto;padding:14px 14px 96px}
-.c{background:var(--c);border:1px solid var(--bda);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--sh)}
-h2,h3{margin:0 0 10px}
-h3{display:flex;align-items:center;gap:9px;font-size:1.02rem;font-weight:650}
-h3::before{content:"";width:4px;height:17px;border-radius:3px;background:linear-gradient(180deg,var(--ac2),var(--ac));flex:none}
-input,select{padding:9px 11px;border:1px solid var(--bd);border-radius:10px;width:100%;font:inherit;background:var(--c);color:var(--tx);transition:border-color .15s,box-shadow .15s}
-input:hover,select:hover{border-color:var(--bdh)}
-::placeholder{color:var(--mu);opacity:.75}
-input:focus,select:focus{outline:0;border-color:var(--ac2);box-shadow:0 0 0 3px rgba(47,143,111,.18)}
-label{font-size:.8rem;color:var(--mu);display:block;margin-bottom:3px;font-weight:500}
-.f{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}
-button{background:linear-gradient(135deg,var(--ac2),var(--ac));color:#fff;border:0;border-radius:10px;padding:9px 16px;font:600 .88rem system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer;box-shadow:0 2px 6px -2px rgba(29,90,71,.5);transition:transform .15s,box-shadow .15s,filter .15s,background .15s}
-button:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.07);box-shadow:0 7px 14px -7px rgba(29,90,71,.6)}
-button:active:not(:disabled){transform:translateY(0) scale(.97)}
-button:focus-visible{outline:2px solid var(--ac2);outline-offset:2px}
-button.o{background:transparent;border:1px solid var(--ln);color:var(--ln);box-shadow:none}
-button.o:hover:not(:disabled){background:var(--hi);filter:none;box-shadow:none}
-button.r{background:linear-gradient(135deg,#d0584a,var(--bad));box-shadow:0 2px 6px -2px rgba(179,64,47,.5)}
-button.r:hover:not(:disabled){box-shadow:0 7px 14px -7px rgba(179,64,47,.6)}
-button.s{padding:5px 11px;font-size:.78rem;border-radius:8px}
-button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:separate;border-spacing:0}
-th,td{text-align:left;padding:10px;border-bottom:1px solid var(--bd);white-space:nowrap;transition:background .15s}
-th{font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;color:var(--mu);font-weight:700;background:var(--th)}
-th:first-child{border-radius:10px 0 0 10px}th:last-child{border-radius:0 10px 10px 0}
-tr:hover td{background:var(--rh)}
-tr:last-child td{border-bottom:0}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
-.k>div{display:flex;align-items:center;gap:12px;background:var(--c);border:1px solid var(--bda);border-radius:16px;padding:14px 14px 14px 18px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
-.k>div::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--kc)}
-.k>div:hover{transform:translateY(-3px);box-shadow:0 14px 30px -14px rgba(18,43,33,.3)}
-.k .ik{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--kt);color:var(--kc);flex:none;font-style:normal}
-.k .kv{min-width:0}
-.k b{display:block;font-size:1.45rem;line-height:1.25;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
-.k .k1{--kc:var(--k1c);--kt:var(--k1t)}.k .k2{--kc:var(--k2c);--kt:var(--k2t)}.k .k3{--kc:var(--k3c);--kt:var(--k3t)}.k .k4{--kc:var(--k4c);--kt:var(--k4t)}.k .k5{--kc:var(--k5c);--kt:var(--k5t)}
-.k span,.mu{color:var(--mu);font-size:.85rem}
-.bad{color:var(--badt);font-weight:600}
-.hide{display:none!important}
-.tabs{display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-bottom:0;padding:5px;background:var(--tbg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--sh)}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{flex:none;background:none;color:var(--mu);box-shadow:none;border-radius:10px;padding:8px 14px;white-space:nowrap}
-.tabs button:hover:not(:disabled){background:var(--hi);color:var(--ln);transform:none;filter:none;box-shadow:none}
-.tabs button.act{background:linear-gradient(135deg,var(--ac2),var(--ac));color:#fff;box-shadow:0 5px 12px -5px rgba(29,90,71,.65)}
-code{color:var(--tx);background:var(--hi);padding:1px 5px;border-radius:4px;font-size:.85rem}
-#ch svg{display:block;max-height:250px;margin:0 auto}
-#q{width:240px;max-width:100%}
-@media(min-width:760px){.tabs{flex-wrap:wrap}}
-@media(max-width:560px){.k>div:last-child:nth-child(odd){grid-column:1/-1}}
+html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif}
+a{color:var(--ac)}
+img{max-width:100%;height:auto}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(1.9rem,5vw,3rem)}
+h2{font-size:clamp(1.5rem,3.5vw,2.1rem)}
+h3{font-size:1.1rem}
+p{margin:0 0 1em}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+section{padding:64px 0}
+.sub{color:var(--mu);max-width:680px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ac);color:#fff;padding:8px 12px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
+header.top{position:sticky;top:0;z-index:50;background:var(--c);border-bottom:1px solid var(--bd)}
+.bar{display:flex;align-items:center;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;white-space:nowrap;font-weight:700;text-decoration:none;color:var(--tx);font-size:1.1rem}
+.brand img{border-radius:9px}
+.bn{display:flex;flex-direction:column;line-height:1.15}
+.bn b{font-size:1.15rem}
+.bn small{font-weight:500;font-size:.72rem;color:var(--mu)}
+nav.main{margin-left:auto;display:flex;gap:22px;align-items:center}
+nav.main a{color:var(--tx);text-decoration:none;font-size:.95rem}
+nav.main a:hover{color:var(--ac)}
+.btn{display:inline-block;background:var(--ac);color:#fff;text-decoration:none;font-weight:600;padding:11px 20px;border-radius:10px;border:2px solid var(--ac);cursor:pointer;font-size:1rem;font-family:inherit;text-align:center}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--ac)}
+.btn.light{background:#fff;color:#164a3a;border-color:#fff}
+.btn.outl{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.btn.sm{padding:8px 16px;font-size:.95rem}
+.menu{display:none;margin-left:auto}
+.menu summary{list-style:none;cursor:pointer;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:.95rem}
+.menu summary::-webkit-details-marker{display:none}
+.menu summary::after{content:none!important}
+.menu .panel{position:absolute;right:20px;top:60px;background:var(--c);border:1px solid var(--bd);border-radius:12px;padding:8px;min-width:200px;box-shadow:var(--sh)}
+.menu .panel a{display:block;padding:10px 12px;color:var(--tx);text-decoration:none;border-radius:8px}
+.menu .panel a:hover{background:var(--hi)}
+.bar .login{margin-left:0}
+@media(max-width:820px){nav.main{display:none}.menu{display:block}.bar .login{margin-left:0}}
+@media(max-width:420px){.bar{gap:10px}.btn.sm{padding:8px 12px}.bn small{display:none}}
+.hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;padding:72px 0 80px}
+.hero p{font-size:1.15rem;max-width:640px;opacity:.95}
+.hero .eye{font-size:.95rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;opacity:.9}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 22px}
+.hero ul{list-style:none;padding:0;margin:0;display:flex;gap:10px 22px;flex-wrap:wrap;font-size:.95rem;opacity:.95}
+.hero li::before{content:"✓ ";font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:16px;padding:22px;box-shadow:var(--sh)}
+.card p{color:var(--mu);margin:0;font-size:.97rem}
+.ic{font-size:1.6rem;margin-bottom:8px}
+.alt{background:var(--c);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;padding:0;list-style:none}
+.steps li{counter-increment:s;background:var(--bg);border:1px solid var(--bd);border-radius:16px;padding:22px}
+.steps li::before{content:counter(s);display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--ac);color:#fff;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px}
+.steps p{color:var(--mu);margin:0}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;align-items:stretch}
+.plan{background:var(--c);border:1px solid var(--bd);border-radius:16px;padding:26px 22px;display:flex;flex-direction:column;box-shadow:var(--sh)}
+.plan .lim{color:var(--mu);margin-bottom:12px}
+.price{font-size:2.6rem;font-weight:800;margin:0 0 18px;line-height:1}
+.price small{font-size:.95rem;font-weight:500;color:var(--mu)}
+.price .cur{font-size:1.5rem;vertical-align:top;margin-right:2px}
+.price.custom{font-size:1.7rem}
+.plan .btn{margin-top:auto}
+.incl{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px 24px;list-style:none;padding:0;margin:26px 0 0;color:var(--mu)}
+.incl li::before{content:"✓ ";color:var(--ac);font-weight:700}
+.note{color:var(--mu);font-size:.9rem;margin-top:14px}
+details{background:var(--c);border:1px solid var(--bd);border-radius:12px;margin-bottom:10px}
+summary{cursor:pointer;padding:16px 18px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--ac)}
+details[open] summary::after{content:"–"}
+details p{padding:0 18px;margin:0 0 16px;color:var(--mu)}
+.two{display:grid;grid-template-columns:1fr 1.1fr;gap:36px;align-items:start}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+form.f{background:var(--c);border:1px solid var(--bd);border-radius:16px;padding:24px;box-shadow:var(--sh)}
+label{display:block;font-weight:600;font-size:.92rem;margin:0 0 4px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;margin-bottom:14px}
+input:focus,select:focus,textarea:focus,summary:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+textarea{min-height:84px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin-bottom:14px}
+.chk input{width:auto;margin:4px 0 0}
+.err{color:var(--warn);font-weight:600;min-height:1.4em;margin:0 0 10px}
+.ok{background:var(--hi);border-radius:10px;padding:12px 14px;margin-top:14px}
+.hide{display:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.cl{list-style:none;padding:0;margin:0 0 18px}
+.cl li{margin-bottom:8px}
+footer{padding:36px 0;border-top:1px solid var(--bd);color:var(--mu);font-size:.92rem}
+footer .wrap{display:flex;gap:16px 28px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+footer a{color:var(--mu)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+ <div class="wrap bar">
+  <a class="brand" href="#top"><img src="icon-192.png" alt="" width="36" height="36"><span class="bn"><b>Asaan</b><small>Library Management Software</small></span></a>
+  <nav class="main" aria-label="Main">
+   <a href="#features">Features</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+  </nav>
+  <details class="menu"><summary>Menu</summary><div class="panel"><a href="#features">Features</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div></details>
+  <a class="btn sm login" href="app.html" rel="nofollow">Login</a>
+ </div>
+</header>
 
-/* ---------- tab menu (phones) ---------- */
-.nv{position:sticky;top:8px;z-index:20;margin-bottom:14px}
-.tmb{display:none}
-.tmb svg{flex:none}
-.tmb .tmt{flex:1;text-align:left;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tmb .tmn{background:var(--bad);color:#fff;border-radius:999px;font-size:.72rem;line-height:1;padding:4px 8px;font-weight:700}
-.tmb .chev{transition:transform .2s}
-.nv.open .chev{transform:rotate(180deg)}
-@media(max-width:759px){
- .tmb{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;background:var(--tbg);color:var(--tx);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--sh);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:.95rem}
- .tmb:hover:not(:disabled){transform:none;filter:none;box-shadow:var(--sh);background:var(--tbg)}
- .tabs{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);flex-direction:column;flex-wrap:nowrap;gap:2px;padding:6px;max-height:min(70vh,460px);overflow-y:auto;overflow-x:hidden;background:var(--c);-webkit-backdrop-filter:none;backdrop-filter:none}
- .nv.open .tabs{display:flex}
- .tabs button{width:100%;text-align:left;padding:13px 14px;font-size:.95rem}
-}
-/* header banners */
-#lb>.top,#sa>.top{background:linear-gradient(120deg,#164a3a 0%,#1d5a47 45%,#2f8f6f 100%);color:#fff;border-radius:18px;padding:16px 18px;margin-bottom:14px;box-shadow:0 14px 30px -14px rgba(22,74,58,.7);position:relative;overflow:hidden}
-#lb>.top::after,#sa>.top::after{content:"";position:absolute;right:-40px;top:-70px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.2),transparent 65%);pointer-events:none;animation:drift 9s ease-in-out infinite}
-#lb>.top>*,#sa>.top>*{position:relative;z-index:1}
-#lb>.top h2,#sa>.top h2{color:#fff;font-size:1.35rem;letter-spacing:-.01em}
-#lb>.top .mu{color:rgba(255,255,255,.8)}
-#lb>.top button.o,#sa>.top button.o{color:#fff;border-color:rgba(255,255,255,.55)}
-#lb>.top button.o:hover:not(:disabled),#sa>.top button.o:hover:not(:disabled){background:rgba(255,255,255,.16)}
-/* sign in */
-#lg{border-radius:22px;padding:28px 24px;box-shadow:0 26px 60px -26px rgba(18,43,33,.4);animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
-#lg img{box-shadow:0 12px 26px -10px rgba(29,90,71,.7);animation:float 5s ease-in-out infinite}
-#lg h1{background:linear-gradient(90deg,var(--h1a),var(--h1b));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* motion */
-@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
-@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(-18px,14px)}}
-[id^="t_"]:not(.hide)>.c{animation:rise .42s cubic-bezier(.2,.7,.2,1) backwards}
-[id^="t_"]:not(.hide)>.c:nth-child(2){animation-delay:.06s}[id^="t_"]:not(.hide)>.c:nth-child(3){animation-delay:.12s}[id^="t_"]:not(.hide)>.c:nth-child(4){animation-delay:.18s}[id^="t_"]:not(.hide)>.c:nth-child(5){animation-delay:.24s}
-.kin{animation:rise .5s cubic-bezier(.2,.7,.2,1) backwards}
-#ch rect.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .8s cubic-bezier(.2,.8,.2,1) backwards}
-#ac{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);animation:fade .2s ease backwards}
-#ac>.c{animation:pop .28s cubic-bezier(.2,.8,.2,1) backwards}
-#rcb{animation:slideUp .3s cubic-bezier(.2,.8,.2,1) backwards}
-#tt{animation:fade .25s ease backwards}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-</style></head><body><div class="w">
-
-<div id="lg" class="c" style="max-width:360px;margin:50px auto">
-<div style="text-align:center;margin-bottom:16px"><img src="icon-192.png" alt="" width="64" height="64" style="border-radius:14px"><h1 style="font-size:1.25rem;line-height:1.3;margin:12px 0 4px">Welcome to Asaan Library Management System</h1><p class="mu" style="margin:0">Sign in to continue</p></div>
-<label for="em">Email</label><input id="em" type="text" inputmode="email" autocomplete="username" autocapitalize="none" placeholder="you@example.com"><br><br>
-<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"><br><br>
-<button onclick="login()">Sign in</button> <button class="o" onclick="forgot()">Forgot password?</button>
-<p id="le" class="bad"></p><p id="lm" class="mu"></p>
-<div id="mfa" class="hide" style="margin-top:12px"><label for="mfc">Authenticator app code (6 digits)</label><input id="mfc" inputmode="numeric" maxlength="6" autocomplete="one-time-code" onkeydown="if(event.key==='Enter')mfaVerify()"><br><br><button onclick="mfaVerify()">Verify and sign in</button> <button class="o" onclick="mfaCancel()">Cancel</button></div>
+<main id="main">
+<div id="top" class="hero">
+ <div class="wrap">
+  <p class="eye">Asaan Library Management Software</p>
+  <h1>Library management software for study libraries and reading rooms</h1>
+  <p>Keep every student, seat, fee and expense in one place. Know who is due, send a WhatsApp reminder in one tap, share receipts, and stop keeping registers.</p>
+  <div class="cta">
+   <a class="btn light" href="#contact">Get started</a>
+   <a class="btn outl" href="#pricing">See pricing</a>
+  </div>
+  <ul>
+   <li>Plans from ₹299 per month</li><li>Works on phone and computer</li><li>Import your students from Excel</li><li>Your data stays separate from other libraries</li>
+  </ul>
+ </div>
 </div>
 
-<div id="rcb" style="display:none;position:fixed;left:10px;right:10px;bottom:12px;z-index:45;max-width:520px;margin:0 auto;background:var(--c);color:var(--tx);border:1px solid var(--ln);border-radius:12px;padding:10px 12px;box-shadow:0 6px 24px rgba(0,0,0,.22);align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><span id="rct" style="font-size:.9rem"></span><span style="display:flex;gap:6px"><button class="s" onclick="rcSendPdf()">Send PDF receipt</button><button class="s o" onclick="rcSend()">Text on WhatsApp</button><button class="s o" onclick="rcClose()">Dismiss</button></span></div>
-<div id="tt" style="display:none;position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1d5a47;color:#fff;padding:10px 16px;border-radius:10px;z-index:60;max-width:90%;font-size:.9rem"></div>
-<div id="ac" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:center;justify-content:center;padding:12px"><div class="c" style="max-width:400px;width:100%;max-height:92vh;overflow:auto;margin:0">
-<h3>My account</h3><p class="mu">Signed in as <b id="ac_e"></b></p>
-<label for="ac_th">Theme</label><select id="ac_th" onchange="setTheme(this.value)"><option value="auto">Match my phone</option><option value="light">Light</option><option value="dark">Dark</option></select><hr style="border:0;border-top:1px solid var(--bd);margin:16px 0">
-<label>Current password (needed for any change)</label><input id="ac_cp" type="password" autocomplete="current-password"><br><br>
-<label>New password (8+ characters with a capital letter, small letter, number and symbol)</label><input id="ac_np" type="password" autocomplete="new-password"><br><br>
-<button onclick="changePw()">Change password</button><hr style="border:0;border-top:1px solid var(--bd);margin:16px 0">
-<label>New email address</label><input id="ac_ne" type="text" inputmode="email" autocapitalize="none" autocomplete="off" placeholder="you@example.com"><br><br>
-<button onclick="changeEm()">Change email</button> <button class="o" onclick="mailReset()">Email me a reset link</button>
-<hr style="border:0;border-top:1px solid var(--bd);margin:16px 0"><label>Two-step login (authenticator app)</label><p class="mu" id="mf_s"></p><button class="o" onclick="mfaSetup()">Set up authenticator app</button>
-<div id="mf_b" class="hide"><p class="mu">Open Google Authenticator (or any authenticator app), tap + and choose "Scan a QR code", then scan this code.</p><div id="mf_q" style="background:#fff;display:inline-block;padding:4px;border-radius:8px;line-height:0"></div><p class="mu">Using this same phone? <a id="mf_l" href="#">Tap here to add it to your authenticator app</a>.</p><p class="mu">Cannot scan? In the app choose "Enter a setup key" and type the key below. Write the key down and keep it safe: it lets you set up a new phone.</p><p><code id="mf_k" style="word-break:break-all"></code></p><label>6-digit code from the app</label><input id="mf_c" inputmode="numeric" maxlength="6" autocomplete="off"><br><br><button onclick="mfaConfirm()">Turn on</button></div>
-<p id="ac_m" class="mu"></p><button class="o s" onclick="closeAcc()">Close</button></div></div>
-
-<div id="sa" class="hide">
-<div class="top"><h2 style="margin:0">Libraries</h2><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
-<div class="c"><h3>Add library</h3>
-<div class="f"><div><label>Library name</label><input id="n_n"></div><div><label>Plan name</label><input id="n_p" placeholder="e.g. Monthly"></div><div><label>Trial days</label><input id="n_d" type="number" value="30"></div><button onclick="addLib()">Add library</button></div></div>
-<div class="c"><h3>Create library login</h3>
-<p class="mu">Enter the owner's real email address and set a password. The owner can change the password later, or get a reset link by email, and can create their own staff logins. Double-check the email: reset links are sent there.</p>
-<div class="f"><div><label>Library</label><select id="k_l"></select></div><div><label>Email</label><input id="k_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (8+ characters with a capital letter, small letter, number and symbol)</label><input id="k_p" autocomplete="new-password"></div><div><label>Role</label><select id="k_r"><option value="owner">Owner</option><option value="staff">Staff</option></select></div><button id="kb" onclick="mkUser()">Create login</button></div>
-<p id="km" class="mu"></p></div>
-<div class="c"><h3>All logins</h3><div class="tw" id="ul"></div></div>
-<div class="c"><div class="tw" id="ll"></div></div>
-</div>
-
-<div id="lb" class="hide">
-<div class="top"><div><h2 id="ln" style="margin:0"></h2><span id="sb" class="mu"></span></div><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
-<div class="nv" id="nv"><button type="button" id="tmb" class="tmb" aria-expanded="false" aria-controls="tbs" onclick="tmToggle()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="tmt" id="tmt">Dashboard</span><span class="tmn hide" id="tmn"></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-<div class="tabs" id="tbs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button><button id="tb_tr" class="hide" onclick="tab('tr')">Recycle bin</button></div></div>
-<div id="bkn" class="c hide"><div class="top"><span id="bkt"></span><button class="s" onclick="makeBackup(false)">Backup now</button></div></div>
-<div id="t_dash"><div class="k" id="kp"></div>
-<div class="c"><h3>Last 6 months</h3><div id="ch"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
-<div class="c"><h3>Fees due in the next 3 days or overdue</h3><div class="tw" id="ds"></div></div>
-<div class="c"><h3>Payments this month</h3><div class="tw" id="pl"></div></div></div>
-<div id="t_stu" class="hide"><div class="c"><h3>New admission</h3>
-<div class="f">
-<div><label>Name</label><input id="a_n" maxlength="80"></div>
-<div><label>Mobile (10 digits)</label><input id="a_p" inputmode="numeric" maxlength="10"></div>
-<div><label>Seat</label><input id="a_s" maxlength="20"></div>
-<div><label>Monthly fee (₹)</label><input id="a_f" type="number"></div>
-<div><label>Join date</label><input id="a_j" type="date"></div>
-<div><label>Aadhaar last 4 digits</label><input id="a_a" inputmode="numeric" maxlength="4"></div>
-<div><label>Guardian's contact number</label><input id="a_gp" inputmode="numeric" maxlength="10" placeholder="10 digits"></div>
-<div><label>Preparing for</label><input id="a_pf" list="pfl" maxlength="60" placeholder="e.g. UPSC, NEET, SSC"></div>
-<div style="grid-column:1/-1"><label>Address</label><input id="a_ad2" maxlength="200" placeholder="House no, street, city"></div>
-<button id="ad" onclick="admit()">Admit student</button></div>
-<datalist id="pfl"><option value="UPSC"><option value="State PCS"><option value="SSC"><option value="Banking"><option value="Railway"><option value="NEET"><option value="JEE"><option value="CUET"><option value="CA / CS"><option value="Board exams"><option value="Teaching exams"><option value="Defence"><option value="Police"><option value="College studies"></datalist>
-<p class="mu">Only the last 4 digits of Aadhaar are stored. No Aadhaar photo or full number is accepted.</p>
-<p id="am" class="mu"></p></div>
-<div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><div><label>Guardian's contact number</label><input id="e_gp" inputmode="numeric" maxlength="10"></div><div><label>Preparing for</label><input id="e_pf" list="pfl" maxlength="60"></div><div style="grid-column:1/-1"><label>Address</label><input id="e_ad2" maxlength="200"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
-<div class="c"><div class="top"><h3 style="margin:0">Students</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="sf" style="width:auto" onchange="drawLB()"><option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option></select><input id="q" placeholder="Search name, phone or seat" style="max-width:240px" oninput="drawLB()"></div></div><div class="tw" id="sl"></div></div>
-<div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (owner only, matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">In the blank template, Next Due fills in automatically as the same date one month after Join Date (you can overwrite it). Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
-</div>
-<div id="t_pay" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Payments</h3><input id="p_m" type="month" style="max-width:170px" onchange="drawPay()"></div><p class="mu">Staff cannot change or delete a payment directly. They send a request, and nothing changes until the owner approves it in the Approvals tab.</p><p id="ps" class="mu"></p><div class="tw" id="pt"></div></div></div>
-<div id="t_exp" class="hide"><div class="c"><h3>Add expense</h3><div class="f"><div><label>Date</label><input id="x_d" type="date"></div><div><label>Category</label><select id="x_c"><option>Rent</option><option>Electricity</option><option>Internet</option><option>Salary</option><option>Maintenance</option><option>Other</option></select></div><div><label>Amount (₹)</label><input id="x_a" type="number"></div><div><label>Note</label><input id="x_n"></div><button id="xb" onclick="addExp()">Add expense</button></div></div>
-<div class="c"><div class="top"><h3 style="margin:0">Expenses</h3><input id="x_m" type="month" style="max-width:170px" onchange="drawExp()"></div><p id="xs" class="mu"></p><div class="tw" id="xl"></div></div></div>
-<div id="t_apr" class="hide"><div class="c"><h3>Approval requests</h3><p class="mu">Staff cannot delete a student, change a student's details or fee, or change or delete a payment directly. They send a request here, and nothing changes until the owner approves it.</p><div class="tw" id="al"></div></div></div>
-<div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Use the staff member's real email address and set a password. Note it down and share it with them. They can change it later or get a reset link by email.</p><div class="f"><div><label>Staff email</label><input id="f_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (8+ characters with a capital letter, small letter, number and symbol)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
-<div class="c"><h3>Logins in this library</h3><div class="tw" id="fl"></div></div></div>
-<div id="t_bk" class="hide"><div class="c"><h3>Backup your data</h3>
-<p class="mu">Download everything in your library as one Excel file: students (active and inactive), the recycle bin, payments, expenses and approval requests. Save it somewhere safe, for example Google Drive or a pen drive. It contains mobile numbers, so do not share it.</p>
-<button id="bkb" onclick="makeBackup(false)">Download backup now</button>
-<p id="bkl" class="mu"></p>
-<label style="display:flex;gap:6px;align-items:center"><input id="bka" type="checkbox" style="width:auto" onchange="bkAuto()">Automatic weekly backup on this device</label>
-<p class="mu">When this is on, the backup downloads by itself the first time you open Asaan Library after 7 days. It cannot run while the app is closed. Turn it on separately on each phone or computer you use. Your browser may ask permission to download files.</p>
-<p id="bkm" class="mu"></p></div>
-<div class="c"><h3>Restoring from a backup</h3><p class="mu">The first sheet (Students) uses the same columns as the import template. To bring students back, go to Students, choose the backup file under Import, and tick "Update existing" if you also want to correct details (up to 450 rows at a time). Payments, expenses and requests are kept in the file for your records.</p></div></div>
-<div id="t_tr" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Recycle bin</h3><button id="te" class="s r" onclick="emptyTrash()">Empty recycle bin</button></div><p class="mu">Deleted students are kept here with all their details. Restore brings a student back exactly as they were, and their earlier payments stay linked. Delete forever cannot be undone.</p><div class="tw" id="trl"></div></div></div>
-</div>
-
-</div>
-<script type="module">
-import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,sendPasswordResetEmail,reauthenticateWithCredential,EmailAuthProvider,updatePassword,verifyBeforeUpdateEmail,multiFactor,TotpMultiFactorGenerator,getMultiFactorResolver,sendEmailVerification}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import{getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,getDoc,getDocs,writeBatch,onSnapshot,query,orderBy,where,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-
-// Paste your NEW Firebase project's config here (Project settings > Your apps > Web app)
-const app=initializeApp({apiKey:"AIzaSyA1nn1WCo7YKAPgDfVr_wAPHhuJi8Zy1bk",authDomain:"asaan-library.firebaseapp.com",projectId:"asaan-library"});
-// App Check (stops anyone except your own site from using your database). Paste your reCAPTCHA v3 site key below, then ENFORCE App Check for Firestore in the Firebase console.
-const APPCHECK_KEY='';
-if(APPCHECK_KEY){try{const ac=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check.js');ac.initializeAppCheck(app,{provider:new ac.ReCaptchaV3Provider(APPCHECK_KEY),isTokenAutoRefreshEnabled:true})}catch(e){console.warn('App Check failed to start',e)}}
-const auth=getAuth(app),db=getFirestore(app);
-// Second app instance: used only to create new logins without signing the current user out
-const auxAuth=getAuth(initializeApp(app.options,'aux'));
-
-let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],TR=[],EX=[],AP=[],LIVE=false,BKDONE=false,RC=null,unsubs=[];
-const $=i=>document.getElementById(i);
-/* ---------- theme (Match my phone / Light / Dark) ---------- */
-const THK='asaan_theme',DQ=matchMedia('(prefers-color-scheme: dark)');
-const themeGet=()=>{try{return localStorage.getItem(THK)||'auto'}catch(e){return'auto'}};
-function applyTheme(){const t=themeGet(),r=document.documentElement;if(t==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',t);
- const dark=t==='dark'||(t==='auto'&&DQ.matches);document.querySelectorAll('meta[name=theme-color]').forEach(m=>{m.removeAttribute('media');m.setAttribute('content',dark?'#0e1512':'#1d5a47')})}
-function setTheme(v){try{localStorage.setItem(THK,v)}catch(e){}applyTheme()}
-applyTheme();DQ.addEventListener&&DQ.addEventListener('change',applyTheme);
-/* ---------- tab menu (phones) ---------- */
-function tmSync(){const a=document.querySelector('#tbs button.act');$('tmt').textContent=a?a.textContent:'Menu';
- const n=OWN()?AP.filter(x=>x.status==='pending').length:0,b=$('tmn');b.textContent=n;b.classList.toggle('hide',!n||!!(a&&a.id==='tb_apr'))}
-function tmToggle(f){const o=typeof f==='boolean'?f:!$('nv').classList.contains('open');$('nv').classList.toggle('open',o);$('tmb').setAttribute('aria-expanded',String(o))}
-document.addEventListener('click',e=>{if(!e.target.closest('#nv'))tmToggle(false)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')tmToggle(false)});
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-const today=()=>iso(new Date());
-const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
-const addM=(s,m)=>{const[y,mo,d]=s.split('-').map(Number),t=new Date(y,mo-1+m,1),l=new Date(t.getFullYear(),t.getMonth()+1,0).getDate();return iso(new Date(t.getFullYear(),t.getMonth(),Math.min(d,l)))};
-const show=v=>['lg','sa','lb'].forEach(i=>$(i).classList.toggle('hide',i!==v));
-const expOf=l=>l&&l.expiry&&l.expiry.toDate?l.expiry.toDate():null;
-const isLive=l=>{const e=expOf(l);return !!(l&&l.active&&e&&e>new Date())};
-
-async function login(){$('lm').textContent='';try{const v=$('em').value.trim().toLowerCase();await signInWithEmailAndPassword(auth,v.includes('@')?v:v+'@'+app.options.authDomain,$('pw').value);$('le').textContent=''}catch(e){if(e.code==='auth/multi-factor-auth-required'){mfaAsk(e);return}$('le').textContent=e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found'?'Wrong email or password.':e.code==='auth/password-does-not-meet-requirements'?'Your password does not meet the new password rules. Tap "Forgot password?" to set a new one.':'Sign in failed ('+e.code+')'}}
-async function forgot(){const v=$('em').value.trim().toLowerCase(),le=$('le'),lm=$('lm');le.textContent='';lm.textContent='';
- if(!EMRE.test(v)){le.textContent='Type your email in the box above, then tap Forgot password.';return}
- if(FAKE(v)){le.textContent='This login has no email on file. Ask your library owner or provider to reset it.';return}
- try{await sendPasswordResetEmail(auth,v);lm.textContent='If this email has a login, a reset link has been sent. Please check your inbox and spam folder.'}
- catch(e){le.textContent=e.code==='auth/too-many-requests'?'Too many attempts. Please try again later.':'Could not send the email ('+e.code+')'}}
-/* QR code encoder: QRCode for JavaScript, Copyright (c) 2009 Kazuhiko Arase, MIT license (http://www.opensource.org/licenses/mit-license.php) */
-const QRCodeLib=(()=>{const defs={},cache={};
-function req(n){n=n.replace(/^.*\//,'');if(cache[n])return cache[n].exports;const m=cache[n]={exports:{}};defs[n](m,m.exports,req);return m.exports}
-defs['QRMode']=function(module,exports,require){
-module.exports = {
-    MODE_NUMBER :       1 << 0,
-    MODE_ALPHA_NUM :    1 << 1,
-    MODE_8BIT_BYTE :    1 << 2,
-    MODE_KANJI :        1 << 3
-};
-
-};
-defs['QRErrorCorrectLevel']=function(module,exports,require){
-module.exports = {
-	L : 1,
-	M : 0,
-	Q : 3,
-	H : 2
-};
-
-
-};
-defs['QRMaskPattern']=function(module,exports,require){
-module.exports = {
-	PATTERN000 : 0,
-	PATTERN001 : 1,
-	PATTERN010 : 2,
-	PATTERN011 : 3,
-	PATTERN100 : 4,
-	PATTERN101 : 5,
-	PATTERN110 : 6,
-	PATTERN111 : 7
-};
-
-};
-defs['QRMath']=function(module,exports,require){
-var QRMath = {
-
-	glog : function(n) {
-	
-		if (n < 1) {
-			throw new Error("glog(" + n + ")");
-		}
-		
-		return QRMath.LOG_TABLE[n];
-	},
-	
-	gexp : function(n) {
-	
-		while (n < 0) {
-			n += 255;
-		}
-	
-		while (n >= 256) {
-			n -= 255;
-		}
-	
-		return QRMath.EXP_TABLE[n];
-	},
-	
-	EXP_TABLE : new Array(256),
-	
-	LOG_TABLE : new Array(256)
-
-};
-	
-for (var i = 0; i < 8; i++) {
-	QRMath.EXP_TABLE[i] = 1 << i;
-}
-for (var i = 8; i < 256; i++) {
-	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
-		^ QRMath.EXP_TABLE[i - 5]
-		^ QRMath.EXP_TABLE[i - 6]
-		^ QRMath.EXP_TABLE[i - 8];
-}
-for (var i = 0; i < 255; i++) {
-	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
-}
-
-module.exports = QRMath;
-
-};
-defs['QRPolynomial']=function(module,exports,require){
-var QRMath = require('./QRMath');
-
-function QRPolynomial(num, shift) {
-	if (num.length === undefined) {
-		throw new Error(num.length + "/" + shift);
-	}
-
-	var offset = 0;
-
-	while (offset < num.length && num[offset] === 0) {
-		offset++;
-	}
-
-	this.num = new Array(num.length - offset + shift);
-	for (var i = 0; i < num.length - offset; i++) {
-		this.num[i] = num[i + offset];
-	}
-}
-
-QRPolynomial.prototype = {
-
-	get : function(index) {
-		return this.num[index];
-	},
-	
-	getLength : function() {
-		return this.num.length;
-	},
-	
-	multiply : function(e) {
-	
-		var num = new Array(this.getLength() + e.getLength() - 1);
-	
-		for (var i = 0; i < this.getLength(); i++) {
-			for (var j = 0; j < e.getLength(); j++) {
-				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
-			}
-		}
-	
-		return new QRPolynomial(num, 0);
-	},
-	
-	mod : function(e) {
-	
-		if (this.getLength() - e.getLength() < 0) {
-			return this;
-		}
-	
-		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
-	
-		var num = new Array(this.getLength() );
-		
-		for (var i = 0; i < this.getLength(); i++) {
-			num[i] = this.get(i);
-		}
-		
-		for (var x = 0; x < e.getLength(); x++) {
-			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
-		}
-	
-		// recursive call
-		return new QRPolynomial(num, 0).mod(e);
-	}
-};
-
-module.exports = QRPolynomial;
-
-};
-defs['QRBitBuffer']=function(module,exports,require){
-function QRBitBuffer() {
-	this.buffer = [];
-	this.length = 0;
-}
-
-QRBitBuffer.prototype = {
-
-	get : function(index) {
-		var bufIndex = Math.floor(index / 8);
-		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
-	},
-	
-	put : function(num, length) {
-		for (var i = 0; i < length; i++) {
-			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
-		}
-	},
-	
-	getLengthInBits : function() {
-		return this.length;
-	},
-	
-	putBit : function(bit) {
-	
-		var bufIndex = Math.floor(this.length / 8);
-		if (this.buffer.length <= bufIndex) {
-			this.buffer.push(0);
-		}
-	
-		if (bit) {
-			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
-		}
-	
-		this.length++;
-	}
-};
-
-module.exports = QRBitBuffer;
-
-};
-defs['QR8bitByte']=function(module,exports,require){
-var QRMode = require('./QRMode');
-
-function QR8bitByte(data) {
-	this.mode = QRMode.MODE_8BIT_BYTE;
-	this.data = data;
-}
-
-QR8bitByte.prototype = {
-
-	getLength : function() {
-		return this.data.length;
-	},
-	
-	write : function(buffer) {
-		for (var i = 0; i < this.data.length; i++) {
-			// not JIS ...
-			buffer.put(this.data.charCodeAt(i), 8);
-		}
-	}
-};
-
-module.exports = QR8bitByte;
-
-};
-defs['QRRSBlock']=function(module,exports,require){
-var QRErrorCorrectLevel = require('./QRErrorCorrectLevel');
-
-function QRRSBlock(totalCount, dataCount) {
-	this.totalCount = totalCount;
-	this.dataCount  = dataCount;
-}
-
-QRRSBlock.RS_BLOCK_TABLE = [
-
-	// L
-	// M
-	// Q
-	// H
-
-	// 1
-	[1, 26, 19],
-	[1, 26, 16],
-	[1, 26, 13],
-	[1, 26, 9],
-	
-	// 2
-	[1, 44, 34],
-	[1, 44, 28],
-	[1, 44, 22],
-	[1, 44, 16],
-
-	// 3
-	[1, 70, 55],
-	[1, 70, 44],
-	[2, 35, 17],
-	[2, 35, 13],
-
-	// 4		
-	[1, 100, 80],
-	[2, 50, 32],
-	[2, 50, 24],
-	[4, 25, 9],
-	
-	// 5
-	[1, 134, 108],
-	[2, 67, 43],
-	[2, 33, 15, 2, 34, 16],
-	[2, 33, 11, 2, 34, 12],
-	
-	// 6
-	[2, 86, 68],
-	[4, 43, 27],
-	[4, 43, 19],
-	[4, 43, 15],
-	
-	// 7		
-	[2, 98, 78],
-	[4, 49, 31],
-	[2, 32, 14, 4, 33, 15],
-	[4, 39, 13, 1, 40, 14],
-	
-	// 8
-	[2, 121, 97],
-	[2, 60, 38, 2, 61, 39],
-	[4, 40, 18, 2, 41, 19],
-	[4, 40, 14, 2, 41, 15],
-	
-	// 9
-	[2, 146, 116],
-	[3, 58, 36, 2, 59, 37],
-	[4, 36, 16, 4, 37, 17],
-	[4, 36, 12, 4, 37, 13],
-	
-	// 10		
-	[2, 86, 68, 2, 87, 69],
-	[4, 69, 43, 1, 70, 44],
-	[6, 43, 19, 2, 44, 20],
-	[6, 43, 15, 2, 44, 16],
-
-	// 11
-	[4, 101, 81],
-	[1, 80, 50, 4, 81, 51],
-	[4, 50, 22, 4, 51, 23],
-	[3, 36, 12, 8, 37, 13],
-
-	// 12
-	[2, 116, 92, 2, 117, 93],
-	[6, 58, 36, 2, 59, 37],
-	[4, 46, 20, 6, 47, 21],
-	[7, 42, 14, 4, 43, 15],
-
-	// 13
-	[4, 133, 107],
-	[8, 59, 37, 1, 60, 38],
-	[8, 44, 20, 4, 45, 21],
-	[12, 33, 11, 4, 34, 12],
-
-	// 14
-	[3, 145, 115, 1, 146, 116],
-	[4, 64, 40, 5, 65, 41],
-	[11, 36, 16, 5, 37, 17],
-	[11, 36, 12, 5, 37, 13],
-
-	// 15
-	[5, 109, 87, 1, 110, 88],
-	[5, 65, 41, 5, 66, 42],
-	[5, 54, 24, 7, 55, 25],
-	[11, 36, 12],
-
-	// 16
-	[5, 122, 98, 1, 123, 99],
-	[7, 73, 45, 3, 74, 46],
-	[15, 43, 19, 2, 44, 20],
-	[3, 45, 15, 13, 46, 16],
-
-	// 17
-	[1, 135, 107, 5, 136, 108],
-	[10, 74, 46, 1, 75, 47],
-	[1, 50, 22, 15, 51, 23],
-	[2, 42, 14, 17, 43, 15],
-
-	// 18
-	[5, 150, 120, 1, 151, 121],
-	[9, 69, 43, 4, 70, 44],
-	[17, 50, 22, 1, 51, 23],
-	[2, 42, 14, 19, 43, 15],
-
-	// 19
-	[3, 141, 113, 4, 142, 114],
-	[3, 70, 44, 11, 71, 45],
-	[17, 47, 21, 4, 48, 22],
-	[9, 39, 13, 16, 40, 14],
-
-	// 20
-	[3, 135, 107, 5, 136, 108],
-	[3, 67, 41, 13, 68, 42],
-	[15, 54, 24, 5, 55, 25],
-	[15, 43, 15, 10, 44, 16],
-
-	// 21
-	[4, 144, 116, 4, 145, 117],
-	[17, 68, 42],
-	[17, 50, 22, 6, 51, 23],
-	[19, 46, 16, 6, 47, 17],
-
-	// 22
-	[2, 139, 111, 7, 140, 112],
-	[17, 74, 46],
-	[7, 54, 24, 16, 55, 25],
-	[34, 37, 13],
-
-	// 23
-	[4, 151, 121, 5, 152, 122],
-	[4, 75, 47, 14, 76, 48],
-	[11, 54, 24, 14, 55, 25],
-	[16, 45, 15, 14, 46, 16],
-
-	// 24
-	[6, 147, 117, 4, 148, 118],
-	[6, 73, 45, 14, 74, 46],
-	[11, 54, 24, 16, 55, 25],
-	[30, 46, 16, 2, 47, 17],
-
-	// 25
-	[8, 132, 106, 4, 133, 107],
-	[8, 75, 47, 13, 76, 48],
-	[7, 54, 24, 22, 55, 25],
-	[22, 45, 15, 13, 46, 16],
-
-	// 26
-	[10, 142, 114, 2, 143, 115],
-	[19, 74, 46, 4, 75, 47],
-	[28, 50, 22, 6, 51, 23],
-	[33, 46, 16, 4, 47, 17],
-
-	// 27
-	[8, 152, 122, 4, 153, 123],
-	[22, 73, 45, 3, 74, 46],
-	[8, 53, 23, 26, 54, 24],
-	[12, 45, 15, 28, 46, 16],
-
-	// 28
-	[3, 147, 117, 10, 148, 118],
-	[3, 73, 45, 23, 74, 46],
-	[4, 54, 24, 31, 55, 25],
-	[11, 45, 15, 31, 46, 16],
-
-	// 29
-	[7, 146, 116, 7, 147, 117],
-	[21, 73, 45, 7, 74, 46],
-	[1, 53, 23, 37, 54, 24],
-	[19, 45, 15, 26, 46, 16],
-
-	// 30
-	[5, 145, 115, 10, 146, 116],
-	[19, 75, 47, 10, 76, 48],
-	[15, 54, 24, 25, 55, 25],
-	[23, 45, 15, 25, 46, 16],
-
-	// 31
-	[13, 145, 115, 3, 146, 116],
-	[2, 74, 46, 29, 75, 47],
-	[42, 54, 24, 1, 55, 25],
-	[23, 45, 15, 28, 46, 16],
-
-	// 32
-	[17, 145, 115],
-	[10, 74, 46, 23, 75, 47],
-	[10, 54, 24, 35, 55, 25],
-	[19, 45, 15, 35, 46, 16],
-
-	// 33
-	[17, 145, 115, 1, 146, 116],
-	[14, 74, 46, 21, 75, 47],
-	[29, 54, 24, 19, 55, 25],
-	[11, 45, 15, 46, 46, 16],
-
-	// 34
-	[13, 145, 115, 6, 146, 116],
-	[14, 74, 46, 23, 75, 47],
-	[44, 54, 24, 7, 55, 25],
-	[59, 46, 16, 1, 47, 17],
-
-	// 35
-	[12, 151, 121, 7, 152, 122],
-	[12, 75, 47, 26, 76, 48],
-	[39, 54, 24, 14, 55, 25],
-	[22, 45, 15, 41, 46, 16],
-
-	// 36
-	[6, 151, 121, 14, 152, 122],
-	[6, 75, 47, 34, 76, 48],
-	[46, 54, 24, 10, 55, 25],
-	[2, 45, 15, 64, 46, 16],
-
-	// 37
-	[17, 152, 122, 4, 153, 123],
-	[29, 74, 46, 14, 75, 47],
-	[49, 54, 24, 10, 55, 25],
-	[24, 45, 15, 46, 46, 16],
-
-	// 38
-	[4, 152, 122, 18, 153, 123],
-	[13, 74, 46, 32, 75, 47],
-	[48, 54, 24, 14, 55, 25],
-	[42, 45, 15, 32, 46, 16],
-
-	// 39
-	[20, 147, 117, 4, 148, 118],
-	[40, 75, 47, 7, 76, 48],
-	[43, 54, 24, 22, 55, 25],
-	[10, 45, 15, 67, 46, 16],
-
-	// 40
-	[19, 148, 118, 6, 149, 119],
-	[18, 75, 47, 31, 76, 48],
-	[34, 54, 24, 34, 55, 25],
-	[20, 45, 15, 61, 46, 16]
-];
-
-QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
-	
-	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
-	
-	if (rsBlock === undefined) {
-		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
-	}
-
-	var length = rsBlock.length / 3;
-	
-	var list = [];
-	
-	for (var i = 0; i < length; i++) {
-
-		var count = rsBlock[i * 3 + 0];
-		var totalCount = rsBlock[i * 3 + 1];
-		var dataCount  = rsBlock[i * 3 + 2];
-
-		for (var j = 0; j < count; j++) {
-			list.push(new QRRSBlock(totalCount, dataCount) );	
-		}
-	}
-	
-	return list;
-};
-
-QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
-
-	switch(errorCorrectLevel) {
-	case QRErrorCorrectLevel.L :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
-	case QRErrorCorrectLevel.M :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
-	case QRErrorCorrectLevel.Q :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
-	case QRErrorCorrectLevel.H :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
-	default :
-		return undefined;
-	}
-};
-
-module.exports = QRRSBlock;
-
-};
-defs['QRUtil']=function(module,exports,require){
-var QRMode = require('./QRMode');
-var QRPolynomial = require('./QRPolynomial');
-var QRMath = require('./QRMath');
-var QRMaskPattern = require('./QRMaskPattern');
-
-var QRUtil = {
-
-    PATTERN_POSITION_TABLE : [
-        [],
-        [6, 18],
-        [6, 22],
-        [6, 26],
-        [6, 30],
-        [6, 34],
-        [6, 22, 38],
-        [6, 24, 42],
-        [6, 26, 46],
-        [6, 28, 50],
-        [6, 30, 54],        
-        [6, 32, 58],
-        [6, 34, 62],
-        [6, 26, 46, 66],
-        [6, 26, 48, 70],
-        [6, 26, 50, 74],
-        [6, 30, 54, 78],
-        [6, 30, 56, 82],
-        [6, 30, 58, 86],
-        [6, 34, 62, 90],
-        [6, 28, 50, 72, 94],
-        [6, 26, 50, 74, 98],
-        [6, 30, 54, 78, 102],
-        [6, 28, 54, 80, 106],
-        [6, 32, 58, 84, 110],
-        [6, 30, 58, 86, 114],
-        [6, 34, 62, 90, 118],
-        [6, 26, 50, 74, 98, 122],
-        [6, 30, 54, 78, 102, 126],
-        [6, 26, 52, 78, 104, 130],
-        [6, 30, 56, 82, 108, 134],
-        [6, 34, 60, 86, 112, 138],
-        [6, 30, 58, 86, 114, 142],
-        [6, 34, 62, 90, 118, 146],
-        [6, 30, 54, 78, 102, 126, 150],
-        [6, 24, 50, 76, 102, 128, 154],
-        [6, 28, 54, 80, 106, 132, 158],
-        [6, 32, 58, 84, 110, 136, 162],
-        [6, 26, 54, 82, 110, 138, 166],
-        [6, 30, 58, 86, 114, 142, 170]
-    ],
-
-    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
-    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
-    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
-
-    getBCHTypeInfo : function(data) {
-        var d = data << 10;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
-            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
-        }
-        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
-    },
-
-    getBCHTypeNumber : function(data) {
-        var d = data << 12;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
-            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
-        }
-        return (data << 12) | d;
-    },
-
-    getBCHDigit : function(data) {
-
-        var digit = 0;
-
-        while (data !== 0) {
-            digit++;
-            data >>>= 1;
-        }
-
-        return digit;
-    },
-
-    getPatternPosition : function(typeNumber) {
-        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
-    },
-
-    getMask : function(maskPattern, i, j) {
-        
-        switch (maskPattern) {
-            
-        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
-        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
-        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
-        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
-        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
-        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
-        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
-        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
-
-        default :
-            throw new Error("bad maskPattern:" + maskPattern);
-        }
-    },
-
-    getErrorCorrectPolynomial : function(errorCorrectLength) {
-
-        var a = new QRPolynomial([1], 0);
-
-        for (var i = 0; i < errorCorrectLength; i++) {
-            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
-        }
-
-        return a;
-    },
-
-    getLengthInBits : function(mode, type) {
-
-        if (1 <= type && type < 10) {
-
-            // 1 - 9
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 10;
-            case QRMode.MODE_ALPHA_NUM  : return 9;
-            case QRMode.MODE_8BIT_BYTE  : return 8;
-            case QRMode.MODE_KANJI      : return 8;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else if (type < 27) {
-
-            // 10 - 26
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 12;
-            case QRMode.MODE_ALPHA_NUM  : return 11;
-            case QRMode.MODE_8BIT_BYTE  : return 16;
-            case QRMode.MODE_KANJI      : return 10;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else if (type < 41) {
-
-            // 27 - 40
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 14;
-            case QRMode.MODE_ALPHA_NUM  : return 13;
-            case QRMode.MODE_8BIT_BYTE  : return 16;
-            case QRMode.MODE_KANJI      : return 12;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else {
-            throw new Error("type:" + type);
-        }
-    },
-
-    getLostPoint : function(qrCode) {
-        
-        var moduleCount = qrCode.getModuleCount();
-        var lostPoint = 0;
-        var row = 0; 
-        var col = 0;
-
-        
-        // LEVEL1
-        
-        for (row = 0; row < moduleCount; row++) {
-
-            for (col = 0; col < moduleCount; col++) {
-
-                var sameCount = 0;
-                var dark = qrCode.isDark(row, col);
-
-                for (var r = -1; r <= 1; r++) {
-
-                    if (row + r < 0 || moduleCount <= row + r) {
-                        continue;
-                    }
-
-                    for (var c = -1; c <= 1; c++) {
-
-                        if (col + c < 0 || moduleCount <= col + c) {
-                            continue;
-                        }
-
-                        if (r === 0 && c === 0) {
-                            continue;
-                        }
-
-                        if (dark === qrCode.isDark(row + r, col + c) ) {
-                            sameCount++;
-                        }
-                    }
-                }
-
-                if (sameCount > 5) {
-                    lostPoint += (3 + sameCount - 5);
-                }
-            }
-        }
-
-        // LEVEL2
-
-        for (row = 0; row < moduleCount - 1; row++) {
-            for (col = 0; col < moduleCount - 1; col++) {
-                var count = 0;
-                if (qrCode.isDark(row,     col    ) ) count++;
-                if (qrCode.isDark(row + 1, col    ) ) count++;
-                if (qrCode.isDark(row,     col + 1) ) count++;
-                if (qrCode.isDark(row + 1, col + 1) ) count++;
-                if (count === 0 || count === 4) {
-                    lostPoint += 3;
-                }
-            }
-        }
-
-        // LEVEL3
-
-        for (row = 0; row < moduleCount; row++) {
-            for (col = 0; col < moduleCount - 6; col++) {
-                if (qrCode.isDark(row, col) && 
-                        !qrCode.isDark(row, col + 1) && 
-                         qrCode.isDark(row, col + 2) && 
-                         qrCode.isDark(row, col + 3) && 
-                         qrCode.isDark(row, col + 4) && 
-                        !qrCode.isDark(row, col + 5) && 
-                         qrCode.isDark(row, col + 6) ) {
-                    lostPoint += 40;
-                }
-            }
-        }
-
-        for (col = 0; col < moduleCount; col++) {
-            for (row = 0; row < moduleCount - 6; row++) {
-                if (qrCode.isDark(row, col) &&
-                        !qrCode.isDark(row + 1, col) &&
-                         qrCode.isDark(row + 2, col) &&
-                         qrCode.isDark(row + 3, col) &&
-                         qrCode.isDark(row + 4, col) &&
-                        !qrCode.isDark(row + 5, col) &&
-                         qrCode.isDark(row + 6, col) ) {
-                    lostPoint += 40;
-                }
-            }
-        }
-
-        // LEVEL4
-        
-        var darkCount = 0;
-
-        for (col = 0; col < moduleCount; col++) {
-            for (row = 0; row < moduleCount; row++) {
-                if (qrCode.isDark(row, col) ) {
-                    darkCount++;
-                }
-            }
-        }
-        
-        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
-        lostPoint += ratio * 10;
-
-        return lostPoint;       
-    }
-
-};
-
-module.exports = QRUtil;
-
-};
-defs['index']=function(module,exports,require){
-//---------------------------------------------------------------------
-// QRCode for JavaScript
-//
-// Copyright (c) 2009 Kazuhiko Arase
-//
-// URL: http://www.d-project.com/
-//
-// Licensed under the MIT license:
-//   http://www.opensource.org/licenses/mit-license.php
-//
-// The word "QR Code" is registered trademark of 
-// DENSO WAVE INCORPORATED
-//   http://www.denso-wave.com/qrcode/faqpatent-e.html
-//
-//---------------------------------------------------------------------
-// Modified to work in node for this project (and some refactoring)
-//---------------------------------------------------------------------
-
-var QR8bitByte = require('./QR8bitByte');
-var QRUtil = require('./QRUtil');
-var QRPolynomial = require('./QRPolynomial');
-var QRRSBlock = require('./QRRSBlock');
-var QRBitBuffer = require('./QRBitBuffer');
-
-function QRCode(typeNumber, errorCorrectLevel) {
-	this.typeNumber = typeNumber;
-	this.errorCorrectLevel = errorCorrectLevel;
-	this.modules = null;
-	this.moduleCount = 0;
-	this.dataCache = null;
-	this.dataList = [];
-}
-
-QRCode.prototype = {
-	
-	addData : function(data) {
-		var newData = new QR8bitByte(data);
-		this.dataList.push(newData);
-		this.dataCache = null;
-	},
-	
-	isDark : function(row, col) {
-		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
-			throw new Error(row + "," + col);
-		}
-		return this.modules[row][col];
-	},
-
-	getModuleCount : function() {
-		return this.moduleCount;
-	},
-	
-	make : function() {
-		// Calculate automatically typeNumber if provided is < 1
-		if (this.typeNumber < 1 ){
-			var typeNumber = 1;
-			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
-				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
-
-				var buffer = new QRBitBuffer();
-				var totalDataCount = 0;
-				for (var i = 0; i < rsBlocks.length; i++) {
-					totalDataCount += rsBlocks[i].dataCount;
-				}
-
-				for (var x = 0; x < this.dataList.length; x++) {
-					var data = this.dataList[x];
-					buffer.put(data.mode, 4);
-					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
-					data.write(buffer);
-				}
-				if (buffer.getLengthInBits() <= totalDataCount * 8)
-					break;
-			}
-			this.typeNumber = typeNumber;
-		}
-		this.makeImpl(false, this.getBestMaskPattern() );
-	},
-	
-	makeImpl : function(test, maskPattern) {
-		
-		this.moduleCount = this.typeNumber * 4 + 17;
-		this.modules = new Array(this.moduleCount);
-		
-		for (var row = 0; row < this.moduleCount; row++) {
-			
-			this.modules[row] = new Array(this.moduleCount);
-			
-			for (var col = 0; col < this.moduleCount; col++) {
-				this.modules[row][col] = null;//(col + row) % 3;
-			}
-		}
-	
-		this.setupPositionProbePattern(0, 0);
-		this.setupPositionProbePattern(this.moduleCount - 7, 0);
-		this.setupPositionProbePattern(0, this.moduleCount - 7);
-		this.setupPositionAdjustPattern();
-		this.setupTimingPattern();
-		this.setupTypeInfo(test, maskPattern);
-		
-		if (this.typeNumber >= 7) {
-			this.setupTypeNumber(test);
-		}
-	
-		if (this.dataCache === null) {
-			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
-		}
-	
-		this.mapData(this.dataCache, maskPattern);
-	},
-
-	setupPositionProbePattern : function(row, col)  {
-		
-		for (var r = -1; r <= 7; r++) {
-			
-			if (row + r <= -1 || this.moduleCount <= row + r) continue;
-			
-			for (var c = -1; c <= 7; c++) {
-				
-				if (col + c <= -1 || this.moduleCount <= col + c) continue;
-				
-				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
-                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
-                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
-					this.modules[row + r][col + c] = true;
-				} else {
-					this.modules[row + r][col + c] = false;
-				}
-			}		
-		}		
-	},
-	
-	getBestMaskPattern : function() {
-	
-		var minLostPoint = 0;
-		var pattern = 0;
-	
-		for (var i = 0; i < 8; i++) {
-			
-			this.makeImpl(true, i);
-	
-			var lostPoint = QRUtil.getLostPoint(this);
-	
-			if (i === 0 || minLostPoint >  lostPoint) {
-				minLostPoint = lostPoint;
-				pattern = i;
-			}
-		}
-	
-		return pattern;
-	},
-	
-	createMovieClip : function(target_mc, instance_name, depth) {
-	
-		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
-		var cs = 1;
-	
-		this.make();
-
-		for (var row = 0; row < this.modules.length; row++) {
-			
-			var y = row * cs;
-			
-			for (var col = 0; col < this.modules[row].length; col++) {
-	
-				var x = col * cs;
-				var dark = this.modules[row][col];
-			
-				if (dark) {
-					qr_mc.beginFill(0, 100);
-					qr_mc.moveTo(x, y);
-					qr_mc.lineTo(x + cs, y);
-					qr_mc.lineTo(x + cs, y + cs);
-					qr_mc.lineTo(x, y + cs);
-					qr_mc.endFill();
-				}
-			}
-		}
-		
-		return qr_mc;
-	},
-
-	setupTimingPattern : function() {
-		
-		for (var r = 8; r < this.moduleCount - 8; r++) {
-			if (this.modules[r][6] !== null) {
-				continue;
-			}
-			this.modules[r][6] = (r % 2 === 0);
-		}
-	
-		for (var c = 8; c < this.moduleCount - 8; c++) {
-			if (this.modules[6][c] !== null) {
-				continue;
-			}
-			this.modules[6][c] = (c % 2 === 0);
-		}
-	},
-	
-	setupPositionAdjustPattern : function() {
-	
-		var pos = QRUtil.getPatternPosition(this.typeNumber);
-		
-		for (var i = 0; i < pos.length; i++) {
-		
-			for (var j = 0; j < pos.length; j++) {
-			
-				var row = pos[i];
-				var col = pos[j];
-				
-				if (this.modules[row][col] !== null) {
-					continue;
-				}
-				
-				for (var r = -2; r <= 2; r++) {
-				
-					for (var c = -2; c <= 2; c++) {
-					
-						if (Math.abs(r) === 2 || 
-                            Math.abs(c) === 2 ||
-                            (r === 0 && c === 0) ) {
-							this.modules[row + r][col + c] = true;
-						} else {
-							this.modules[row + r][col + c] = false;
-						}
-					}
-				}
-			}
-		}
-	},
-	
-	setupTypeNumber : function(test) {
-	
-		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
-        var mod;
-	
-		for (var i = 0; i < 18; i++) {
-			mod = (!test && ( (bits >> i) & 1) === 1);
-			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
-		}
-	
-		for (var x = 0; x < 18; x++) {
-			mod = (!test && ( (bits >> x) & 1) === 1);
-			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
-		}
-	},
-	
-	setupTypeInfo : function(test, maskPattern) {
-	
-		var data = (this.errorCorrectLevel << 3) | maskPattern;
-		var bits = QRUtil.getBCHTypeInfo(data);
-        var mod;
-	
-		// vertical		
-		for (var v = 0; v < 15; v++) {
-	
-			mod = (!test && ( (bits >> v) & 1) === 1);
-	
-			if (v < 6) {
-				this.modules[v][8] = mod;
-			} else if (v < 8) {
-				this.modules[v + 1][8] = mod;
-			} else {
-				this.modules[this.moduleCount - 15 + v][8] = mod;
-			}
-		}
-	
-		// horizontal
-		for (var h = 0; h < 15; h++) {
-	
-			mod = (!test && ( (bits >> h) & 1) === 1);
-			
-			if (h < 8) {
-				this.modules[8][this.moduleCount - h - 1] = mod;
-			} else if (h < 9) {
-				this.modules[8][15 - h - 1 + 1] = mod;
-			} else {
-				this.modules[8][15 - h - 1] = mod;
-			}
-		}
-	
-		// fixed module
-		this.modules[this.moduleCount - 8][8] = (!test);
-	
-	},
-	
-	mapData : function(data, maskPattern) {
-		
-		var inc = -1;
-		var row = this.moduleCount - 1;
-		var bitIndex = 7;
-		var byteIndex = 0;
-		
-		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
-	
-			if (col === 6) col--;
-	
-			while (true) {
-	
-				for (var c = 0; c < 2; c++) {
-					
-					if (this.modules[row][col - c] === null) {
-						
-						var dark = false;
-	
-						if (byteIndex < data.length) {
-							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
-						}
-	
-						var mask = QRUtil.getMask(maskPattern, row, col - c);
-	
-						if (mask) {
-							dark = !dark;
-						}
-						
-						this.modules[row][col - c] = dark;
-						bitIndex--;
-	
-						if (bitIndex === -1) {
-							byteIndex++;
-							bitIndex = 7;
-						}
-					}
-				}
-								
-				row += inc;
-	
-				if (row < 0 || this.moduleCount <= row) {
-					row -= inc;
-					inc = -inc;
-					break;
-				}
-			}
-		}
-		
-	}
-
-};
-
-QRCode.PAD0 = 0xEC;
-QRCode.PAD1 = 0x11;
-
-QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
-	
-	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
-	
-	var buffer = new QRBitBuffer();
-	
-	for (var i = 0; i < dataList.length; i++) {
-		var data = dataList[i];
-		buffer.put(data.mode, 4);
-		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
-		data.write(buffer);
-	}
-
-	// calc num max data.
-	var totalDataCount = 0;
-	for (var x = 0; x < rsBlocks.length; x++) {
-		totalDataCount += rsBlocks[x].dataCount;
-	}
-
-	if (buffer.getLengthInBits() > totalDataCount * 8) {
-		throw new Error("code length overflow. (" + 
-            buffer.getLengthInBits() + 
-            ">" +  
-            totalDataCount * 8 + 
-            ")");
-	}
-
-	// end code
-	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
-		buffer.put(0, 4);
-	}
-
-	// padding
-	while (buffer.getLengthInBits() % 8 !== 0) {
-		buffer.putBit(false);
-	}
-
-	// padding
-	while (true) {
-		
-		if (buffer.getLengthInBits() >= totalDataCount * 8) {
-			break;
-		}
-		buffer.put(QRCode.PAD0, 8);
-		
-		if (buffer.getLengthInBits() >= totalDataCount * 8) {
-			break;
-		}
-		buffer.put(QRCode.PAD1, 8);
-	}
-
-	return QRCode.createBytes(buffer, rsBlocks);
-};
-
-QRCode.createBytes = function(buffer, rsBlocks) {
-
-	var offset = 0;
-	
-	var maxDcCount = 0;
-	var maxEcCount = 0;
-	
-	var dcdata = new Array(rsBlocks.length);
-	var ecdata = new Array(rsBlocks.length);
-	
-	for (var r = 0; r < rsBlocks.length; r++) {
-
-		var dcCount = rsBlocks[r].dataCount;
-		var ecCount = rsBlocks[r].totalCount - dcCount;
-
-		maxDcCount = Math.max(maxDcCount, dcCount);
-		maxEcCount = Math.max(maxEcCount, ecCount);
-		
-		dcdata[r] = new Array(dcCount);
-		
-		for (var i = 0; i < dcdata[r].length; i++) {
-			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
-		}
-		offset += dcCount;
-		
-		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
-		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
-
-		var modPoly = rawPoly.mod(rsPoly);
-		ecdata[r] = new Array(rsPoly.getLength() - 1);
-		for (var x = 0; x < ecdata[r].length; x++) {
-            var modIndex = x + modPoly.getLength() - ecdata[r].length;
-			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
-		}
-
-	}
-	
-	var totalCodeCount = 0;
-	for (var y = 0; y < rsBlocks.length; y++) {
-		totalCodeCount += rsBlocks[y].totalCount;
-	}
-
-	var data = new Array(totalCodeCount);
-	var index = 0;
-
-	for (var z = 0; z < maxDcCount; z++) {
-		for (var s = 0; s < rsBlocks.length; s++) {
-			if (z < dcdata[s].length) {
-				data[index++] = dcdata[s][z];
-			}
-		}
-	}
-
-	for (var xx = 0; xx < maxEcCount; xx++) {
-		for (var t = 0; t < rsBlocks.length; t++) {
-			if (xx < ecdata[t].length) {
-				data[index++] = ecdata[t][xx];
-			}
-		}
-	}
-
-	return data;
-
-};
-
-module.exports = QRCode;
-
-};
-return req('index')})();
-function qrSvg(text){const q=new QRCodeLib(-1,0);q.addData(text);q.make();const n=q.getModuleCount(),m=4,t=n+2*m;let p='';
- for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))p+='M'+(c+m)+' '+(r+m)+'h1v1h-1z';
- return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+t+' '+t+'" width="220" height="220" shape-rendering="crispEdges" role="img" aria-label="QR code"><rect width="'+t+'" height="'+t+'" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>'}
-let MFR=null,MFS=null;
-function mfaAsk(e){MFR=getMultiFactorResolver(auth,e);
- if(!MFR.hints.some(x=>x.factorId===TotpMultiFactorGenerator.FACTOR_ID)){MFR=null;$('le').textContent='This login needs a second step that this app does not support.';return}
- $('le').textContent='';$('mfa').classList.remove('hide');$('mfc').value='';$('mfc').focus()}
-async function mfaVerify(){if(!MFR)return;const h=MFR.hints.find(x=>x.factorId===TotpMultiFactorGenerator.FACTOR_ID),c=$('mfc').value.trim();
- if(!/^\d{6}$/.test(c)){$('le').textContent='Enter the 6-digit code from your authenticator app.';return}
- try{await MFR.resolveSignIn(TotpMultiFactorGenerator.assertionForSignIn(h.uid,c));MFR=null;$('mfa').classList.add('hide');$('le').textContent='';$('pw').value=''}
- catch(e){$('le').textContent=e.code==='auth/invalid-verification-code'?'Wrong or expired code. Wait for the next code and try again.':e.code==='auth/too-many-requests'?'Too many attempts. Please try again later.':'Could not verify ('+e.code+')'}}
-function mfaCancel(){MFR=null;$('mfa').classList.add('hide');$('le').textContent='';$('pw').value=''}
-function mfaStatus(){const u=auth.currentUser;$('mf_s').textContent=u&&multiFactor(u).enrolledFactors.length?'Status: ON. You need a code from your authenticator app to sign in.':'Status: OFF'}
-async function mfaSetup(){const m=$('ac_m'),u=auth.currentUser;m.textContent='';if(!u)return;
- if(FAKE(u.email)){m.textContent='Add a real email first using "Change email".';return}
- try{await u.reload();if(!u.emailVerified){await sendEmailVerification(u);m.textContent='Your email is not verified yet. A verification link was sent to '+u.email+'. Open it, then tap Set up again.';return}
-  await reauth();await u.getIdToken(true);const ses=await multiFactor(u).getSession();MFS=await TotpMultiFactorGenerator.generateSecret(ses);
-  $('mf_k').textContent=MFS.secretKey;try{const url=MFS.generateQrCodeUrl(u.email,'Asaan Library');$('mf_q').innerHTML=qrSvg(url);$('mf_l').setAttribute('href',url.startsWith('otpauth://')?url:'#')}catch(_){$('mf_q').innerHTML=''}$('mf_c').value='';$('mf_b').classList.remove('hide')}
- catch(e){m.textContent=aerr(e)}}
-async function mfaConfirm(){const m=$('ac_m'),c=$('mf_c').value.trim();if(!MFS)return;
- if(!/^\d{6}$/.test(c)){m.textContent='Enter the 6-digit code from your authenticator app.';return}
- try{await multiFactor(auth.currentUser).enroll(TotpMultiFactorGenerator.assertionForEnrollment(MFS,c),'Authenticator app');MFS=null;$('mf_b').classList.add('hide');$('mf_c').value='';$('mf_q').innerHTML='';$('mf_k').textContent='';mfaStatus();m.textContent='Two-step login is ON. Next time you sign in you will need the 6-digit code.'}
- catch(e){m.textContent=aerr(e)}}
-function logout(){signOut(auth)}
-
-onAuthStateChanged(auth,async u=>{
- unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];TR=[];BKDONE=false;RC=null;KPREV={};$('rcb').style.display='none';
- if(!u){show('lg');return}
- try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
- catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
- if(me.role==='super'){
-  show('sa');
-  unsubs.push(onSnapshot(query(collection(db,'libraries'),orderBy('createdAt','desc')),s=>{LIBS=s.docs.map(d=>({id:d.id,...d.data()}));drawSA()},e=>alert('Libraries: '+e.code)));
-  unsubs.push(onSnapshot(collection(db,'users'),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawUsers()},e=>alert('Logins: '+e.code)));
- }else{
-  libId=me.libId;show('lb');$('x_m').value=ym();$('x_m').min=FROM().slice(0,7);$('p_m').value=ym();$('p_m').min=FROM().slice(0,7);$('x_d').value=today();$('a_j').value=today();tab('dash');
-  unsubs.push(onSnapshot(doc(db,'libraries',libId),s=>{lib=s.exists()?s.data():null;drawLB()},e=>alert('Library: '+e.code)));
-  unsubs.push(onSnapshot(collection(db,'libraries',libId,'students'),s=>{ST=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Students: '+e.code)));
-  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'payments'),where('date','>=',FROM()),orderBy('date','desc')),s=>{PY=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Payments: '+e.code)));
-  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'expenses'),where('date','>=',FROM()),orderBy('date','desc')),s=>{EX=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Expenses: '+e.code)));
-  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'approvals'),orderBy('createdAt','desc')),s=>{AP=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Approvals: '+e.code)));
-  if(me.role==='owner')unsubs.push(onSnapshot(collection(db,'libraries',libId,'trash'),s=>{TR=s.docs.map(d=>({id:d.id,...d.data()}));drawTrash()},e=>alert('Recycle bin: '+e.code)));
-  if(me.role==='owner')unsubs.push(onSnapshot(query(collection(db,'users'),where('libId','==',libId)),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawStf()},e=>alert('Logins: '+e.code)));
- }
-});
-
-/* ---------- Super admin ---------- */
-function drawSA(){drawUsers();
- $('ll').innerHTML='<table><tr><th>Library</th><th>Library ID</th><th>Plan</th><th>Valid till</th><th>Status</th><th></th></tr>'+LIBS.map(l=>{
-  const e=expOf(l),live=isLive(l);
-  return`<tr><td>${esc(l.name)}</td><td><code>${esc(l.id)}</code></td><td>${esc(l.plan||'')}</td><td>${e?iso(e):'-'}</td><td class="${live?'':'bad'}">${live?'Active':l.active?'Expired':'Suspended'}</td><td><button class="s" data-id="${esc(l.id)}" onclick="ext(this.dataset.id)">Extend</button> <button class="s o" data-id="${esc(l.id)}" onclick="tog(this.dataset.id,${!l.active})">${l.active?'Suspend':'Activate'}</button></td></tr>`}).join('')+'</table>'+(LIBS.length?'':'<p class="mu">No libraries yet. Add your first one above.</p>');
-}
-async function addLib(){const n=$('n_n').value.trim(),d=+$('n_d').value||30;if(!n)return;
- await addDoc(collection(db,'libraries'),{name:n,plan:$('n_p').value.trim(),active:true,expiry:new Date(Date.now()+d*864e5),createdAt:serverTimestamp()});$('n_n').value=''}
-async function ext(id){const l=LIBS.find(x=>x.id===id),d=+prompt('Extend by how many days?','30');if(!(d>0))return;
- const b=Math.max(Date.now(),expOf(l)?expOf(l).getTime():0);await updateDoc(doc(db,'libraries',id),{expiry:new Date(b+d*864e5)})}
-async function tog(id,v){await updateDoc(doc(db,'libraries',id),{active:v})}
-const EMRE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/,FAKE=e=>!e||e.endsWith('@'+app.options.authDomain);
-const ulab=u=>u.email&&!FAKE(u.email)?u.email:(u.username||u.email||u.id.slice(0,8)+'…');
-const cerr=e=>e.code==='auth/email-already-in-use'?'This email already has a login.':e.code==='auth/invalid-email'?'This email address is not valid.':(e.code==='auth/weak-password'||e.code==='auth/password-does-not-meet-requirements')?'Password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.':e.code==='permission-denied'?'Not allowed. The subscription may be inactive.':'Could not create login ('+(e.code||e.message)+')';
-async function mkLogin(em,pw,role,lid){
- const c=await createUserWithEmailAndPassword(auxAuth,em,pw);
- try{await setDoc(doc(db,'users',c.user.uid),{role,libId:lid,email:em,createdAt:serverTimestamp()})}
- catch(e){await c.user.delete().catch(()=>{});throw e}
- finally{await signOut(auxAuth).catch(()=>{})}
-}
-async function mkUser(){const m=$('km'),em=$('k_u').value.trim().toLowerCase(),pw=$('k_p').value,l=$('k_l').value,r=$('k_r').value;
- if(!l){m.textContent='Add a library first.';return}
- if(!EMRE.test(em)){m.textContent='Enter a valid email address.';return}
- if(pw.length<8){m.textContent='Password must be at least 8 characters.';return}
- $('kb').disabled=true;
- try{await mkLogin(em,pw,r,l);m.textContent='Login created. Email: '+em+'  Password: '+pw+'  (share these with the '+r+')';$('k_u').value='';$('k_p').value=''}catch(e){m.textContent=cerr(e)}
- $('kb').disabled=false}
-function drawUsers(){
- const sel=$('k_l'),cur=sel.value;
- sel.innerHTML=LIBS.map(l=>`<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('');
- if(LIBS.some(l=>l.id===cur))sel.value=cur;
- const nm=id=>(LIBS.find(l=>l.id===id)||{}).name||'-';
- $('ul').innerHTML=US.length?'<table><tr><th>Login</th><th>Role</th><th>Library</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(ulab(u))}</td><td>${esc(u.role)}</td><td>${esc(u.role==='super'?'-':nm(u.libId))}</td><td>${u.role==='super'?'':`<button class="s r" data-id="${esc(u.id)}" onclick="rmUser(this.dataset.id)">Remove</button>`}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>';
-}
-async function rmUser(id){const u=US.find(x=>x.id===id);if(!u||u.role==='super')return;
- if(!confirm('Remove login "'+ulab(u)+'"? They will no longer be able to use the app.'))return;
- try{await deleteDoc(doc(db,'users',id))}catch(e){alert('Could not remove ('+e.code+')')}}
-async function mkStaff(){if(!LIVE||!OWN())return;const m=$('fm'),em=$('f_u').value.trim().toLowerCase(),pw=$('f_p').value;
- if(!EMRE.test(em)){m.textContent='Enter a valid email address.';return}
- if(pw.length<8){m.textContent='Password must be at least 8 characters.';return}
- $('fb').disabled=true;
- try{await mkLogin(em,pw,'staff',libId);m.textContent='Staff login created. Email: '+em+'  Password: '+pw+'  (share these with your staff member)';$('f_u').value='';$('f_p').value=''}catch(e){m.textContent=cerr(e)}
- $('fb').disabled=!LIVE}
-function drawStf(){if(!OWN())return;
- $('fl').innerHTML=US.length?'<table><tr><th>Login</th><th>Role</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(ulab(u))}</td><td>${esc(u.role)}</td><td>${u.role==='staff'?`<button class="s r" data-id="${esc(u.id)}" onclick="rmUser(this.dataset.id)">Remove</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>'}
-
-/* ---------- Library panel ---------- */
-function drawLB(){
- if(!lib){$('ln').textContent='Library not found';return}
- LIVE=isLive(lib);const e=expOf(lib),t=today(),M=ym(),q=$('q').value.toLowerCase(),lim=iso(new Date(Date.now()+3*864e5));
- $('ln').textContent=lib.name;
- $('sb').innerHTML=LIVE?`Plan: ${esc(lib.plan||'-')}, valid till ${e?iso(e):'-'}`:'<span class="bad">Subscription inactive or expired. You can view data but not change it. Contact your provider to renew.</span>';
- ['ad','xb','xi','fb','eb'].forEach(i=>$(i).disabled=!LIVE);$('xu').disabled=!OWN();$('tb_stf').classList.toggle('hide',!OWN());drawStf();$('tb_bk').classList.toggle('hide',!OWN());$('tb_tr').classList.toggle('hide',!OWN());bkUI();if(!BKDONE&&OWN()){BKDONE=true;autoBackupCheck()}
- const AC=ST.filter(isAct),due=AC.filter(s=>s.nextDue<=t),pm=PY.filter(p=>p.date.startsWith(M)),coll=pm.reduce((a,p)=>a+p.amt,0),spent=EX.filter(x=>x.date.startsWith(M)).reduce((a,x)=>a+x.amt,0);
- $('kp').innerHTML=kc('k1','<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',AC.length,0,'Active students'+(ST.length>AC.length?' ('+(ST.length-AC.length)+' inactive)':''))
-  +kc('k2','<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',due.length,0,'Fee due ('+inr(due.reduce((a,s)=>a+s.fee,0))+')',due.length?'bad':'')
-  +kc('k3','<path d="M6 3h12"/><path d="M6 8h12"/><path d="M6 13l8.5 8"/><path d="M6 13h3a4 4 0 0 0 0-8"/>',coll,1,'Collected this month')
-  +kc('k4','<path d="M7 17L17 7"/><path d="M7 7h10v10"/>',spent,1,'Spent this month')
-  +kc('k5','<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',coll-spent,1,'Net this month');
- kpiAnim();
- {const cs=chart();if(cs!==CHL){CHL=cs;$('ch').innerHTML=cs}}
- const sr=AC.filter(s=>s.nextDue<=lim).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
- $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td><button class="s o" data-id="${esc(s.id)}" onclick="remind(this.dataset.id)">WhatsApp reminder</button></td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
- const sf=$('sf').value,rows=ST.filter(s=>(sf==='all'||(sf==='inactive')===!isAct(s))&&(!q||(s.name+s.phone+s.seat+(s.guardianPhone||'')+(s.address||'')+(s.preparingFor||'')).toLowerCase().includes(q))).sort((a,b)=>sf==='inactive'?a.name.localeCompare(b.name):a.nextDue.localeCompare(b.nextDue));
- $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}${isAct(s)?'':' <span class="mu">(inactive since '+esc(s.inactiveOn||'-')+')</span>'}${s.preparingFor?'<br><span class="mu">'+esc(s.preparingFor)+'</span>':''}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${isAct(s)&&s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td>${isAct(s)?`<button class="s o" data-id="${esc(s.id)}" onclick="remind(this.dataset.id)">WhatsApp</button> <button class="s" data-id="${esc(s.id)}" onclick="pay(this.dataset.id)" ${LIVE?'':'disabled'}>Collect fee</button> `:`<button class="s" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,true)" ${LIVE?'':'disabled'}>${OWN()?'Reactivate':'Request reactivate'}</button> `}<button class="s o" data-id="${esc(s.id)}" onclick="editStu(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> ${isAct(s)?`<button class="s o" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,false)" ${LIVE?'':'disabled'}>${OWN()?'Make inactive':'Request inactive'}</button> `:''}<button class="s r" data-id="${esc(s.id)}" onclick="del(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">'+(ST.length?'No students match this filter.':'No students yet. Add the first admission, or import an Excel file.')+'</p>';
- $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s o" data-id="${esc(p.id)}" onclick="rcpt(this.dataset.id)">Receipt</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
- drawExp();drawApr();drawPay();drawTrash();
-}
-async function admit(){
- if(!LIVE)return;const v=i=>$(i).value.trim(),a=v('a_a'),m=$('am');
- if(!v('a_n')||!/^\d{10}$/.test(v('a_p'))||!(+v('a_f')>0)||!v('a_j')){m.textContent='Name, a 10-digit mobile number, fee and join date are required.';return}
- if(a&&!/^\d{4}$/.test(a)){m.textContent='Enter only the last 4 digits of Aadhaar.';return}
- if(v('a_gp')&&!/^\d{10}$/.test(v('a_gp'))){m.textContent='Guardian\'s contact number must be 10 digits.';return}
- try{await addDoc(collection(db,'libraries',libId,'students'),{name:v('a_n'),phone:v('a_p'),seat:v('a_s'),fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,guardianPhone:v('a_gp'),address:v('a_ad2'),preparingFor:v('a_pf'),createdAt:serverTimestamp()});
-  ['a_n','a_p','a_s','a_f','a_a','a_gp','a_pf','a_ad2'].forEach(i=>$(i).value='');m.textContent='Student admitted.'}catch(e){m.textContent='Could not save ('+e.code+')'}
-}
-async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;if(!isAct(s)){alert('This student is inactive. Reactivate the student first.');return}
- const a=+prompt('Amount received from '+s.name+' (₹)',s.fee);if(!(a>0))return;
- if(!OWN()&&a<s.fee){alert('Staff cannot record a part payment. Please ask the owner to record it.');return}
- if(a<s.fee&&!confirm('This is less than the monthly fee ('+inr(s.fee)+'). Mark this month as paid anyway?'))return;
- const mode=(prompt('Payment mode','Cash')||'Cash').trim().slice(0,30)||'Cash';
- try{const b=writeBatch(db);
-  const nd=addM(s.nextDue.slice(0,8)+(s.joined||s.nextDue).slice(8,10),1),pr=doc(db,'libraries',libId,'payments',id+'_'+nd);
-  if((await getDoc(pr)).exists()){alert('A payment for this due date is already recorded for this student. Ask the owner to check the Payments tab.');return}
-  b.set(pr,{studentId:id,studentName:s.name,amt:a,date:today(),mode});
-  b.update(doc(db,'libraries',libId,'students',id),{nextDue:nd});
-  await b.commit();
-  const rp={id:pr.id,date:today(),studentName:s.name,amt:a,mode};RC={phone:s.phone,p:rp,nd,text:rcText(rp,nd)};
-  $('rct').textContent='Fee of '+inr(a)+' received from '+s.name+'.';$('rcb').style.display='flex'}catch(e){alert('Could not save ('+e.code+')')}}
-/* ---------- WhatsApp receipt ---------- */
-const rno=p=>{const i=String(p.id);if(!i.includes('_'))return i.slice(0,6).toUpperCase();let h=2166136261;for(let k=0;k<i.length;k++){h^=i.charCodeAt(k);h=Math.imul(h,16777619)>>>0}return h.toString(36).toUpperCase().padStart(6,'0').slice(-6)};
-const fmtD=d=>{const[y,m,x]=String(d).split('-');return +x+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1]+' '+y};
-function rcText(p,nd){return `*Fee Receipt*\n*${lib.name}*\n\nReceipt no: ${rno(p)}\nDate: ${fmtD(p.date)}\nStudent: ${p.studentName}\nAmount received: ${inr(p.amt)}\nPayment mode: ${p.mode}`+(nd?`\nNext due date: ${fmtD(nd)}`:'')+`\n\nDhanyawad 🙏`}
-function waOpen(phone,text){const d=String(phone).replace(/\D/g,'').slice(-10);if(d.length!==10){alert('This student has no valid 10-digit mobile number.');return}window.open('https://wa.me/91'+d+'?text='+encodeURIComponent(text),'_blank','noopener')}
-function rcSend(){if(!RC)return;waOpen(RC.phone,RC.text);rcClose()}
-function rcClose(){RC=null;$('rcb').style.display='none'}
-function rcpt(id){const p=PY.find(x=>x.id===id);if(!p)return;const s=ST.find(x=>x.id===p.studentId)||TR.find(x=>x.id===p.studentId);
- if(!s){alert('This student is no longer in the list, so there is no mobile number to send to.');return}
- rcShare(p,null,s.phone)}
-/* ---------- PDF receipt: drawn on a canvas (so Hindi names and the rupee sign work), then wrapped into a PDF ---------- */
-function drawReceipt(p,nd){
- const c=document.createElement('canvas');c.width=840;c.height=1000;const g=c.getContext('2d'),F='system-ui,"Segoe UI","Noto Sans","Noto Sans Devanagari",sans-serif';
- const txt=(t,x,y,size,w,col,al,maxW)=>{let z=size;g.font=w+' '+z+'px '+F;if(maxW)while(z>18&&g.measureText(t).width>maxW){z-=2;g.font=w+' '+z+'px '+F}g.fillStyle=col;g.textAlign=al;g.fillText(t,x,y)};
- const row=(lab,val,y)=>{txt(lab,60,y,24,'400','#667069','left');txt(val,780,y,30,'700','#1b211e','right',480);g.fillStyle='#dde2dc';g.fillRect(60,y+24,720,2)};
- g.fillStyle='#fff';g.fillRect(0,0,840,1000);
- g.fillStyle='#1d5a47';g.fillRect(0,0,840,170);
- txt(lib.name,420,90,44,'700','#fff','center',760);txt('FEE RECEIPT',420,138,26,'600','#cfe3da','center');
- txt('Receipt no',60,235,22,'400','#667069','left');txt(rno(p),60,272,32,'700','#1b211e','left');
- txt('Date',780,235,22,'400','#667069','right');txt(fmtD(p.date),780,272,32,'700','#1b211e','right');
- g.fillStyle='#dde2dc';g.fillRect(60,305,720,2);
- row('Student',p.studentName,375);row('Payment mode',p.mode,455);if(nd)row('Next due date',fmtD(nd),535);
- g.fillStyle='#e9f1ed';g.fillRect(60,630,720,170);
- txt('Amount received',420,685,24,'400','#667069','center');txt(inr(p.amt),420,770,76,'700','#1d5a47','center',680);
- txt('Thank you! Dhanyawad',420,885,32,'600','#1b211e','center');
- txt('This is a computer-generated receipt. No signature is required.',420,940,20,'400','#667069','center',760);
- return c}
-function jpgToPdf(jpg,w,h,pw,ph){const enc=new TextEncoder(),parts=[],off=[];let len=0;
- const push=x=>{const b=typeof x==='string'?enc.encode(x):x;parts.push(b);len+=b.length};
- const obj=(n,body)=>{off[n]=len;push(n+' 0 obj\n'+body+'\nendobj\n')};
- push('%PDF-1.4\n');
- obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
- obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pw+' '+ph+'] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>');
- const cs='q '+pw+' 0 0 '+ph+' 0 0 cm /Im0 Do Q';obj(4,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
- off[5]=len;push('5 0 obj\n<< /Type /XObject /Subtype /Image /Width '+w+' /Height '+h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>\nstream\n');push(jpg);push('\nendstream\nendobj\n');
- const x=len;let t='xref\n0 6\n0000000000 65535 f \n';for(let i=1;i<=5;i++)t+=String(off[i]).padStart(10,'0')+' 00000 n \n';
- push(t+'trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+x+'\n%%EOF');
- const out=new Uint8Array(len);let q=0;for(const b of parts){out.set(b,q);q+=b.length}return out}
-async function rcPdf(p,nd){const c=drawReceipt(p,nd),blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
- return new File([jpgToPdf(new Uint8Array(await blob.arrayBuffer()),c.width,c.height,420,500)],'Receipt-'+rno(p)+'.pdf',{type:'application/pdf'})}
-async function rcShare(p,nd,phone){let f;
- try{f=await rcPdf(p,nd)}catch(e){alert('Could not make the PDF receipt.');return false}
- try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Fee receipt',text:'Fee receipt for '+p.studentName+' from '+lib.name});return true}}
- catch(e){if(e&&e.name==='AbortError')return false}
- // No file sharing on this device: save the PDF and open the student's WhatsApp chat so it can be attached
- const u=URL.createObjectURL(f),a=document.createElement('a');a.href=u;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);
- toast('Receipt PDF saved ('+f.name+'). Attach it in the WhatsApp chat that opens.');
- waOpen(phone,'Namaste '+p.studentName+' ji,\n'+lib.name+' ki taraf se aapki fee ka PDF receipt bhej rahe hain. Dhanyawad 🙏');return true}
-async function rcSendPdf(){if(!RC)return;if(await rcShare(RC.p,RC.nd,RC.phone))rcClose()}
-let CHL='',KPREV={};
-const kc=(cls,icon,n,cur,label,vc)=>`<div class="${cls}"><i class="ik"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icon}</svg></i><div class="kv"><b class="${vc||''}" data-n="${n}"${cur?' data-cur="1"':''}>${cur?inr(n):n}</b><span>${label}</span></div></div>`;
-function kpiAnim(){const first=!Object.keys(KPREV).length,rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
- document.querySelectorAll('#kp>div').forEach((d,i)=>{if(first&&!rm){d.classList.add('kin');d.style.animationDelay=i*70+'ms'}});
- document.querySelectorAll('#kp b[data-n]').forEach((el,i)=>{const to=+el.dataset.n,from=KPREV[i]===undefined?0:KPREV[i],cur=!!el.dataset.cur,fmt=v=>cur?inr(v):String(Math.round(v));KPREV[i]=to;
-  if(rm||from===to)return;const t0=performance.now();el.textContent=fmt(from);
-  const step=t=>{if(!el.isConnected)return;const p=Math.min(1,(t-t0)/700);el.textContent=fmt(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)})}
-const FROM=()=>addM(today().slice(0,8)+'01',-5),ym=()=>today().slice(0,7),OWN=()=>!!me&&me.role==='owner';
-function tab(n){['dash','stu','pay','exp','apr','stf','bk','tr'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)});tmSync();tmToggle(false);if(matchMedia('(max-width:759px)').matches)window.scrollTo({top:0})}
-async function req(type,sid,sname,extra){
- if(AP.some(a=>a.status==='pending'&&(a.type===type||(type==='delete_student'&&a.type==='delete'))&&a.studentId===sid&&(a.paymentId||'')===((extra&&extra.paymentId)||''))){alert('A similar request is already waiting for the owner.');return false}
- try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:sname,...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
-  alert('Request sent to the owner. Nothing changes until the owner approves it.');return true}catch(e){alert('Could not send the request ('+e.code+')');return false}}
-const isAct=s=>s.active!==false;
-function trashOps(b,s){const{id,...d}=s;b.set(doc(db,'libraries',libId,'trash',id),{...d,deletedAt:serverTimestamp(),deletedBy:auth.currentUser.uid});b.delete(doc(db,'libraries',libId,'students',id))}
-async function del(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
- try{if(OWN()){if(confirm('Move '+s.name+' to the Recycle bin? You can restore them from there later.')){const b=writeBatch(db);trashOps(b,s);await b.commit();toast(s.name+' was moved to the Recycle bin.')}}
-  else if(confirm('Send a delete request for '+s.name+' to the owner?'))await req('delete_student',id,s.name)}catch(e){alert('Could not save ('+e.code+')')}}
-async function setActive(id,on){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;let ch;
- if(on){const d=prompt('Next fee due date for '+s.name+' (YYYY-MM-DD)',today());if(d===null)return;
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(d.trim())||isNaN(new Date(d.trim()+'T00:00:00'))){alert('Enter the date like 2026-11-15.');return}ch={active:true,nextDue:d.trim()}}
- else{if(!confirm('Make '+s.name+' inactive? They will no longer appear in fee dues or reminders. You can reactivate them any time.'))return;ch={active:false,inactiveOn:today()}}
- try{if(OWN())await updateDoc(doc(db,'libraries',libId,'students',id),ch);
-  else if(confirm('Send this request to the owner for approval?'))await req('edit_student',id,s.name,{changes:ch})}catch(e){alert('Could not save ('+e.code+')')}}
-function drawTrash(){if(!OWN())return;const n=TR.length;$('tb_tr').textContent='Recycle bin'+(n?' ('+n+')':'');tmSync();$('te').disabled=!LIVE||!n;
- const at=x=>(x.deletedAt&&x.deletedAt.seconds)||Infinity;
- $('trl').innerHTML=n?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Deleted</th><th></th></tr>'+TR.slice().sort((a,b)=>at(b)-at(a)).map(s=>{const d=s.deletedAt&&s.deletedAt.toDate?s.deletedAt.toDate():null,k=d?Math.floor((Date.now()-d)/864e5):0;
-  return`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td>${d?iso(d)+' ('+(k?k+' day'+(k===1?'':'s')+' ago':'today')+')':'-'}</td><td><button class="s" data-id="${esc(s.id)}" onclick="restoreStu(this.dataset.id)" ${LIVE?'':'disabled'}>Restore</button> <button class="s r" data-id="${esc(s.id)}" onclick="purgeStu(this.dataset.id)" ${LIVE?'':'disabled'}>Delete forever</button></td></tr>`}).join('')+'</table>':'<p class="mu">The recycle bin is empty.</p>'}
-async function restoreStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;const{id:_i,deletedAt,deletedBy,...d}=s;
- if(ST.some(x=>x.phone===d.phone)&&!confirm('A student with the mobile number '+d.phone+' already exists. Restore anyway?'))return;
- try{const b=writeBatch(db);b.set(doc(db,'libraries',libId,'students',id),d);b.delete(doc(db,'libraries',libId,'trash',id));await b.commit();toast(s.name+' was restored to Students.')}catch(e){alert('Could not restore ('+e.code+')')}}
-async function purgeStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;
- if(!confirm('Delete '+s.name+' forever? Their details will be gone and this cannot be undone.'))return;
- try{await deleteDoc(doc(db,'libraries',libId,'trash',id))}catch(e){alert('Could not delete ('+e.code+')')}}
-async function emptyTrash(){if(!LIVE||!OWN()||!TR.length)return;
- if(!confirm('Delete all '+TR.length+' students in the Recycle bin forever? This cannot be undone.'))return;
- try{const b=writeBatch(db);TR.slice(0,450).forEach(x=>b.delete(doc(db,'libraries',libId,'trash',x.id)));await b.commit()}catch(e){alert('Could not empty the bin ('+e.code+')')}}
-let EID='';
-function editStu(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;EID=id;
- $('e_n').value=s.name;$('e_p').value=s.phone;$('e_s').value=s.seat||'';$('e_f').value=s.fee;$('e_d').value=s.nextDue;$('e_gp').value=s.guardianPhone||'';$('e_pf').value=s.preparingFor||'';$('e_ad2').value=s.address||'';$('emsg').textContent='';
- $('eh').textContent=OWN()?'Editing '+s.name+'. Changes are saved immediately.':'Editing '+s.name+'. Your changes will be sent to the owner and applied only after approval.';
- $('ec').classList.remove('hide');$('ec').scrollIntoView({behavior:'smooth',block:'center'})}
-function cancelEdit(){EID='';$('ec').classList.add('hide')}
-async function saveStu(){const s=ST.find(x=>x.id===EID),m=$('emsg');if(!s||!LIVE)return;
- const n=$('e_n').value.trim(),p=$('e_p').value.trim(),st=$('e_s').value.trim(),f=+$('e_f').value,d=$('e_d').value,gp=$('e_gp').value.trim(),pf=$('e_pf').value.trim(),ad=$('e_ad2').value.trim();
- if(!n||!/^\d{10}$/.test(p)||!(f>0)||!d){m.textContent='Name, a 10-digit mobile number, fee and next due date are required.';return}
- if(gp&&!/^\d{10}$/.test(gp)){m.textContent='Guardian\'s contact number must be 10 digits.';return}
- const ch={};if(n!==s.name)ch.name=n;if(p!==s.phone)ch.phone=p;if(st!==(s.seat||''))ch.seat=st;if(f!==s.fee)ch.fee=f;if(d!==s.nextDue)ch.nextDue=d;if(gp!==(s.guardianPhone||''))ch.guardianPhone=gp;if(pf!==(s.preparingFor||''))ch.preparingFor=pf;if(ad!==(s.address||''))ch.address=ad;
- if(!Object.keys(ch).length){m.textContent='Nothing was changed.';return}
- try{if(OWN()){await updateDoc(doc(db,'libraries',libId,'students',EID),ch);cancelEdit()}
-  else if(await req('edit_student',EID,s.name,{changes:ch}))cancelEdit()}catch(e){m.textContent='Could not save ('+e.code+')'}}
-function drawPay(){const m=$('p_m').value||ym(),r=PY.filter(p=>p.date.startsWith(m));
- $('ps').textContent='Total '+inr(r.reduce((a,p)=>a+p.amt,0))+' from '+r.length+' payment'+(r.length===1?'':'s')+'. Showing the last 6 months.';
- $('pt').innerHTML=r.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+r.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s" data-id="${esc(p.id)}" onclick="rcpt(this.dataset.id)">Receipt</button> <button class="s o" data-id="${esc(p.id)}" onclick="editPay(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" data-id="${esc(p.id)}" onclick="delPay(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded for this month.</p>'}
-async function editPay(id){const p=PY.find(x=>x.id===id);if(!p||!LIVE)return;
- const a=+prompt('New amount for '+p.studentName+' (₹)',p.amt);if(!(a>0))return;
- const md=(prompt('Payment mode',p.mode)||p.mode).trim().slice(0,30);
- const ch={};if(a!==p.amt)ch.amt=a;if(md&&md!==p.mode)ch.mode=md;
- if(!Object.keys(ch).length){alert('Nothing was changed.');return}
- try{if(OWN())await updateDoc(doc(db,'libraries',libId,'payments',id),ch);
-  else if(confirm('Send this change to the owner for approval?'))await req('edit_payment',p.studentId,p.studentName,{paymentId:id,changes:ch})}catch(e){alert('Could not save ('+e.code+')')}}
-async function delPay(id){const p=PY.find(x=>x.id===id);if(!p||!LIVE)return;
- try{if(OWN()){if(confirm('Delete the payment of '+inr(p.amt)+' from '+p.studentName+'? This cannot be undone. The next due date is not changed; edit the student if needed.'))await deleteDoc(doc(db,'libraries',libId,'payments',id))}
-  else if(confirm('Send a delete request for this payment to the owner?'))await req('delete_payment',p.studentId,p.studentName,{paymentId:id})}catch(e){alert('Could not save ('+e.code+')')}}
-function chart(){const b=addM(today().slice(0,8)+'01',-5),ms=[0,1,2,3,4,5].map(i=>addM(b,i).slice(0,7)),sum=(a,m)=>a.filter(x=>x.date.startsWith(m)).reduce((t,x)=>t+x.amt,0),inc=ms.map(m=>sum(PY,m)),ex=ms.map(m=>sum(EX,m)),mx=Math.max(1,...inc,...ex);
- return'<svg viewBox="0 0 360 140" width="100%" role="img" aria-label="Fees collected and expenses for the last 6 months"><defs><linearGradient id="gG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3fa37f"/><stop offset="1" stop-color="#1d5a47"/></linearGradient><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efbd5c"/><stop offset="1" stop-color="#c9892b"/></linearGradient></defs>'+[5,38,71,105].map(y=>`<line x1="4" x2="356" y1="${y}" y2="${y}" stroke="currentColor" stroke-opacity="${y===105?.25:.1}"/>`).join('')+ms.map((m,i)=>{const x=12+i*58,h1=inc[i]/mx*100,h2=ex[i]/mx*100;return`<rect class="bar" style="animation-delay:${i*70}ms" rx="4" x="${x}" y="${105-h1}" width="22" height="${h1}" fill="url(#gG)"><title>${m} collected ${inr(inc[i])}</title></rect><rect class="bar" style="animation-delay:${i*70}ms" rx="4" x="${x+24}" y="${105-h2}" width="22" height="${h2}" fill="url(#gA)"><title>${m} spent ${inr(ex[i])}</title></rect><text x="${x+23}" y="124" font-size="11" text-anchor="middle" fill="currentColor">${m.slice(5)}/${m.slice(2,4)}</text>`}).join('')+'</svg>'}
-function remind(id){const s=ST.find(x=>x.id===id);if(!s)return;const d=String(s.phone).replace(/\D/g,'').slice(-10);if(d.length!==10){alert('This student has no valid 10-digit mobile number.');return}
- const dd=Math.round((new Date(s.nextDue+'T00:00:00')-new Date(today()+'T00:00:00'))/864e5);
- const m=dd<0?`Namaste ${s.name} ji,\n${lib.name} mein aapki ${inr(s.fee)} fee ${s.nextDue} se pending hai. Kripya jald jama kar dein.\nDhanyawad 🙏`:`Namaste ${s.name} ji,\n${lib.name} mein aapki ${inr(s.fee)} fee ${dd===0?'aaj':dd===1?'kal':dd+' din baad ('+s.nextDue+')'} due hai. Kripya samay par jama kar dein.\nDhanyawad 🙏`;
- window.open('https://wa.me/91'+d+'?text='+encodeURIComponent(m),'_blank','noopener')}
-function drawExp(){const m=$('x_m').value||ym(),r=EX.filter(x=>x.date.startsWith(m)),by={};r.forEach(x=>by[x.cat]=(by[x.cat]||0)+x.amt);
- $('xs').textContent='Total '+inr(r.reduce((a,x)=>a+x.amt,0))+(r.length?': '+Object.entries(by).map(([k,v])=>k+' '+inr(v)).join(', '):'')+'. Showing the last 6 months.';
- $('xl').innerHTML=r.length?'<table><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th><th></th></tr>'+r.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.cat)}</td><td>${inr(x.amt)}</td><td>${esc(x.note)}</td><td>${OWN()?`<button class="s r" data-id="${esc(x.id)}" onclick="delExp(this.dataset.id)" ${LIVE?'':'disabled'}>Delete</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No expenses recorded for this month.</p>'}
-async function addExp(){if(!LIVE)return;const d=$('x_d').value,a=+$('x_a').value;if(!d||!(a>0)){alert('Enter a date and an amount.');return}
- try{await addDoc(collection(db,'libraries',libId,'expenses'),{date:d,cat:$('x_c').value,amt:a,note:$('x_n').value.trim()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
-async function delExp(id){if(!OWN()||!LIVE||!confirm('Delete this expense?'))return;try{await deleteDoc(doc(db,'libraries',libId,'expenses',id))}catch(e){alert('Could not delete ('+e.code+')')}}
-const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode',active:'status',inactiveOn:'inactive since',guardianPhone:'guardian mobile',address:'address',preparingFor:'preparing for'};
-const fv=(k,v)=>k==='active'?(v?'Active':'Inactive'):v;
-const chg=(c,o)=>Object.entries(c||{}).map(([k,v])=>(LBL[k]||esc(k))+': '+(o&&o[k]!==undefined?esc(fv(k,o[k]))+' → ':'')+esc(fv(k,v))).join(', ');
-function aDesc(a){const pend=a.status==='pending',s=pend?ST.find(x=>x.id===a.studentId):null,p=PY.find(x=>x.id===a.paymentId),nm=esc(a.studentName),pd=p?inr(p.amt)+' on '+esc(p.date):'an older payment';
- if(a.type==='delete_student'||a.type==='delete')return'Delete student (moves to the Recycle bin): '+nm;
- if(a.type==='delete_payment')return'Delete payment ('+pd+') of '+nm;
- if(a.type==='edit_student')return'Change details of '+nm+' — '+chg(a.changes,s);
- if(a.type==='edit_payment')return'Change payment ('+pd+') of '+nm+' — '+chg(a.changes,pend?p:null);
- return esc(a.type)+': '+nm}
-function drawApr(){const n=AP.filter(a=>a.status==='pending').length;$('tb_apr').textContent='Approvals'+(n?' ('+n+')':'');tmSync();
- $('al').innerHTML=AP.length?'<table><tr><th>Request</th><th>Status</th><th></th></tr>'+AP.map(a=>`<tr><td style="white-space:normal">${aDesc(a)}</td><td class="${a.status==='pending'?'bad':''}">${esc(a.status)}</td><td>${a.status==='pending'&&OWN()&&LIVE?`<button class="s" data-id="${esc(a.id)}" onclick="decide(this.dataset.id,1)">Approve</button> <button class="s o" data-id="${esc(a.id)}" onclick="decide(this.dataset.id,0)">Reject</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No requests yet.</p>'}
-async function decide(id,ok){const a=AP.find(x=>x.id===id);if(!a||!OWN()||!LIVE||a.status!=='pending')return;
- const b=writeBatch(db),ar=doc(db,'libraries',libId,'approvals',id),sr=doc(db,'libraries',libId,'students',a.studentId),pr=a.paymentId?doc(db,'libraries',libId,'payments',a.paymentId):null,t=a.type==='delete'?'delete_student':a.type;
- if(ok){if(t==='delete_student'){const st=ST.find(x=>x.id===a.studentId);if(st)trashOps(b,st)}
-  else if(t==='delete_payment'&&pr)b.delete(pr);
-  else if(t==='edit_student'&&a.changes)b.update(sr,a.changes);
-  else if(t==='edit_payment'&&pr&&a.changes)b.update(pr,a.changes);
-  else{alert('This request is incomplete and cannot be applied. Please reject it.');return}}
- b.update(ar,{status:ok?'approved':'rejected'});
- try{await b.commit()}catch(e){alert('Could not apply ('+e.code+'). The student or payment may no longer exist.')}}
-const HD=['Name','Mobile','Seat','Monthly Fee','Join Date','Aadhaar Last 4','Next Due'],HX=[...HD,'Guardian Mobile','Address','Preparing For'];
-const dx=v=>v instanceof Date?iso(new Date(v.getTime()+12*36e5)):/^\d{4}-\d{2}-\d{2}$/.test(String(v).trim())?String(v).trim():'';
-const sv=(rows,n)=>{const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,XLSX.utils.aoa_to_sheet(rows),'Students');XLSX.writeFile(b,n)};
-function tpl(){const n=new Date(),ws=XLSX.utils.aoa_to_sheet([HX,['Example Student','9876543210','A1',500,'','1234','','9876500000','12 Civil Lines, Meerut','UPSC']]);
- // Join Date is a real date; Next Due (column G) is a formula: the same date one month after the Join Date
- ws.E2={t:'d',v:new Date(n.getFullYear(),n.getMonth(),n.getDate(),12),z:'yyyy-mm-dd'};
- for(let r=2;r<=451;r++)ws['G'+r]={t:'n',f:`IF(E${r}="","",EDATE(E${r},1))`,z:'yyyy-mm-dd'};
- ws['!ref']='A1:J451';ws['!cols']=[{wch:22},{wch:14},{wch:8},{wch:12},{wch:13},{wch:15},{wch:13},{wch:16},{wch:30},{wch:18}];
- const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,ws,'Students');XLSX.writeFile(b,'students-template.xlsx',{cellDates:true})}
-function expX(){sv([[...HX,'Status'],...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue,s.guardianPhone||'',s.address||'',s.preparingFor||'',isAct(s)?'Active':'Inactive'])],'students.xlsx')}
-async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){m.textContent='Choose a file first.';return}
- if(f.size>2097152){m.textContent='This file is too large. Keep it under 2 MB.';return}
- const upOK=$('xu').checked&&OWN();let wb;
- try{wb=XLSX.read(await f.arrayBuffer(),{cellDates:true})}catch(e){m.textContent='Could not read this file.';return}
- const all=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}).filter(r=>String(r['Name']).trim()||String(r['Mobile']).trim()),rows=all.slice(0,450);
- const b=writeBatch(db),col=collection(db,'libraries',libId,'students'),seen=new Set();let add=0,upd=0,bad=0,kept=0;
- for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=String(r['Name']).trim().slice(0,80),fee=+r['Monthly Fee'];
-  if(!n||p.length!==10||!(fee>0&&fee<=1000000)||seen.has(p)){bad++;continue}
-  seen.add(p);
-  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=String(r['Seat']).trim().slice(0,20),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),gp=gp0.length===10?gp0:'',adr=String(r['Address']).trim().slice(0,200),pf=String(r['Preparing For']).trim().slice(0,60),ex=ST.find(x=>x.phone===p);
-  const stt=String(r['Status']).trim().toLowerCase();
-  if(ex){if(upOK){const d={name:n,fee};if(stt==='inactive'){d.active=false;d.inactiveOn=today()}else if(stt==='active')d.active=true;if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;if(gp)d.guardianPhone=gp;if(adr)d.address=adr;if(pf)d.preparingFor=pf;b.update(doc(col,ex.id),d);upd++}else kept++}
-  else{const j=jn||today(),nw={name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,guardianPhone:gp,address:adr,preparingFor:pf,createdAt:serverTimestamp()};if(stt==='inactive'){nw.active=false;nw.inactiveOn=today()}b.set(doc(col),nw);add++}}
- try{await b.commit();m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(all.length>450?' Only the first 450 rows were read.':'')}catch(e){m.textContent='Import failed ('+e.code+').'}}
-const aerr=e=>({'app/need-password':'Enter your current password first.','auth/wrong-password':'Current password is wrong.','auth/invalid-credential':'Current password is wrong.','auth/weak-password':'New password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.','auth/password-does-not-meet-requirements':'New password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.','auth/email-already-in-use':'That email is already used by another login.','auth/invalid-email':'That email address is not valid.','auth/too-many-requests':'Too many attempts. Please try again later.','auth/requires-recent-login':'Please sign out, sign in again and retry.','auth/invalid-verification-code':'Wrong or expired code. Try the next code from the app.','auth/second-factor-already-in-use':'Two-step login is already on for this login.'}[e.code]||'Failed ('+(e.code||e.message)+')');
-function openAcc(){const u=auth.currentUser;if(!u)return;$('ac_th').value=themeGet();mfaStatus();$('mf_b').classList.add('hide');$('mf_q').innerHTML='';$('mf_k').textContent='';MFS=null;
- $('ac_e').textContent=FAKE(u.email)?u.email.split('@')[0]+' (no real email added yet)':u.email;
- ['ac_cp','ac_np','ac_ne'].forEach(i=>$(i).value='');
- $('ac_m').textContent=FAKE(u.email)?'This login has no real email yet. Add one with "Change email" so you can reset your password by email.':'';
- $('ac').style.display='flex'}
-function closeAcc(){$('ac').style.display='none'}
-async function reauth(){const u=auth.currentUser,cp=$('ac_cp').value;if(!cp)throw{code:'app/need-password'};await reauthenticateWithCredential(u,EmailAuthProvider.credential(u.email,cp))}
-async function changePw(){const m=$('ac_m'),np=$('ac_np').value;m.textContent='';
- if(np.length<8){m.textContent='New password must be at least 8 characters.';return}
- try{await reauth();await updatePassword(auth.currentUser,np);$('ac_cp').value='';$('ac_np').value='';m.textContent='Password changed. Use the new password next time you sign in.'}catch(e){m.textContent=aerr(e)}}
-async function changeEm(){const m=$('ac_m'),ne=$('ac_ne').value.trim().toLowerCase();m.textContent='';
- if(!EMRE.test(ne)||FAKE(ne)){m.textContent='Enter a valid email address.';return}
- try{await reauth();await verifyBeforeUpdateEmail(auth.currentUser,ne);m.textContent='A verification link was sent to '+ne+'. Open it to confirm, then sign in with the new email.'}catch(e){m.textContent=aerr(e)}}
-async function mailReset(){const m=$('ac_m'),u=auth.currentUser;m.textContent='';
- if(!u||FAKE(u.email)){m.textContent='Add a real email first using "Change email".';return}
- try{await sendPasswordResetEmail(auth,u.email);m.textContent='Reset link sent to '+u.email+'. Check your inbox and spam folder.'}catch(e){m.textContent=aerr(e)}}
-/* ---------- Backup (owner) ---------- */
-const BKK=()=>'bk_'+libId;
-function bkGet(){try{return JSON.parse(localStorage.getItem(BKK())||'{}')}catch(e){return{}}}
-function bkSet(o){try{localStorage.setItem(BKK(),JSON.stringify(o))}catch(e){}}
-const bkDue=()=>{const g=bkGet();return !g.at||Date.now()-g.at>=7*864e5};
-function toast(t){const e=$('tt');e.textContent=t;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',7000)}
-function bkUI(){if(!OWN()||!$('bkl'))return;const g=bkGet(),d=g.at?Math.floor((Date.now()-g.at)/864e5):0;
- $('bkl').textContent=g.at?'Last backup on this device: '+iso(new Date(g.at))+' ('+(d===0?'today':d+' day'+(d===1?'':'s')+' ago')+')':'No backup has been taken on this device yet.';
- $('bka').checked=!!g.auto;
- const sh=!g.auto&&bkDue();$('bkn').classList.toggle('hide',!sh);
- if(sh)$('bkt').textContent=g.at?'Your last backup on this device was '+d+' days ago.':'You have not taken a backup on this device yet.'}
-function bkAuto(){const on=$('bka').checked;bkSet({...bkGet(),auto:on});$('bkm').textContent=on?'Automatic weekly backup is on for this device.':'Automatic backup is off.';bkUI();if(on&&bkDue())makeBackup(true)}
-async function autoBackupCheck(){if(OWN()&&bkGet().auto&&bkDue())await makeBackup(true)}
-async function makeBackup(auto){if(!OWN()||!libId)return;const m=$('bkm'),btn=$('bkb');btn.disabled=true;m.textContent='Preparing your backup...';
- try{
-  const rd=n=>getDocs(collection(db,'libraries',libId,n)).then(r=>r.docs.map(d=>({id:d.id,...d.data()})));
-  const [st,py,ex,ap,tr]=await Promise.all([rd('students'),rd('payments'),rd('expenses'),rd('approvals'),rd('trash')]);
-  const by=(k,dir)=>(a,b)=>dir*String(a[k]||'').localeCompare(String(b[k]||''));
-  st.sort(by('name',1));tr.sort(by('name',1));py.sort(by('date',-1));ex.sort(by('date',-1));ap.sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
-  const wb=XLSX.utils.book_new(),add=(n,rows,w)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,n)};
-  add('Students',[[...HX,'Status'],...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',isAct(x)?'Active':'Inactive'])],[22,14,8,12,12,15,12,16,30,18,10]);
-  add('Recycle bin',[[...HX,'Deleted on'],...tr.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',x.deletedAt&&x.deletedAt.toDate?iso(x.deletedAt.toDate()):''])],[22,14,8,12,12,15,12,16,30,18,12]);
-  add('Payments',[['Date','Student','Amount','Mode'],...py.map(x=>[x.date,x.studentName,x.amt,x.mode])],[12,22,10,12]);
-  add('Expenses',[['Date','Category','Amount','Note'],...ex.map(x=>[x.date,x.cat,x.amt,x.note||''])],[12,16,10,30]);
-  add('Requests',[['Requested on','Type','Student','Status','Details'],...ap.map(x=>[x.createdAt&&x.createdAt.toDate?iso(x.createdAt.toDate()):'',x.type,x.studentName,x.status,Object.entries(x.changes||{}).map(([k,v])=>k+': '+v).join(', ')])],[14,16,22,10,40]);
-  add('About',[['Library',lib?lib.name:libId],['Backup created',new Date().toLocaleString('en-IN')],['Students',st.length],['Payments',py.length],['Expenses',ex.length],['In recycle bin',tr.length],['Made by','Asaan Library Management System']],[18,34]);
-  const slug=((lib&&lib.name)||'library').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30)||'library',fn='asaan-backup-'+slug+'-'+today()+'.xlsx';
-  XLSX.writeFile(wb,fn);
-  bkSet({...bkGet(),at:Date.now()});
-  m.textContent='Backup saved as '+fn+' ('+st.length+' students, '+py.length+' payments, '+ex.length+' expenses). Check your Downloads folder.';
-  if(auto)toast('Weekly backup downloaded to your Downloads folder')
- }catch(e){m.textContent='Backup failed ('+(e.code||e.message)+'). Please try again.';if(auto)toast('Automatic backup failed. Open the Backup tab and try again.')}
- btn.disabled=false;bkUI()}
-
-if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{mfaVerify,mfaCancel,mfaSetup,mfaConfirm,tmToggle,setTheme,login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,bkAuto,setActive,restoreStu,purgeStu,emptyTrash,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,tpl,expX,impX});
-</script></body></html>
+<section id="about">
+ <div class="wrap">
+  <h2>What is Asaan Library Management Software?</h2>
+  <p class="sub">Asaan is simple library management software made for study libraries and self-study reading rooms. It replaces the fee register, the seat list and the notebook of expenses with one clean screen that you can open on your phone or computer.</p>
+  <p class="sub">You add your students once. After that, the software shows you who is due, who is overdue, how much you collected this month and what you spent, so you can run the library without chasing numbers.</p>
+ </div>
+</section>
+
+<section id="features" class="alt">
+ <div class="wrap">
+  <h2>Everything you need to run your library</h2>
+  <p class="sub">The features library owners use every day, without anything complicated.</p>
+  <div class="grid">
+<article class="card"><div class="ic" aria-hidden="true">🪑</div><h3>Students and seats</h3><p>Add students with their mobile number, seat, guardian contact, address and the exam they are preparing for. Mark students inactive without losing their history.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">📅</div><h3>Monthly fee tracking</h3><p>See everyone whose fee is due in the next 3 days or is overdue. Collect a fee in one tap and the next due date moves forward.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">💬</div><h3>WhatsApp reminders</h3><p>Open a ready-to-send fee reminder in WhatsApp for any student, with the amount and due date already filled in.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">🧾</div><h3>Receipts</h3><p>Share a receipt for every payment on WhatsApp or as a PDF, so students always have proof of payment.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">📊</div><h3>Income and expenses</h3><p>Record rent, electricity, salaries and other costs. The dashboard shows what you collected this month and the last 6 months at a glance.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">👥</div><h3>Staff logins with approval</h3><p>Give your staff their own logins. They can collect fees and add students, but edits and deletions wait for your approval.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">♻️</div><h3>Recycle bin</h3><p>Deleted a student by mistake? Restore them with all their details and earlier payments.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">📤</div><h3>Excel import, export and backup</h3><p>Import students from Excel, export them any time, download a full backup and restore from it when needed.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">🔒</div><h3>Secure by design</h3><p>Strong passwords, separate data for every library and optional two-step login with an authenticator app.</p></article>
+<article class="card"><div class="ic" aria-hidden="true">📱</div><h3>Works on phone and computer</h3><p>Use it in any modern browser, or add it to your home screen to open like an app.</p></article>
+  </div>
+ </div>
+</section>
+
+<section id="how">
+ <div class="wrap">
+  <h2>How to get started</h2>
+  <p class="sub">Getting your library online takes a few simple steps.</p>
+  <ol class="steps">
+   <li><h3>Tell us about your library</h3><p>Fill in the form below with your library name and how many students you have.</p></li>
+   <li><h3>We set it up</h3><p>We contact you, create your library and share your login. You can add staff logins yourself.</p></li>
+   <li><h3>Add your students</h3><p>Add them one by one or import your Excel list. Fees and due dates are tracked from day one.</p></li>
+  </ol>
+ </div>
+</section>
+
+<section id="pricing" class="alt">
+ <div class="wrap">
+  <h2>Simple pricing based on your students</h2>
+  <p class="sub">Every plan has every feature. You only pay for the number of students you have. Prices are in Indian rupees per month.</p>
+  <div class="plans">
+<article class="plan"><h3>Starter</h3><p class="lim">Up to 60 students</p><p class="price"><span class="cur">₹</span>299<small> / month</small></p><a class="btn" href="#contact" data-plan="Starter">Choose Starter</a></article>
+<article class="plan"><h3>Standard</h3><p class="lim">Up to 120 students</p><p class="price"><span class="cur">₹</span>399<small> / month</small></p><a class="btn" href="#contact" data-plan="Standard">Choose Standard</a></article>
+<article class="plan"><h3>Premium</h3><p class="lim">Up to 180 students</p><p class="price"><span class="cur">₹</span>499<small> / month</small></p><a class="btn" href="#contact" data-plan="Premium">Choose Premium</a></article>
+<article class="plan"><h3>Custom</h3><p class="lim">More than 180 students</p><p class="price custom">Let's talk</p><a class="btn ghost" href="#contact" data-plan="Custom">Ask for a custom plan</a></article>
+  </div>
+  <ul class="incl" aria-label="Included in every plan">
+   <li>Students and seat management</li><li>Fee tracking and due dates</li><li>WhatsApp reminders and receipts</li>
+   <li>Income and expense records</li><li>Staff logins with owner approval</li><li>Excel import, export and backup</li>
+  </ul>
+  <p class="note">Not sure which plan fits? Choose the closest one in the form below and we will help you pick.</p>
+ </div>
+</section>
+
+<section id="faq">
+ <div class="wrap">
+  <h2>Frequently asked questions</h2>
+  <p class="sub">Quick answers about Asaan Library.</p>
+  <div style="max-width:820px">
+<details><summary>What is library management software, and who is it for?</summary><p>Library management software helps you run the daily work of a library: who has joined, which seat they use, what fee they pay, who is due, and how much you earned and spent. Asaan is built for study libraries, self-study reading rooms and similar places that charge students a monthly fee.</p></details>
+<details><summary>Does it work for a self-study library or reading room?</summary><p>Yes. Each student has a seat, a monthly fee and a due date. You see who is due or overdue, collect a fee in one tap, and the next due date moves forward by one month.</p></details>
+<details><summary>How do I get started?</summary><p>Fill in the form on this page with your library name and number of students. We will contact you, set up your library and share your login. You can then add students one by one or import them from an Excel file.</p></details>
+<details><summary>Do I need to install anything?</summary><p>No. It runs in your browser on a phone or a computer. You can also add it to your phone&#x27;s home screen or install it from Chrome, so it opens like an app.</p></details>
+<details><summary>How do WhatsApp fee reminders work?</summary><p>Tap the reminder button next to a student and WhatsApp opens with the message already written, addressed to that student&#x27;s number. You press Send yourself. Messages are not sent automatically or in bulk.</p></details>
+<details><summary>Can my staff use it, and what can they do?</summary><p>Yes. You can create separate staff logins. Staff can add students, collect fees and add expenses. Changing or deleting a student or a payment needs your approval, so nothing important changes without you knowing.</p></details>
+<details><summary>Is my library&#x27;s data safe, and who can see it?</summary><p>Each library&#x27;s data is kept separate from every other library. The admin login in the software cannot view your library&#x27;s records. Passwords must be strong, and you can turn on two-step login with an authenticator app. We do not access your data unless you ask us for support or the law requires it.</p></details>
+<details><summary>Do I need to keep my own backup?</summary><p>Yes. You are responsible for keeping backups of your data. The software makes it a one-click job: download everything as one Excel file, turn on a weekly automatic backup, and restore from a backup file whenever needed. Save the file on Google Drive or a pen drive.</p></details>
+<details><summary>Can I bring my existing students from Excel?</summary><p>Yes. Download the template, fill in your students and import the file. You can also export your students to Excel at any time.</p></details>
+<details><summary>What happens if I have more than 180 students?</summary><p>We can make a custom plan for larger libraries. Use the form below, tell us how many students you have, and we will suggest a plan.</p></details>
+<details><summary>How does billing work?</summary><p>Plans are monthly subscriptions based on the number of students: ₹299 for up to 60, ₹399 for up to 120 and ₹499 for up to 180 students. We share the payment details when we set up your library.</p></details>
+  </div>
+ </div>
+</section>
+
+<section id="contact" class="alt">
+ <div class="wrap two">
+  <div>
+   <h2>Start your onboarding</h2>
+   <p class="sub">Tell us about your library and we will get in touch to set it up. It takes about a minute.</p>
+   <ul class="cl" id="cl"></ul>
+   <p class="note">When you send the form, it opens WhatsApp or your email app with your message ready. We use your details only to contact you about setting up your library.</p>
+  </div>
+  <form class="f" id="f" novalidate>
+   <div class="row">
+    <div><label for="f_n">Your name *</label><input id="f_n" autocomplete="name" maxlength="80" required></div>
+    <div><label for="f_l">Library name *</label><input id="f_l" autocomplete="organization" maxlength="80" required></div>
+   </div>
+   <div class="row">
+    <div><label for="f_m">Mobile number *</label><input id="f_m" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="14" placeholder="10 digits" required></div>
+    <div><label for="f_c">City</label><input id="f_c" autocomplete="address-level2" maxlength="60"></div>
+   </div>
+   <div class="row">
+    <div><label for="f_p">Plan you are interested in *</label>
+     <select id="f_p" required>
+      <option value="">Choose a plan</option>
+      <option>Starter: up to 60 students, ₹299/month</option>
+      <option>Standard: up to 120 students, ₹399/month</option>
+      <option>Premium: up to 180 students, ₹499/month</option>
+      <option>Custom: more than 180 students</option>
+      <option>Not sure yet</option>
+     </select></div>
+    <div><label for="f_e">Email (optional)</label><input id="f_e" type="email" autocomplete="email" maxlength="100"></div>
+   </div>
+   <label for="f_t">Anything you want us to know</label>
+   <textarea id="f_t" maxlength="400"></textarea>
+   <label class="chk" for="f_k"><input id="f_k" type="checkbox" required><span>I agree to be contacted about setting up my library.</span></label>
+   <p class="err" id="f_err" role="alert"></p>
+   <div class="actions">
+    <button class="btn" type="submit" id="f_wa">Send on WhatsApp</button>
+    <button class="btn ghost" type="button" id="f_em">Send by email</button>
+   </div>
+   <p class="ok hide" id="f_ok" role="status"></p>
+  </form>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <div>© <span id="yr">2026</span> Asaan Library Management Software. Made for study libraries in India.</div>
+  <div><a href="#features">Features</a> · <a href="#pricing">Pricing</a> · <a href="#faq">FAQ</a> · <a href="app.html" rel="nofollow">Login</a></div>
+ </div>
+</footer>
+
+<script>
+/* ---- EDIT THESE TWO LINES BEFORE PUBLISHING ----
+   WHATSAPP: country code + number, digits only, e.g. "919876543210"
+   EMAIL: the address that should receive onboarding requests */
+var CONTACT={whatsapp:"",email:""};
+
+(function(){
+ var $=function(i){return document.getElementById(i)};
+ $("yr").textContent=new Date().getFullYear();
+ var hasWa=/^[0-9]{10,15}$/.test(CONTACT.whatsapp),hasEm=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(CONTACT.email);
+
+ // contact lines beside the form
+ var cl=$("cl");
+ function line(label,text,href){var li=document.createElement("li"),a=document.createElement("a");li.appendChild(document.createTextNode(label+" "));a.textContent=text;a.href=href;li.appendChild(a);cl.appendChild(li)}
+ if(hasWa)line("WhatsApp:","+"+CONTACT.whatsapp,"https://wa.me/"+CONTACT.whatsapp);
+ if(hasEm)line("Email:",CONTACT.email,"mailto:"+CONTACT.email);
+ if(!hasWa)$("f_wa").classList.add("hide");
+ if(!hasEm)$("f_em").classList.add("hide");
+ if(!hasWa&&!hasEm){$("f_err").textContent="The contact form is not available right now. Please try again later.";$("f_wa").classList.add("hide")}
+
+ // plan buttons pre-select the plan in the form
+ var map={Starter:1,Standard:2,Premium:3,Custom:4};
+ Array.prototype.forEach.call(document.querySelectorAll("[data-plan]"),function(b){b.addEventListener("click",function(){$("f_p").selectedIndex=map[b.getAttribute("data-plan")]||0})});
+
+ function collect(){
+  var v=function(i){return $(i).value.trim()},err=$("f_err");err.textContent="";
+  var mob=v("f_m").replace(/[\s\-+]/g,"");if(/^91[0-9]{10}$/.test(mob))mob=mob.slice(2);
+  if(!v("f_n")||!v("f_l")){err.textContent="Please enter your name and library name.";return null}
+  if(!/^[6-9][0-9]{9}$/.test(mob)){err.textContent="Please enter a valid 10 digit mobile number.";return null}
+  if(!$("f_p").value){err.textContent="Please choose a plan, or choose Not sure yet.";return null}
+  if(v("f_e")&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v("f_e"))){err.textContent="That email address does not look right.";return null}
+  if(!$("f_k").checked){err.textContent="Please tick the box to agree to be contacted.";return null}
+  var t="Hello, I want to start Asaan Library Management Software for my library.\n\nName: "+v("f_n")+"\nLibrary: "+v("f_l")+"\nMobile: "+mob+(v("f_c")?"\nCity: "+v("f_c"):"")+"\nPlan: "+$("f_p").value+(v("f_e")?"\nEmail: "+v("f_e"):"")+(v("f_t")?"\nNote: "+v("f_t"):"");
+  return t}
+ function done(msg){var o=$("f_ok");o.textContent=msg;o.classList.remove("hide")}
+ $("f").addEventListener("submit",function(e){e.preventDefault();if(!hasWa)return;var t=collect();if(!t)return;
+  window.open("https://wa.me/"+CONTACT.whatsapp+"?text="+encodeURIComponent(t),"_blank","noopener");
+  done("WhatsApp has opened with your message ready. Press Send there to finish. If it did not open, use the email button instead.")});
+ $("f_em").addEventListener("click",function(){if(!hasEm)return;var t=collect();if(!t)return;
+  window.location.href="mailto:"+CONTACT.email+"?subject="+encodeURIComponent("Asaan onboarding request")+"&body="+encodeURIComponent(t);
+  done("Your email app should open with the message ready. Press Send there to finish.")});
+})();
+</script>
+</body>
+</html>

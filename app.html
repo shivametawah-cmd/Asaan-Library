@@ -252,7 +252,9 @@ function tmSync(){const a=document.querySelector('#tbs button.act');$('tmt').tex
 function tmToggle(f){const o=typeof f==='boolean'?f:!$('nv').classList.contains('open');$('nv').classList.toggle('open',o);$('tmb').setAttribute('aria-expanded',String(o))}
 document.addEventListener('click',e=>{if(!e.target.closest('#nv'))tmToggle(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){tmToggle(false);closeSup()}});
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=s=>String(s??'').replace(/[&<>"'`]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
+/* san(): strip < > " ` from free text before it is saved (the database rules reject them). Output is still escaped with esc(). */
+const san=s=>String(s??'').replace(/[<>"`]/g,'');
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const today=()=>iso(new Date());
 const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
@@ -1667,7 +1669,7 @@ async function admit(){
  if(SET&&!sh){m.textContent='Choose a shift.';return}
  const sc=seatCheck(seat,sh,null);if(sc){m.textContent=sc;return}
  if(MAXS()){if(capLeft()<1){m.textContent=capMsg();return}if(!STATS){m.textContent=noStats;return}}
- try{const ref=doc(collection(db,'libraries',libId,'students')),b=writeBatch(db),d={name:v('a_n'),phone:v('a_p'),seat,fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,guardianPhone:v('a_gp'),address:v('a_ad2'),preparingFor:v('a_pf'),createdAt:serverTimestamp()};
+ try{const ref=doc(collection(db,'libraries',libId,'students')),b=writeBatch(db),d={name:san(v('a_n')),phone:v('a_p'),seat:san(seat),fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,guardianPhone:v('a_gp'),address:san(v('a_ad2')),preparingFor:san(v('a_pf')),createdAt:serverTimestamp()};
   if(sh)d.shift=sh;b.set(ref,d);stAdd(b,ref.id);await b.commit();
   ['a_n','a_p','a_s','a_f','a_a','a_gp','a_pf','a_ad2'].forEach(i=>$(i).value='');m.textContent='Student admitted.'}catch(e){m.textContent='Could not save ('+e.code+')'}
 }
@@ -1675,11 +1677,11 @@ async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;if(!isA
  const a=+prompt('Amount received from '+s.name+' (₹)',s.fee);if(!(a>0))return;
  if(!OWN()&&a<s.fee){alert('Staff cannot record a part payment. Please ask the owner to record it.');return}
  if(a<s.fee&&!confirm('This is less than the monthly fee ('+inr(s.fee)+'). Mark this month as paid anyway?'))return;
- const mode=(prompt('Payment mode','Cash')||'Cash').trim().slice(0,30)||'Cash';
+ const mode=san((prompt('Payment mode','Cash')||'Cash').trim()).slice(0,30)||'Cash';
  try{const b=writeBatch(db);
   const nd=addM(s.nextDue.slice(0,8)+(s.joined||s.nextDue).slice(8,10),1),pr=doc(db,'libraries',libId,'payments',id+'_'+nd);
   if((await getDoc(pr)).exists()){alert('A payment for this due date is already recorded for this student. Ask the owner to check the Payments tab.');return}
-  b.set(pr,{studentId:id,studentName:s.name,amt:a,date:today(),mode});
+  b.set(pr,{studentId:id,studentName:san(s.name),amt:a,date:today(),mode,by:auth.currentUser.uid,at:serverTimestamp()});
   b.update(doc(db,'libraries',libId,'students',id),{nextDue:nd});
   await b.commit();
   const rp={id:pr.id,date:today(),studentName:s.name,amt:a,mode};RC={phone:s.phone,p:rp,nd,text:rcText(rp,nd)};
@@ -1746,7 +1748,7 @@ function tab(n){if(n==='tr'&&OWN()&&!TRL)loadTrash();
 ['dash','stu','seat','pay','exp','apr','stf','bk','tr'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)});tmSync();tmToggle(false);if(matchMedia('(max-width:759px)').matches)window.scrollTo({top:0})}
 async function req(type,sid,sname,extra){
  if(AP.some(a=>a.status==='pending'&&(a.type===type||(type==='delete_student'&&a.type==='delete'))&&a.studentId===sid&&(a.paymentId||'')===((extra&&extra.paymentId)||''))){alert('A similar request is already waiting for the owner.');return false}
- try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:sname,...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
+ try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:((ST.find(x=>x.id===sid)||{}).name||sname),...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
   alert('Request sent to the owner. Nothing changes until the owner approves it.');return true}catch(e){alert('Could not send the request ('+e.code+')');return false}}
 const isAct=s=>s.active!==false;
 /* ---------- plan limits (set by the provider, enforced by the database rules) ---------- */
@@ -1757,8 +1759,9 @@ const noStats='Setup is not finished yet. Please ask the owner to open the app o
 const stRef=()=>doc(db,'libraries',libId,'meta','stats');
 function stAdd(b,sid){if(MAXS())b.update(stRef(),{active:increment(1),lastId:sid,op:'add'})}
 function stSub(b,sid){if(MAXS()&&STATS&&STATS.active>0)b.update(stRef(),{active:increment(-1),lastId:sid,op:'sub'})}
-async function initStats(){if(INITD||!OWN()||!LIVE||!MAXS()||!STL||STATS||!SOK)return;INITD=true;
- try{await setDoc(stRef(),{active:actN(),lastId:'',op:'init'})}catch(e){INITD=false}}
+/* The student counter is created by the provider (super admin) when the library is added. Owners can no longer create it
+   (see firestore.rules). If it is missing, the provider must create meta/stats once in the Firebase console. */
+async function initStats(){return}
 function capUI(){const e=$('cap');if(!e)return;
  e.innerHTML=(MAXS()?'Active students: <b>'+actN()+'</b> of <b>'+MAXS()+'</b>'+(capLeft()<1?' <span class="bad">(limit reached)</span>':'')+'. ':'')+(SET?'':'Owner: set your library timing in the Seats tab so shifts and the seat map work.')}
 /* ---------- shifts and seats ---------- */
@@ -1874,7 +1877,7 @@ function editStu(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;EID=id;
  $('ec').classList.remove('hide');$('ec').scrollIntoView({behavior:'smooth',block:'center'})}
 function cancelEdit(){EID='';$('ec').classList.add('hide')}
 async function saveStu(){const s=ST.find(x=>x.id===EID),m=$('emsg');if(!s||!LIVE)return;
- const n=$('e_n').value.trim(),p=$('e_p').value.trim(),st=$('e_s').value.trim(),f=+$('e_f').value,d=$('e_d').value,gp=$('e_gp').value.trim(),pf=$('e_pf').value.trim(),ad=$('e_ad2').value.trim(),sh=$('e_sh').value;
+ const n=san($('e_n').value.trim()),p=$('e_p').value.trim(),st=san($('e_s').value.trim()),f=+$('e_f').value,d=$('e_d').value,gp=$('e_gp').value.trim(),pf=san($('e_pf').value.trim()),ad=san($('e_ad2').value.trim()),sh=$('e_sh').value;
  if(!n||!/^\d{10}$/.test(p)||!(f>0)||!d){m.textContent='Name, a 10-digit mobile number, fee and next due date are required.';return}
  if(gp&&!/^\d{10}$/.test(gp)){m.textContent='Guardian\'s contact number must be 10 digits.';return}
  const ch={};if(n!==s.name)ch.name=n;if(p!==s.phone)ch.phone=p;if(st!==(s.seat||''))ch.seat=st;if(f!==s.fee)ch.fee=f;if(d!==s.nextDue)ch.nextDue=d;if(gp!==(s.guardianPhone||''))ch.guardianPhone=gp;if(pf!==(s.preparingFor||''))ch.preparingFor=pf;if(ad!==(s.address||''))ch.address=ad;if(sh&&sh!==(s.shift||''))ch.shift=sh;
@@ -1887,7 +1890,7 @@ function drawPay(){const m=$('p_m').value||ym(),r=PY.filter(p=>p.date.startsWith
  $('pt').innerHTML=r.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+r.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s" data-id="${esc(p.id)}" onclick="rcpt(this.dataset.id)">Receipt</button> <button class="s o" data-id="${esc(p.id)}" onclick="editPay(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> <button class="s r" data-id="${esc(p.id)}" onclick="delPay(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded for this month.</p>'}
 async function editPay(id){const p=PY.find(x=>x.id===id);if(!p||!LIVE)return;
  const a=+prompt('New amount for '+p.studentName+' (₹)',p.amt);if(!(a>0))return;
- const md=(prompt('Payment mode',p.mode)||p.mode).trim().slice(0,30);
+ const md=san((prompt('Payment mode',p.mode)||p.mode).trim()).slice(0,30);
  const ch={};if(a!==p.amt)ch.amt=a;if(md&&md!==p.mode)ch.mode=md;
  if(!Object.keys(ch).length){alert('Nothing was changed.');return}
  try{if(OWN())await updateDoc(doc(db,'libraries',libId,'payments',id),ch);
@@ -1905,7 +1908,7 @@ function drawExp(){const m=$('x_m').value||ym(),r=EX.filter(x=>x.date.startsWith
  $('xs').textContent='Total '+inr(r.reduce((a,x)=>a+x.amt,0))+(r.length?': '+Object.entries(by).map(([k,v])=>k+' '+inr(v)).join(', '):'')+'. Showing the last 6 months.';
  $('xl').innerHTML=r.length?'<table><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th><th></th></tr>'+r.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.cat)}</td><td>${inr(x.amt)}</td><td>${esc(x.note)}</td><td>${OWN()?`<button class="s r" data-id="${esc(x.id)}" onclick="delExp(this.dataset.id)" ${LIVE?'':'disabled'}>Delete</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No expenses recorded for this month.</p>'}
 async function addExp(){if(!LIVE)return;const d=$('x_d').value,a=+$('x_a').value;if(!d||!(a>0)){alert('Enter a date and an amount.');return}
- try{await addDoc(collection(db,'libraries',libId,'expenses'),{date:d,cat:$('x_c').value,amt:a,note:$('x_n').value.trim()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
+ try{await addDoc(collection(db,'libraries',libId,'expenses'),{date:d,cat:$('x_c').value,amt:a,note:san($('x_n').value.trim()),by:auth.currentUser.uid,at:serverTimestamp()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
 async function delExp(id){if(!OWN()||!LIVE||!confirm('Delete this expense?'))return;try{await deleteDoc(doc(db,'libraries',libId,'expenses',id))}catch(e){alert('Could not delete ('+e.code+')')}}
 const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode',active:'status',inactiveOn:'inactive since',guardianPhone:'guardian mobile',address:'address',preparingFor:'preparing for',shift:'shift'};
 const fv=(k,v)=>k==='active'?(v?'Active':'Inactive'):k==='shift'&&SH[v]?SH[v].n:v;
@@ -1949,10 +1952,10 @@ async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){
  if(MAXS()&&!STATS){m.textContent=noStats;return}
  const col=collection(db,'libraries',libId,'students'),seen=new Set(),plain=[],counted=[];let add=0,upd=0,bad=0,kept=0,lim=0,room=capLeft(),cnt=STATS?STATS.active:0;
  const shk=t=>{t=String(t).trim().toLowerCase();return!t?'':/24/.test(t)?'h24':t.startsWith('full')?'full':t.startsWith('morn')?'morning':t.startsWith('even')?'evening':t.startsWith('night')?'night':''};
- for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=String(r['Name']).trim().slice(0,80),fee=+r['Monthly Fee'];
+ for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=san(String(r['Name']).trim()).slice(0,80),fee=+r['Monthly Fee'];
   if(!n||p.length!==10||!(fee>0&&fee<=1000000)||seen.has(p)){bad++;continue}
   seen.add(p);
-  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=String(r['Seat']).trim().slice(0,20),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),gp=gp0.length===10?gp0:'',adr=String(r['Address']).trim().slice(0,200),pf=String(r['Preparing For']).trim().slice(0,60),sh=shk(r['Shift']),ex=ST.find(x=>x.phone===p),stt=String(r['Status']).trim().toLowerCase();
+  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=san(String(r['Seat']).trim()).slice(0,20),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),gp=gp0.length===10?gp0:'',adr=san(String(r['Address']).trim()).slice(0,200),pf=san(String(r['Preparing For']).trim()).slice(0,60),sh=shk(r['Shift']),ex=ST.find(x=>x.phone===p),stt=String(r['Status']).trim().toLowerCase();
   if(ex){if(!upOK){kept++;continue}
    const d={name:n,fee};if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;if(gp)d.guardianPhone=gp;if(adr)d.address=adr;if(pf)d.preparingFor=pf;if(sh)d.shift=sh;
    if(stt==='inactive'&&isAct(ex)){d.active=false;d.inactiveOn=today();counted.push({ref:doc(col,ex.id),d,op:'update',sub:true})}
@@ -2028,24 +2031,24 @@ function planRestore(o){const {rs,rp,rx,ST,haveP,haveE,keyP,keyE,newId}=o,vid=v=
  const stIds=new Set(ST.map(x=>x.id)),byPh=new Map(ST.map(x=>[x.phone,x.id])),rid=new Map(),stu=[],seen=new Set(),names=new Map(),pay=[],exp=[],usedP=new Set(),usedE=new Set();
  const addName=(n,id)=>{const k=n.toLowerCase();names.set(k,names.has(k)?null:id)};ST.forEach(x=>addName(x.name,x.id));
  let skS=0,dupS=0,skP=0,dupP=0,skE=0,dupE=0;
- for(const r of rs){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=String(r['Name']).trim().slice(0,80),fee=+r['Monthly Fee'],bid=String(r['ID']).trim();
+ for(const r of rs){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=san(String(r['Name']).trim()).slice(0,80),fee=+r['Monthly Fee'],bid=String(r['ID']).trim();
   if(!n||p.length!==10||!(fee>0&&fee<=1000000)){skS++;continue}
   if(vid(bid)&&stIds.has(bid)){rid.set(bid,bid);dupS++;continue}
   if(byPh.has(p)){if(vid(bid))rid.set(bid,byPh.get(p));dupS++;continue}
   if(seen.has(p)){skS++;continue}
   seen.add(p);const id=vid(bid)?bid:newId();byPh.set(p,id);if(vid(bid))rid.set(bid,id);addName(n,id);
   const jn=dx(r['Join Date']),nd=dx(r['Next Due']),j=jn||today(),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),
-   d={name:n,phone:p,seat:String(r['Seat']).trim().slice(0,20),fee,joined:j,nextDue:nd||j,aadhaarLast4:String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),guardianPhone:gp0.length===10?gp0:'',address:String(r['Address']).trim().slice(0,200),preparingFor:String(r['Preparing For']).trim().slice(0,60)};
+   d={name:n,phone:p,seat:san(String(r['Seat']).trim()).slice(0,20),fee,joined:j,nextDue:nd||j,aadhaarLast4:String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),guardianPhone:gp0.length===10?gp0:'',address:san(String(r['Address']).trim()).slice(0,200),preparingFor:san(String(r['Preparing For']).trim()).slice(0,60)};
   if(String(r['Status']).trim().toLowerCase()==='inactive'){d.active=false;d.inactiveOn=today()}
   stu.push({id,d})}
- for(const r of rp){const amt=+r['Amount'],date=dx(r['Date']),mode=String(r['Mode']).trim().slice(0,30),nm=String(r['Student']).trim().slice(0,80),sb=String(r['Student ID']).trim(),pid=String(r['Payment ID']).trim();
+ for(const r of rp){const amt=+r['Amount'],date=dx(r['Date']),mode=san(String(r['Mode']).trim()).slice(0,30),nm=san(String(r['Student']).trim()).slice(0,80),sb=String(r['Student ID']).trim(),pid=String(r['Payment ID']).trim();
   if(!(amt>0&&amt<=1e7)||!date){skP++;continue}
   const sid=rid.get(sb)||(stIds.has(sb)?sb:null)||(sb?null:names.get(nm.toLowerCase()));
   if(!sid){skP++;continue}
   const k=[sid,date,amt,mode].join('|'),hid=vid(pid);
   if(hid?(haveP.has(pid)||usedP.has(pid)):keyP.has(k)){dupP++;continue}
   if(hid)usedP.add(pid);pay.push({id:hid?pid:null,d:{studentId:sid,studentName:nm,amt,date,mode}})}
- for(const r of rx){const amt=+r['Amount'],date=dx(r['Date']),cat=String(r['Category']).trim().slice(0,30),note=String(r['Note']).trim().slice(0,200),eid=String(r['ID']).trim();
+ for(const r of rx){const amt=+r['Amount'],date=dx(r['Date']),cat=san(String(r['Category']).trim()).slice(0,30),note=san(String(r['Note']).trim()).slice(0,200),eid=String(r['ID']).trim();
   if(!(amt>0&&amt<=1e7)||!date){skE++;continue}
   const k=[date,cat,amt,note].join('|'),hid=vid(eid);
   if(hid?(haveE.has(eid)||usedE.has(eid)):keyE.has(k)){dupE++;continue}
@@ -2069,8 +2072,8 @@ async function restoreBackup(){if(!OWN()||!libId)return;const f=$('rf').files[0]
   for(const g of chunk(plan.stu,400)){const b=writeBatch(db);g.forEach(x=>b.set(doc(col('students'),x.id),{...x.d,createdAt:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring students... '+done+' of '+nS}
   plan.pay.sort((a,b)=>a.d.studentId<b.d.studentId?-1:a.d.studentId>b.d.studentId?1:0);
   const pb=[];let cur=[],ids=new Set();for(const x of plan.pay){if(cur.length&&(cur.length>=400||(!ids.has(x.d.studentId)&&ids.size>=8))){pb.push(cur);cur=[];ids=new Set()}cur.push(x);ids.add(x.d.studentId)}if(cur.length)pb.push(cur);
-  done=0;for(const g of pb){const b=writeBatch(db);g.forEach(x=>b.set(x.id?doc(col('payments'),x.id):doc(col('payments')),x.d));await b.commit();done+=g.length;m.textContent='Restoring payments... '+done+' of '+nP}
-  done=0;for(const g of chunk(plan.exp,400)){const b=writeBatch(db);g.forEach(x=>b.set(x.id?doc(col('expenses'),x.id):doc(col('expenses')),x.d));await b.commit();done+=g.length;m.textContent='Restoring expenses... '+done+' of '+nE}
+  done=0;for(const g of pb){const b=writeBatch(db);g.forEach(x=>b.set(x.id?doc(col('payments'),x.id):doc(col('payments')),{...x.d,by:auth.currentUser.uid,at:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring payments... '+done+' of '+nP}
+  done=0;for(const g of chunk(plan.exp,400)){const b=writeBatch(db);g.forEach(x=>b.set(x.id?doc(col('expenses'),x.id):doc(col('expenses')),{...x.d,by:auth.currentUser.uid,at:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring expenses... '+done+' of '+nE}
   m.textContent='Restore finished: '+nS+' students, '+nP+' payments and '+nE+' expenses added. Skipped '+(plan.skS+plan.skP+plan.skE)+' rows that were invalid or could not be linked to a student, and left '+(plan.dupS+plan.dupP+plan.dupE)+' rows that already existed.';
  }catch(e){m.textContent='Restore stopped ('+(e.code||e.message)+'). Nothing already saved was changed. You can run it again to continue.'}
  btn.disabled=false}

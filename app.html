@@ -2,12 +2,13 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.google.com https://*.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.google.com https://*.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<script>if(top!==self){document.documentElement.style.display="none";try{top.location=self.location}catch(e){}}</script>
 <script>try{var t=localStorage.getItem("asaan_theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <title>Asaan Library Management Software - Login</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1d5a47" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0e1512" media="(prefers-color-scheme: dark)"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="xlsx.full.min.js"></script>
 <style>
 :root{--bg:#f2f4f1;--c:#fff;--tx:#1b211e;--mu:#667069;--ac:#1d5a47;--ac2:#2f8f6f;--ln:#1d5a47;--bd:#dde2dc;--bda:rgba(221,226,220,.9);--bdh:#c3ccc5;--bad:#b3402f;--badt:#b3402f;--hi:#e9f1ed;--th:#f2f7f4;--rh:#f6faf8;--tbg:rgba(255,255,255,.82);--g1:rgba(47,143,111,.20);--g2:rgba(201,137,43,.15);--g3:rgba(59,91,219,.08);--h1a:#164a3a;--h1b:#2f8f6f;--k1c:#1d5a47;--k1t:#e1f0e9;--k2c:#c2410c;--k2t:#fdeadf;--k3c:#0f766e;--k3t:#d9f2ee;--k4c:#b7791f;--k4t:#fbefd2;--k5c:#3b5bdb;--k5t:#e4e9fc;--sh:0 1px 2px rgba(18,43,33,.06),0 10px 28px -14px rgba(18,43,33,.18);color-scheme:light}
 :root[data-theme=dark]{--bg:#0e1512;--c:#17201c;--tx:#e8f0ea;--mu:#9fb0a6;--ac:#1d5a47;--ac2:#28805f;--ln:#74dbb0;--bd:#2d3a34;--bda:#2d3a34;--bdh:#43544b;--bad:#c2503f;--badt:#ff9483;--hi:#20322a;--th:#1c2823;--rh:#1d2a24;--tbg:rgba(23,32,28,.88);--g1:rgba(47,143,111,.13);--g2:rgba(201,137,43,.07);--g3:rgba(59,91,219,.08);--h1a:#9fe8c8;--h1b:#52c99f;--k1c:#74dbb0;--k1t:#1c3a2f;--k2c:#ffa56e;--k2t:#3d2a1d;--k3c:#62d6ca;--k3t:#17373a;--k4c:#f3c65c;--k4t:#3a3018;--k5c:#93a9ff;--k5t:#232c52;--sh:0 1px 2px rgba(0,0,0,.45),0 10px 28px -14px rgba(0,0,0,.7);color-scheme:dark}
@@ -263,7 +264,7 @@ const show=v=>['lg','sa','lb'].forEach(i=>$(i).classList.toggle('hide',i!==v));
 const expOf=l=>l&&l.expiry&&l.expiry.toDate?l.expiry.toDate():null;
 const isLive=l=>{const e=expOf(l);return !!(l&&l.active&&e&&e>new Date())};
 
-async function login(){$('lm').textContent='';try{const v=$('em').value.trim().toLowerCase();await signInWithEmailAndPassword(auth,v.includes('@')?v:v+'@'+app.options.authDomain,$('pw').value);$('le').textContent=''}catch(e){if(e.code==='auth/multi-factor-auth-required'){mfaAsk(e);return}$('le').textContent=e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found'?'Wrong email or password.':e.code==='auth/password-does-not-meet-requirements'?'Your password does not meet the new password rules. Tap "Forgot password?" to set a new one.':'Sign in failed ('+e.code+')'}}
+async function login(){$('lm').textContent='';markLogin();try{const v=$('em').value.trim().toLowerCase();await signInWithEmailAndPassword(auth,v.includes('@')?v:v+'@'+app.options.authDomain,$('pw').value);$('le').textContent=''}catch(e){if(e.code==='auth/multi-factor-auth-required'){mfaAsk(e);return}$('le').textContent=e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found'?'Wrong email or password.':e.code==='auth/password-does-not-meet-requirements'?'Your password does not meet the new password rules. Tap "Forgot password?" to set a new one.':'Sign in failed ('+e.code+')'}}
 async function forgot(){const v=$('em').value.trim().toLowerCase(),le=$('le'),lm=$('lm');le.textContent='';lm.textContent='';
  if(!EMRE.test(v)){le.textContent='Type your email in the box above, then tap Forgot password.';return}
  if(FAKE(v)){le.textContent='This login has no email on file. Ask your library owner or provider to reset it.';return}
@@ -1535,7 +1536,7 @@ let MFR=null,MFS=null;
 function mfaAsk(e){MFR=getMultiFactorResolver(auth,e);
  if(!MFR.hints.some(x=>x.factorId===TotpMultiFactorGenerator.FACTOR_ID)){MFR=null;$('le').textContent='This login needs a second step that this app does not support.';return}
  $('le').textContent='';$('mfa').classList.remove('hide');$('mfc').value='';$('mfc').focus()}
-async function mfaVerify(){if(!MFR)return;const h=MFR.hints.find(x=>x.factorId===TotpMultiFactorGenerator.FACTOR_ID),c=$('mfc').value.trim();
+async function mfaVerify(){if(!MFR)return;markLogin();const h=MFR.hints.find(x=>x.factorId===TotpMultiFactorGenerator.FACTOR_ID),c=$('mfc').value.trim();
  if(!/^\d{6}$/.test(c)){$('le').textContent='Enter the 6-digit code from your authenticator app.';return}
  try{await MFR.resolveSignIn(TotpMultiFactorGenerator.assertionForSignIn(h.uid,c));MFR=null;$('mfa').classList.add('hide');$('le').textContent='';$('pw').value=''}
  catch(e){$('le').textContent=e.code==='auth/invalid-verification-code'?'Wrong or expired code. Wait for the next code and try again.':e.code==='auth/too-many-requests'?'Too many attempts. Please try again later.':'Could not verify ('+e.code+')'}}
@@ -1551,13 +1552,38 @@ async function mfaConfirm(){const m=$('ac_m'),c=$('mf_c').value.trim();if(!MFS)r
  if(!/^\d{6}$/.test(c)){m.textContent='Enter the 6-digit code from your authenticator app.';return}
  try{await multiFactor(auth.currentUser).enroll(TotpMultiFactorGenerator.assertionForEnrollment(MFS,c),'Authenticator app');MFS=null;$('mf_b').classList.add('hide');$('mf_c').value='';$('mf_q').innerHTML='';$('mf_k').textContent='';mfaStatus();m.textContent='Two-step login is ON. Next time you sign in you will need the 6-digit code.'}
  catch(e){m.textContent=aerr(e)}}
-function logout(){signOut(auth)}
+/* ---------- Session timeout ----------
+   Signs the user out after IDLE minutes with no use, and after MAX hours from the moment of login, even if the app stays open.
+   Change the numbers below to adjust. This runs in the browser: it protects unattended or lost devices. */
+const IDLE_MS=30*60e3,SUPER_IDLE_MS=15*60e3,MAX_MS=12*3600e3,WARN_MS=60e3,K_ACT='asaan_act',K_LOGIN='asaan_login';
+const LSOK=(()=>{try{localStorage.setItem('asaan_t','1');localStorage.removeItem('asaan_t');return true}catch(e){return false}})();
+const lsGet=k=>{try{return+localStorage.getItem(k)||0}catch(e){return 0}},lsSet=(k,v)=>{try{localStorage.setItem(k,String(v))}catch(e){}},lsDel=k=>{try{localStorage.removeItem(k)}catch(e){}};
+let lastAct=Date.now(),warned=false,expiring=false;
+const idleLimit=()=>me&&me.role==='super'?SUPER_IDLE_MS:IDLE_MS;
+const idleMsg=()=>'You were signed out because the app was not used for '+Math.round(idleLimit()/60e3)+' minutes. Please sign in again.';
+const AGEMSG='For your safety, please sign in again.';
+function markLogin(){const n=Date.now();lastAct=n;warned=false;lsSet(K_LOGIN,n);lsSet(K_ACT,n)}
+function touch(){if(!auth.currentUser)return;const n=Date.now();if(n-lastAct<3000)return;lastAct=n;warned=false;lsSet(K_ACT,n)}
+async function expire(why){if(expiring)return;expiring=true;lsDel(K_ACT);lsDel(K_LOGIN);try{await signOut(auth)}catch(e){}$('lm').textContent=why;expiring=false}
+function sessCheck(){if(!auth.currentUser||!me)return;const n=Date.now();
+ if(LSOK){const lg=lsGet(K_LOGIN);if(!lg||n-lg>MAX_MS){expire(AGEMSG);return}}
+ const idle=n-Math.max(lastAct,lsGet(K_ACT));
+ if(idle>=idleLimit()){expire(idleMsg());return}
+ if(idleLimit()-idle<=WARN_MS&&!warned){warned=true;toast('You will be signed out in 1 minute because of no activity. Touch the screen to stay signed in.')}}
+['click','keydown','touchstart','scroll','mousemove'].forEach(ev=>window.addEventListener(ev,touch,{passive:true,capture:true}));
+setInterval(sessCheck,10000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sessCheck()});
+window.addEventListener('pageshow',sessCheck);
+function logout(){lsDel(K_ACT);lsDel(K_LOGIN);signOut(auth)}
 
 onAuthStateChanged(auth,async u=>{
  unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];TR=[];STATS=null;SET=null;STL=false;SOK=false;TRL=false;INITD=false;SELSEAT='';BKDONE=false;RC=null;KPREV={};$('rcb').style.display='none';
  if(!u){show('lg');return}
  try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
+ if(LSOK){const n=Date.now(),lg=lsGet(K_LOGIN),ac=lsGet(K_ACT);
+  if(!lg||n-lg>MAX_MS||!ac||n-ac>idleLimit()){expire(lg&&ac&&n-lg<=MAX_MS?idleMsg():AGEMSG);return}
+  lastAct=Math.max(lastAct,ac)}
  if(me.role==='super'){
   show('sa');
   unsubs.push(onSnapshot(query(collection(db,'libraries'),orderBy('createdAt','desc')),s=>{LIBS=s.docs.map(d=>({id:d.id,...d.data()}));drawSA()},e=>alert('Libraries: '+e.code)));

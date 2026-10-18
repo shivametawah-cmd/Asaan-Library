@@ -114,6 +114,14 @@ code{color:var(--tx);background:var(--hi);padding:1px 5px;border-radius:4px;font
 .ib{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border-radius:9px;border:0;color:#fff;vertical-align:middle;text-decoration:none;box-shadow:0 2px 6px -2px rgba(0,0,0,.35);transition:transform .15s,filter .15s}
 .ib:hover{transform:translateY(-1px);filter:brightness(1.08)}
 button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
+.seatgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;margin:12px 0}
+.seat{height:46px;padding:0;border:0;border-radius:10px;color:#fff;font-weight:700;font-size:.8rem;text-shadow:0 1px 2px rgba(0,0,0,.5);box-shadow:inset 0 0 0 1px rgba(0,0,0,.1),0 2px 5px -2px rgba(0,0,0,.35)}
+.seat:hover:not(:disabled){transform:translateY(-2px) scale(1.04);filter:none}
+.seat.sel{outline:3px solid var(--tx);outline-offset:2px}
+.lgd{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--mu);margin:6px 0}
+.lgd span{display:inline-flex;align-items:center;gap:6px}
+.lgd i{width:18px;height:18px;border-radius:5px;display:inline-block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+:root{--sf:#2f9e6e;--so:#d4574a}
 .spb{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--bd);border-radius:12px;color:var(--tx);text-decoration:none;margin-bottom:10px;transition:background .15s,transform .15s}
 .spb:hover{background:var(--hi);transform:translateY(-1px)}
 .spi{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;color:#fff;flex:none;font-style:normal}
@@ -151,7 +159,8 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <div id="sa" class="hide">
 <div class="top"><h2 style="margin:0">Libraries</h2><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
 <div class="c"><h3>Add library</h3>
-<div class="f"><div><label>Library name</label><input id="n_n"></div><div><label>Plan name</label><input id="n_p" placeholder="e.g. Monthly"></div><div><label>Trial days</label><input id="n_d" type="number" value="30"></div><button onclick="addLib()">Add library</button></div></div>
+<div class="f"><div><label>Library name</label><input id="n_n"></div><div><label>Plan name</label><input id="n_p" placeholder="e.g. Monthly"></div><div><label>Trial days</label><input id="n_d" type="number" value="30"></div><div><label>Max logins (owner + staff, at least 1)</label><input id="n_ma" type="number" min="1" value="2"></div><div><label>Max active students (at least 1)</label><input id="n_ms" type="number" min="1" value="60"></div><button onclick="addLib()">Add library</button></div>
+<p class="mu">Limits are set here by you. Library owners cannot change them. A library with 1 login has only the owner. Students in the recycle bin or marked inactive do not count towards the student limit.</p></div>
 <div class="c"><h3>Create library login</h3>
 <p class="mu">Enter the owner's real email address and set a password. The owner can change the password later, or get a reset link by email, and can create their own staff logins. Double-check the email: reset links are sent there.</p>
 <div class="f"><div><label>Library</label><select id="k_l"></select></div><div><label>Email</label><input id="k_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (8+ characters with a capital letter, small letter, number and symbol)</label><input id="k_p" autocomplete="new-password"></div><div><label>Role</label><select id="k_r"><option value="owner">Owner</option><option value="staff">Staff</option></select></div><button id="kb" onclick="mkUser()">Create login</button></div>
@@ -163,17 +172,18 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <div id="lb" class="hide">
 <div class="top"><div><h2 id="ln" style="margin:0"></h2><span id="sb" class="mu"></span></div><div><button class="o s" onclick="openAcc()">Account</button> <button class="o s" onclick="openSup()">Contact support</button> <button class="o s" onclick="logout()">Sign out</button></div></div>
 <div class="nv" id="nv"><button type="button" id="tmb" class="tmb" aria-expanded="false" aria-controls="tbs" onclick="tmToggle()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="tmt" id="tmt">Dashboard</span><span class="tmn hide" id="tmn"></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-<div class="tabs" id="tbs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button><button id="tb_tr" class="hide" onclick="tab('tr')">Recycle bin</button></div></div>
+<div class="tabs" id="tbs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_seat" onclick="tab('seat')">Seats</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button><button id="tb_tr" class="hide" onclick="tab('tr')">Recycle bin</button></div></div>
 <div id="bkn" class="c hide"><div class="top"><span id="bkt"></span><button class="s" onclick="makeBackup(false)">Backup now</button></div></div>
 <div id="t_dash"><div class="k" id="kp"></div>
 <div class="c"><h3>Last 6 months</h3><div id="ch"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
 <div class="c"><h3>Fees due in the next 3 days or overdue</h3><div class="tw" id="ds"></div></div>
 <div class="c"><h3>Payments this month</h3><div class="tw" id="pl"></div></div></div>
-<div id="t_stu" class="hide"><div class="c"><h3>New admission</h3>
+<div id="t_stu" class="hide"><div class="c"><h3>New admission</h3><p class="mu" id="cap"></p>
 <div class="f">
 <div><label>Name</label><input id="a_n" maxlength="80"></div>
 <div><label>Mobile (10 digits)</label><input id="a_p" inputmode="numeric" maxlength="10"></div>
-<div><label>Seat</label><input id="a_s" maxlength="20"></div>
+<div><label>Shift</label><select id="a_sh" onchange="seatList()"></select></div>
+<div><label>Seat</label><input id="a_s" maxlength="20" list="sdl" autocomplete="off"></div><datalist id="sdl"></datalist>
 <div><label>Monthly fee (₹)</label><input id="a_f" type="number"></div>
 <div><label>Join date</label><input id="a_j" type="date"></div>
 <div><label>Aadhaar last 4 digits</label><input id="a_a" inputmode="numeric" maxlength="4"></div>
@@ -184,15 +194,21 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <datalist id="pfl"><option value="UPSC"><option value="State PCS"><option value="SSC"><option value="Banking"><option value="Railway"><option value="NEET"><option value="JEE"><option value="CUET"><option value="CA / CS"><option value="Board exams"><option value="Teaching exams"><option value="Defence"><option value="Police"><option value="College studies"></datalist>
 <p class="mu">Only the last 4 digits of Aadhaar are stored. No Aadhaar photo or full number is accepted.</p>
 <p id="am" class="mu"></p></div>
-<div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><div><label>Guardian's contact number</label><input id="e_gp" inputmode="numeric" maxlength="10"></div><div><label>Preparing for</label><input id="e_pf" list="pfl" maxlength="60"></div><div style="grid-column:1/-1"><label>Address</label><input id="e_ad2" maxlength="200"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
+<div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Shift</label><select id="e_sh"></select></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><div><label>Guardian's contact number</label><input id="e_gp" inputmode="numeric" maxlength="10"></div><div><label>Preparing for</label><input id="e_pf" list="pfl" maxlength="60"></div><div style="grid-column:1/-1"><label>Address</label><input id="e_ad2" maxlength="200"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
 <div class="c"><div class="top"><h3 style="margin:0">Students</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="sf" style="width:auto" onchange="drawLB()"><option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option></select><input id="q" placeholder="Search name, phone or seat" style="max-width:240px" oninput="drawLB()"></div></div><div class="tw" id="sl"></div></div>
 <div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (owner only, matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">In the blank template, Next Due fills in automatically as the same date one month after Join Date (you can overwrite it). Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
 </div>
+<div id="t_seat" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Seat map</h3><div><label for="sm_f" style="display:inline">Show</label> <select id="sm_f" style="width:auto" onchange="drawSeats()"></select></div></div>
+<p class="mu" id="sm_s"></p><div class="lgd" id="sm_l"></div><div class="seatgrid" id="sm_g"></div><div class="mu" id="sm_i">Tap a seat to see who sits there.</div><p class="mu" id="sm_u"></p></div>
+<div class="c hide" id="sm_set"><h3>Library timing and seats</h3>
+<p class="mu">Tell the app when your library runs. It then offers only the shifts that make sense, and the seat map shows which seats are free for which shift. Only the owner can change this.</p>
+<div class="f"><div><label>Runs 24 hours</label><select id="st_24" onchange="setPreview()"><option value="0">No</option><option value="1">Yes, 24 hours</option></select></div><div><label>Opens at</label><input id="st_o" type="time" value="08:00" oninput="setPreview()"></div><div><label>Closes at</label><input id="st_c" type="time" value="20:00" oninput="setPreview()"></div><div><label>Number of seats</label><input id="st_n" type="number" min="0" max="1000" value="0"></div><div><label>Seat label prefix (optional)</label><input id="st_p" maxlength="5" placeholder="e.g. A-"></div><button id="st_b" onclick="saveSet()">Save</button></div>
+<p class="mu" id="st_pv"></p><p class="mu" id="st_m"></p></div></div>
 <div id="t_pay" class="hide"><div class="c"><div class="top"><h3 style="margin:0">Payments</h3><input id="p_m" type="month" style="max-width:170px" onchange="drawPay()"></div><p class="mu">Staff cannot change or delete a payment directly. They send a request, and nothing changes until the owner approves it in the Approvals tab.</p><p id="ps" class="mu"></p><div class="tw" id="pt"></div></div></div>
 <div id="t_exp" class="hide"><div class="c"><h3>Add expense</h3><div class="f"><div><label>Date</label><input id="x_d" type="date"></div><div><label>Category</label><select id="x_c"><option>Rent</option><option>Electricity</option><option>Internet</option><option>Salary</option><option>Maintenance</option><option>Other</option></select></div><div><label>Amount (₹)</label><input id="x_a" type="number"></div><div><label>Note</label><input id="x_n"></div><button id="xb" onclick="addExp()">Add expense</button></div></div>
 <div class="c"><div class="top"><h3 style="margin:0">Expenses</h3><input id="x_m" type="month" style="max-width:170px" onchange="drawExp()"></div><p id="xs" class="mu"></p><div class="tw" id="xl"></div></div></div>
 <div id="t_apr" class="hide"><div class="c"><h3>Approval requests</h3><p class="mu">Staff cannot delete a student, change a student's details or fee, or change or delete a payment directly. They send a request here, and nothing changes until the owner approves it.</p><div class="tw" id="al"></div></div></div>
-<div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Use the staff member's real email address and set a password. Note it down and share it with them. They can change it later or get a reset link by email.</p><div class="f"><div><label>Staff email</label><input id="f_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (8+ characters with a capital letter, small letter, number and symbol)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
+<div id="t_stf" class="hide"><div class="c"><h3>Create staff login</h3><p class="mu" id="fq"></p><p class="mu">Staff can add students, collect fees and add expenses. Deleting a student needs your approval. Use the staff member's real email address and set a password. Note it down and share it with them. They can change it later or get a reset link by email.</p><div class="f"><div><label>Staff email</label><input id="f_u" type="text" inputmode="email" autocomplete="off" autocapitalize="none"></div><div><label>Password (8+ characters with a capital letter, small letter, number and symbol)</label><input id="f_p" autocomplete="new-password"></div><button id="fb" onclick="mkStaff()">Create staff login</button></div><p id="fm" class="mu"></p></div>
 <div class="c"><h3>Logins in this library</h3><div class="tw" id="fl"></div></div></div>
 <div id="t_bk" class="hide"><div class="c"><h3>Backup your data</h3>
 <p class="mu">Download everything in your library as one Excel file: students (active and inactive), the recycle bin, payments, expenses and approval requests. Save it somewhere safe, for example Google Drive or a pen drive. It contains mobile numbers, so do not share it.</p>
@@ -210,7 +226,7 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,sendPasswordResetEmail,reauthenticateWithCredential,EmailAuthProvider,updatePassword,verifyBeforeUpdateEmail,multiFactor,TotpMultiFactorGenerator,getMultiFactorResolver,sendEmailVerification}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import{getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,getDoc,getDocs,writeBatch,onSnapshot,query,orderBy,where,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import{getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,getDoc,getDocs,writeBatch,onSnapshot,query,orderBy,where,serverTimestamp,increment}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 // Paste your NEW Firebase project's config here (Project settings > Your apps > Web app)
 const app=initializeApp({apiKey:"AIzaSyA1nn1WCo7YKAPgDfVr_wAPHhuJi8Zy1bk",authDomain:"asaan-library.firebaseapp.com",projectId:"asaan-library"});
@@ -221,7 +237,7 @@ const auth=getAuth(app),db=getFirestore(app);
 // Second app instance: used only to create new logins without signing the current user out
 const auxAuth=getAuth(initializeApp(app.options,'aux'));
 
-let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],TR=[],EX=[],AP=[],LIVE=false,BKDONE=false,RC=null,unsubs=[];
+let me=null,libId='',lib=null,ST=[],PY=[],LIBS=[],US=[],TR=[],EX=[],AP=[],LIVE=false,BKDONE=false,RC=null,STATS=null,SET=null,STL=false,SOK=false,TRL=false,INITD=false,SELSEAT='',unsubs=[];
 const $=i=>document.getElementById(i);
 /* ---------- theme (Match my phone / Light / Dark) ---------- */
 const THK='asaan_theme',DQ=matchMedia('(prefers-color-scheme: dark)');
@@ -1536,43 +1552,62 @@ async function mfaConfirm(){const m=$('ac_m'),c=$('mf_c').value.trim();if(!MFS)r
 function logout(){signOut(auth)}
 
 onAuthStateChanged(auth,async u=>{
- unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];TR=[];BKDONE=false;RC=null;KPREV={};$('rcb').style.display='none';
+ unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];TR=[];STATS=null;SET=null;STL=false;SOK=false;TRL=false;INITD=false;SELSEAT='';BKDONE=false;RC=null;KPREV={};$('rcb').style.display='none';
  if(!u){show('lg');return}
  try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
  if(me.role==='super'){
   show('sa');
   unsubs.push(onSnapshot(query(collection(db,'libraries'),orderBy('createdAt','desc')),s=>{LIBS=s.docs.map(d=>({id:d.id,...d.data()}));drawSA()},e=>alert('Libraries: '+e.code)));
-  unsubs.push(onSnapshot(collection(db,'users'),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawUsers()},e=>alert('Logins: '+e.code)));
+  unsubs.push(onSnapshot(collection(db,'users'),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawSA()},e=>alert('Logins: '+e.code)));
  }else{
   libId=me.libId;show('lb');$('x_m').value=ym();$('x_m').min=FROM().slice(0,7);$('p_m').value=ym();$('p_m').min=FROM().slice(0,7);$('x_d').value=today();$('a_j').value=today();tab('dash');
   unsubs.push(onSnapshot(doc(db,'libraries',libId),s=>{lib=s.exists()?s.data():null;drawLB()},e=>alert('Library: '+e.code)));
-  unsubs.push(onSnapshot(collection(db,'libraries',libId,'students'),s=>{ST=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Students: '+e.code)));
+  unsubs.push(onSnapshot(collection(db,'libraries',libId,'students'),s=>{ST=s.docs.map(d=>({id:d.id,...d.data()}));SOK=true;drawLB()},e=>alert('Students: '+e.code)));
+  unsubs.push(onSnapshot(doc(db,'libraries',libId,'meta','stats'),s=>{STATS=s.exists()?s.data():null;STL=true;drawLB()},e=>{STL=true}));
+  unsubs.push(onSnapshot(doc(db,'libraries',libId,'meta','settings'),s=>{SET=s.exists()?s.data():null;fillSet();drawLB()},e=>{}));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'payments'),where('date','>=',FROM()),orderBy('date','desc')),s=>{PY=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Payments: '+e.code)));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'expenses'),where('date','>=',FROM()),orderBy('date','desc')),s=>{EX=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Expenses: '+e.code)));
   unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'approvals'),orderBy('createdAt','desc')),s=>{AP=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Approvals: '+e.code)));
-  if(me.role==='owner')unsubs.push(onSnapshot(collection(db,'libraries',libId,'trash'),s=>{TR=s.docs.map(d=>({id:d.id,...d.data()}));drawTrash()},e=>alert('Recycle bin: '+e.code)));
   if(me.role==='owner')unsubs.push(onSnapshot(query(collection(db,'users'),where('libId','==',libId)),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawStf()},e=>alert('Logins: '+e.code)));
  }
 });
 
 /* ---------- Super admin ---------- */
 function drawSA(){drawUsers();
- $('ll').innerHTML='<table><tr><th>Library</th><th>Library ID</th><th>Plan</th><th>Valid till</th><th>Status</th><th></th></tr>'+LIBS.map(l=>{
-  const e=expOf(l),live=isLive(l);
-  return`<tr><td>${esc(l.name)}</td><td><code>${esc(l.id)}</code></td><td>${esc(l.plan||'')}</td><td>${e?iso(e):'-'}</td><td class="${live?'':'bad'}">${live?'Active':l.active?'Expired':'Suspended'}</td><td><button class="s" data-id="${esc(l.id)}" onclick="ext(this.dataset.id)">Extend</button> <button class="s o" data-id="${esc(l.id)}" onclick="tog(this.dataset.id,${!l.active})">${l.active?'Suspend':'Activate'}</button></td></tr>`}).join('')+'</table>'+(LIBS.length?'':'<p class="mu">No libraries yet. Add your first one above.</p>');
+ $('ll').innerHTML='<table><tr><th>Library</th><th>Library ID</th><th>Plan</th><th>Valid till</th><th>Status</th><th>Limits</th><th></th></tr>'+LIBS.map(l=>{
+  const e=expOf(l),live=isLive(l),used=US.filter(u=>u.libId===l.id&&u.role!=='super').length;
+  return`<tr><td>${esc(l.name)}</td><td><code>${esc(l.id)}</code></td><td>${esc(l.plan||'')}</td><td>${e?iso(e):'-'}</td><td class="${live?'':'bad'}">${live?'Active':l.active?'Expired':'Suspended'}</td><td>Logins ${used} / ${Number.isInteger(l.maxAccounts)?l.maxAccounts:'no limit'}<br>Active students up to ${Number.isInteger(l.maxStudents)?l.maxStudents:'no limit'}</td><td><button class="s" data-id="${esc(l.id)}" onclick="ext(this.dataset.id)">Extend</button> <button class="s o" data-id="${esc(l.id)}" onclick="setLimits(this.dataset.id)">Limits</button> <button class="s o" data-id="${esc(l.id)}" onclick="tog(this.dataset.id,${!l.active})">${l.active?'Suspend':'Activate'}</button></td></tr>`}).join('')+'</table>'+(LIBS.length?'':'<p class="mu">No libraries yet. Add your first one above.</p>');
 }
-async function addLib(){const n=$('n_n').value.trim(),d=+$('n_d').value||30;if(!n)return;
- await addDoc(collection(db,'libraries'),{name:n,plan:$('n_p').value.trim(),active:true,expiry:new Date(Date.now()+d*864e5),createdAt:serverTimestamp()});$('n_n').value=''}
+async function addLib(){const n=$('n_n').value.trim(),d=+$('n_d').value||30,ma=Math.floor(+$('n_ma').value),ms=Math.floor(+$('n_ms').value);if(!n)return;
+ if(!(ma>=1&&ma<=500)){alert('Max logins must be at least 1 (the owner).');return}
+ if(!(ms>=1&&ms<=100000)){alert('Max active students must be at least 1.');return}
+ try{const ref=doc(collection(db,'libraries')),b=writeBatch(db);
+  b.set(ref,{name:n,plan:$('n_p').value.trim(),active:true,expiry:new Date(Date.now()+d*864e5),maxAccounts:ma,maxStudents:ms,createdAt:serverTimestamp()});
+  b.set(doc(db,'libraries',ref.id,'meta','stats'),{active:0,lastId:'',op:'init'});
+  await b.commit();$('n_n').value=''}catch(e){alert('Could not add the library ('+e.code+')')}}
+async function setLimits(id){const l=LIBS.find(x=>x.id===id);if(!l)return;const users=US.filter(u=>u.libId===id&&u.role!=='super');
+ const ma=Math.floor(+prompt('Maximum logins for '+l.name+' (owner + staff, at least 1). Currently '+users.length+' in use.',Number.isInteger(l.maxAccounts)?l.maxAccounts:Math.max(users.length,1)));
+ if(!(ma>=1&&ma<=500)){alert('Enter a number from 1 to 500.');return}
+ if(ma<users.length){alert('This library already has '+users.length+' logins. Remove some first, or choose a bigger number.');return}
+ const ms=Math.floor(+prompt('Maximum ACTIVE students for '+l.name+' (at least 1).',Number.isInteger(l.maxStudents)?l.maxStudents:60));
+ if(!(ms>=1&&ms<=100000)){alert('Enter a number from 1 to 100000.');return}
+ if(users.some(u=>u.slot&&+u.slot>ma)){alert('A login holds a slot number above the new limit. Remove it first or choose a bigger number.');return}
+ try{const b=writeBatch(db);b.update(doc(db,'libraries',id),{maxAccounts:ma,maxStudents:ms});
+  const used=new Set(users.filter(u=>u.slot).map(u=>String(u.slot)));let k=1;
+  users.filter(u=>!u.slot).forEach(u=>{while(used.has(String(k)))k++;used.add(String(k));b.update(doc(db,'users',u.id),{slot:String(k)});b.set(doc(db,'libraries',id,'slots',String(k)),{uid:u.id})});
+  await b.commit()}catch(e){alert('Could not save the limits ('+e.code+')')}}
 async function ext(id){const l=LIBS.find(x=>x.id===id),d=+prompt('Extend by how many days?','30');if(!(d>0))return;
  const b=Math.max(Date.now(),expOf(l)?expOf(l).getTime():0);await updateDoc(doc(db,'libraries',id),{expiry:new Date(b+d*864e5)})}
 async function tog(id,v){await updateDoc(doc(db,'libraries',id),{active:v})}
 const EMRE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/,FAKE=e=>!e||e.endsWith('@'+app.options.authDomain);
 const ulab=u=>u.email&&!FAKE(u.email)?u.email:(u.username||u.email||u.id.slice(0,8)+'…');
-const cerr=e=>e.code==='auth/email-already-in-use'?'This email already has a login.':e.code==='auth/invalid-email'?'This email address is not valid.':(e.code==='auth/weak-password'||e.code==='auth/password-does-not-meet-requirements')?'Password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.':e.code==='permission-denied'?'Not allowed. The subscription may be inactive.':'Could not create login ('+(e.code||e.message)+')';
+const cerr=e=>e.code==='app/limit'?'This library has reached its login limit. Contact support to add more logins.':e.code==='auth/email-already-in-use'?'This email already has a login.':e.code==='auth/invalid-email'?'This email address is not valid.':(e.code==='auth/weak-password'||e.code==='auth/password-does-not-meet-requirements')?'Password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.':e.code==='permission-denied'?'Not allowed. The subscription may be inactive.':'Could not create login ('+(e.code||e.message)+')';
 async function mkLogin(em,pw,role,lid){
+ const L=(lib&&lid===libId)?lib:(LIBS.find(x=>x.id===lid)||{}),mx=Number.isInteger(L.maxAccounts)?L.maxAccounts:0;let slot='';
+ if(mx){const used=new Set(US.filter(u=>u.libId===lid&&u.slot).map(u=>String(u.slot)));for(let k=1;k<=mx;k++)if(!used.has(String(k))){slot=String(k);break}if(!slot)throw{code:'app/limit'}}
  const c=await createUserWithEmailAndPassword(auxAuth,em,pw);
- try{await setDoc(doc(db,'users',c.user.uid),{role,libId:lid,email:em,createdAt:serverTimestamp()})}
+ try{const b=writeBatch(db);b.set(doc(db,'users',c.user.uid),{role,libId:lid,email:em,...(slot?{slot}:{}),createdAt:serverTimestamp()});if(slot)b.set(doc(db,'libraries',lid,'slots',slot),{uid:c.user.uid});await b.commit()}
  catch(e){await c.user.delete().catch(()=>{});throw e}
  finally{await signOut(auxAuth).catch(()=>{})}
 }
@@ -1592,14 +1627,14 @@ function drawUsers(){
 }
 async function rmUser(id){const u=US.find(x=>x.id===id);if(!u||u.role==='super')return;
  if(!confirm('Remove login "'+ulab(u)+'"? They will no longer be able to use the app.'))return;
- try{await deleteDoc(doc(db,'users',id))}catch(e){alert('Could not remove ('+e.code+')')}}
+ try{const b=writeBatch(db);b.delete(doc(db,'users',id));if(u.slot&&u.libId)b.delete(doc(db,'libraries',u.libId,'slots',String(u.slot)));await b.commit()}catch(e){alert('Could not remove ('+e.code+')')}}
 async function mkStaff(){if(!LIVE||!OWN())return;const m=$('fm'),em=$('f_u').value.trim().toLowerCase(),pw=$('f_p').value;
  if(!EMRE.test(em)){m.textContent='Enter a valid email address.';return}
  if(pw.length<8){m.textContent='Password must be at least 8 characters.';return}
  $('fb').disabled=true;
  try{await mkLogin(em,pw,'staff',libId);m.textContent='Staff login created. Email: '+em+'  Password: '+pw+'  (share these with your staff member)';$('f_u').value='';$('f_p').value=''}catch(e){m.textContent=cerr(e)}
  $('fb').disabled=!LIVE}
-function drawStf(){if(!OWN())return;
+function drawStf(){if(!OWN())return;const mx=MAXA();$('fq').textContent='Logins used: '+US.length+' of '+(mx||'no limit')+(mx&&US.length>=mx?'. The limit is reached. Contact support to add more logins.':'.');
  $('fl').innerHTML=US.length?'<table><tr><th>Login</th><th>Role</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(ulab(u))}</td><td>${esc(u.role)}</td><td>${u.role==='staff'?`<button class="s r" data-id="${esc(u.id)}" onclick="rmUser(this.dataset.id)">Remove</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>'}
 
 /* ---------- Library panel ---------- */
@@ -1610,7 +1645,7 @@ function drawLB(){
  $('sb').innerHTML=LIVE?`Plan: ${esc(lib.plan||'-')}, valid till ${e?iso(e):'-'}`:'<span class="bad">Subscription inactive or expired. You can view data but not change it. Contact your provider to renew.</span>';
  ['ad','xb','xi','fb','eb'].forEach(i=>$(i).disabled=!LIVE);$('xu').disabled=!OWN();$('tb_stf').classList.toggle('hide',!OWN());drawStf();$('tb_bk').classList.toggle('hide',!OWN());$('tb_tr').classList.toggle('hide',!OWN());bkUI();if(!BKDONE&&OWN()){BKDONE=true;autoBackupCheck()}
  const AC=ST.filter(isAct),due=AC.filter(s=>s.nextDue<=t),pm=PY.filter(p=>p.date.startsWith(M)),coll=pm.reduce((a,p)=>a+p.amt,0),spent=EX.filter(x=>x.date.startsWith(M)).reduce((a,x)=>a+x.amt,0);
- $('kp').innerHTML=kc('k1','<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',AC.length,0,'Active students'+(ST.length>AC.length?' ('+(ST.length-AC.length)+' inactive)':''))
+ $('kp').innerHTML=kc('k1','<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',AC.length,0,'Active students'+(MAXS()?' (limit '+MAXS()+')':'')+(ST.length>AC.length?' ('+(ST.length-AC.length)+' inactive)':''))
   +kc('k2','<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',due.length,0,'Fee due ('+inr(due.reduce((a,s)=>a+s.fee,0))+')',due.length?'bad':'')
   +kc('k3','<path d="M6 3h12"/><path d="M6 8h12"/><path d="M6 13l8.5 8"/><path d="M6 13h3a4 4 0 0 0 0-8"/>',coll,1,'Collected this month')
   +kc('k4','<path d="M7 17L17 7"/><path d="M7 7h10v10"/>',spent,1,'Spent this month')
@@ -1620,16 +1655,20 @@ function drawLB(){
  const sr=AC.filter(s=>s.nextDue<=lim).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
  $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${ctl(s)}</td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
  const sf=$('sf').value,rows=ST.filter(s=>(sf==='all'||(sf==='inactive')===!isAct(s))&&(!q||(s.name+s.phone+s.seat+(s.guardianPhone||'')+(s.address||'')+(s.preparingFor||'')).toLowerCase().includes(q))).sort((a,b)=>sf==='inactive'?a.name.localeCompare(b.name):a.nextDue.localeCompare(b.nextDue));
- $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}${isAct(s)?'':' <span class="mu">(inactive since '+esc(s.inactiveOn||'-')+')</span>'}${s.preparingFor?'<br><span class="mu">'+esc(s.preparingFor)+'</span>':''}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${isAct(s)&&s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td>${isAct(s)?`${ctl(s)}<button class="s" data-id="${esc(s.id)}" onclick="pay(this.dataset.id)" ${LIVE?'':'disabled'}>Collect fee</button> `:`<button class="s" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,true)" ${LIVE?'':'disabled'}>${OWN()?'Reactivate':'Request reactivate'}</button> `}<button class="s o" data-id="${esc(s.id)}" onclick="editStu(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> ${isAct(s)?`<button class="s o" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,false)" ${LIVE?'':'disabled'}>${OWN()?'Make inactive':'Request inactive'}</button> `:''}<button class="s r" data-id="${esc(s.id)}" onclick="del(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">'+(ST.length?'No students match this filter.':'No students yet. Add the first admission, or import an Excel file.')+'</p>';
+ $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}${isAct(s)?'':' <span class="mu">(inactive since '+esc(s.inactiveOn||'-')+')</span>'}${s.preparingFor?'<br><span class="mu">'+esc(s.preparingFor)+'</span>':''}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}${s.shift&&SH[s.shift]?'<br><span class="mu">'+esc(SH[s.shift].n)+'</span>':''}</td><td>${inr(s.fee)}</td><td class="${isAct(s)&&s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td>${isAct(s)?`${ctl(s)}<button class="s" data-id="${esc(s.id)}" onclick="pay(this.dataset.id)" ${LIVE?'':'disabled'}>Collect fee</button> `:`<button class="s" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,true)" ${LIVE?'':'disabled'}>${OWN()?'Reactivate':'Request reactivate'}</button> `}<button class="s o" data-id="${esc(s.id)}" onclick="editStu(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> ${isAct(s)?`<button class="s o" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,false)" ${LIVE?'':'disabled'}>${OWN()?'Make inactive':'Request inactive'}</button> `:''}<button class="s r" data-id="${esc(s.id)}" onclick="del(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">'+(ST.length?'No students match this filter.':'No students yet. Add the first admission, or import an Excel file.')+'</p>';
  $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s o" data-id="${esc(p.id)}" onclick="rcpt(this.dataset.id)">Receipt</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
- drawExp();drawApr();drawPay();drawTrash();
+ drawExp();drawApr();drawPay();drawTrash();fillShifts();drawSeats();capUI();initStats();
 }
 async function admit(){
- if(!LIVE)return;const v=i=>$(i).value.trim(),a=v('a_a'),m=$('am');
+ if(!LIVE)return;const v=i=>$(i).value.trim(),a=v('a_a'),m=$('am'),sh=$('a_sh').value,seat=v('a_s');
  if(!v('a_n')||!/^\d{10}$/.test(v('a_p'))||!(+v('a_f')>0)||!v('a_j')){m.textContent='Name, a 10-digit mobile number, fee and join date are required.';return}
  if(a&&!/^\d{4}$/.test(a)){m.textContent='Enter only the last 4 digits of Aadhaar.';return}
  if(v('a_gp')&&!/^\d{10}$/.test(v('a_gp'))){m.textContent='Guardian\'s contact number must be 10 digits.';return}
- try{await addDoc(collection(db,'libraries',libId,'students'),{name:v('a_n'),phone:v('a_p'),seat:v('a_s'),fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,guardianPhone:v('a_gp'),address:v('a_ad2'),preparingFor:v('a_pf'),createdAt:serverTimestamp()});
+ if(SET&&!sh){m.textContent='Choose a shift.';return}
+ const sc=seatCheck(seat,sh,null);if(sc){m.textContent=sc;return}
+ if(MAXS()){if(capLeft()<1){m.textContent=capMsg();return}if(!STATS){m.textContent=noStats;return}}
+ try{const ref=doc(collection(db,'libraries',libId,'students')),b=writeBatch(db),d={name:v('a_n'),phone:v('a_p'),seat,fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,guardianPhone:v('a_gp'),address:v('a_ad2'),preparingFor:v('a_pf'),createdAt:serverTimestamp()};
+  if(sh)d.shift=sh;b.set(ref,d);stAdd(b,ref.id);await b.commit();
   ['a_n','a_p','a_s','a_f','a_a','a_gp','a_pf','a_ad2'].forEach(i=>$(i).value='');m.textContent='Student admitted.'}catch(e){m.textContent='Could not save ('+e.code+')'}
 }
 async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;if(!isAct(s)){alert('This student is inactive. Reactivate the student first.');return}
@@ -1652,7 +1691,8 @@ function rcText(p,nd){return `*Fee Receipt*\n*${lib.name}*\n\nReceipt no: ${rno(
 function waOpen(phone,text){const d=String(phone).replace(/\D/g,'').slice(-10);if(d.length!==10){alert('This student has no valid 10-digit mobile number.');return}window.open('https://wa.me/91'+d+'?text='+encodeURIComponent(text),'_blank','noopener')}
 function rcSend(){if(!RC)return;waOpen(RC.phone,RC.text);rcClose()}
 function rcClose(){RC=null;$('rcb').style.display='none'}
-function rcpt(id){const p=PY.find(x=>x.id===id);if(!p)return;const s=ST.find(x=>x.id===p.studentId)||TR.find(x=>x.id===p.studentId);
+async function rcpt(id){const p=PY.find(x=>x.id===id);if(!p)return;let s=ST.find(x=>x.id===p.studentId)||TR.find(x=>x.id===p.studentId);
+ if(!s&&OWN()){try{const r=await getDoc(doc(db,'libraries',libId,'trash',p.studentId));if(r.exists())s=r.data()}catch(e){}}
  if(!s){alert('This student is no longer in the list, so there is no mobile number to send to.');return}
  rcShare(p,null,s.phone)}
 /* ---------- PDF receipt: drawn on a canvas (so Hindi names and the rupee sign work), then wrapped into a PDF ---------- */
@@ -1702,12 +1742,91 @@ function kpiAnim(){const first=!Object.keys(KPREV).length,rm=matchMedia('(prefer
   if(rm||from===to)return;const t0=performance.now();el.textContent=fmt(from);
   const step=t=>{if(!el.isConnected)return;const p=Math.min(1,(t-t0)/700);el.textContent=fmt(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)})}
 const FROM=()=>addM(today().slice(0,8)+'01',-5),ym=()=>today().slice(0,7),OWN=()=>!!me&&me.role==='owner';
-function tab(n){['dash','stu','pay','exp','apr','stf','bk','tr'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)});tmSync();tmToggle(false);if(matchMedia('(max-width:759px)').matches)window.scrollTo({top:0})}
+function tab(n){if(n==='tr'&&OWN()&&!TRL)loadTrash();
+['dash','stu','seat','pay','exp','apr','stf','bk','tr'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)});tmSync();tmToggle(false);if(matchMedia('(max-width:759px)').matches)window.scrollTo({top:0})}
 async function req(type,sid,sname,extra){
  if(AP.some(a=>a.status==='pending'&&(a.type===type||(type==='delete_student'&&a.type==='delete'))&&a.studentId===sid&&(a.paymentId||'')===((extra&&extra.paymentId)||''))){alert('A similar request is already waiting for the owner.');return false}
  try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:sname,...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
   alert('Request sent to the owner. Nothing changes until the owner approves it.');return true}catch(e){alert('Could not send the request ('+e.code+')');return false}}
 const isAct=s=>s.active!==false;
+/* ---------- plan limits (set by the provider, enforced by the database rules) ---------- */
+const MAXS=()=>lib&&Number.isInteger(lib.maxStudents)?lib.maxStudents:0,MAXA=()=>lib&&Number.isInteger(lib.maxAccounts)?lib.maxAccounts:0;
+const actN=()=>ST.filter(isAct).length,capLeft=()=>MAXS()?Math.max(0,MAXS()-actN()):Infinity;
+const capMsg=()=>'You have reached the limit of '+MAXS()+' active students for your plan. Make a student inactive, or contact support to upgrade your plan.';
+const noStats='Setup is not finished yet. Please ask the owner to open the app once, then try again.';
+const stRef=()=>doc(db,'libraries',libId,'meta','stats');
+function stAdd(b,sid){if(MAXS())b.update(stRef(),{active:increment(1),lastId:sid,op:'add'})}
+function stSub(b,sid){if(MAXS()&&STATS&&STATS.active>0)b.update(stRef(),{active:increment(-1),lastId:sid,op:'sub'})}
+async function initStats(){if(INITD||!OWN()||!LIVE||!MAXS()||!STL||STATS||!SOK)return;INITD=true;
+ try{await setDoc(stRef(),{active:actN(),lastId:'',op:'init'})}catch(e){INITD=false}}
+function capUI(){const e=$('cap');if(!e)return;
+ e.innerHTML=(MAXS()?'Active students: <b>'+actN()+'</b> of <b>'+MAXS()+'</b>'+(capLeft()<1?' <span class="bad">(limit reached)</span>':'')+'. ':'')+(SET?'':'Owner: set your library timing in the Seats tab so shifts and the seat map work.')}
+/* ---------- shifts and seats ---------- */
+const DEF={is24:false,open:'08:00',close:'20:00',seatCount:0,seatPrefix:''};
+const SH={morning:{n:'Morning',cov:['M']},evening:{n:'Evening',cov:['E']},night:{n:'Night',cov:['N']},full:{n:'Full day',cov:['M','E']},h24:{n:'24 hours',cov:['M','E','N']}};
+const PN={M:'Morning',E:'Evening',N:'Night'},PW={M:[360,840],E:[840,1320],N:[1320,1800]};
+const hm=t=>{const[h,m]=String(t||'0:0').split(':');return(+h||0)*60+(+m||0)};
+const curSet=()=>SET||DEF;
+function openIv(S){if(S.is24)return[0,1440];const o=hm(S.open);let c=hm(S.close);if(c<=o)c+=1440;return[o,c]}
+function parts(S=curSet()){if(S.is24)return['M','E','N'];const[o,c]=openIv(S),P=['M','E','N'].filter(k=>{const[a,b]=PW[k];let best=0;for(const d of[0,1440,-1440])best=Math.max(best,Math.min(b+d,c)-Math.max(a+d,o));return best>=(b-a)/2});return P.length?P:['M','E']}
+function shiftsAvail(S=curSet()){const P=parts(S),h=k=>P.includes(k),o=[];if(h('M'))o.push('morning');if(h('E'))o.push('evening');if(h('N'))o.push('night');if(h('M')&&h('E'))o.push('full');if(S.is24)o.push('h24');return o}
+const fmtT=m=>{m=((Math.round(m)%1440)+1440)%1440;const h=Math.floor(m/60);return(h%12||12)+':'+String(m%60).padStart(2,'0')+' '+(h>=12?'PM':'AM')};
+function partRange(k,S=curSet()){const[a,b]=PW[k];if(S.is24)return[a,b];const[o,c]=openIv(S),P=parts(S);let best=[a,b],bo=-1;for(const d of[0,1440,-1440]){const s0=Math.max(a+d,o),e0=Math.min(b+d,c);if(e0-s0>bo){bo=e0-s0;best=[s0,e0]}}
+ if(k===P[0]&&o<best[0]&&best[0]-o<=480)best[0]=o;if(k===P[P.length-1]&&c>best[1]&&c-best[1]<=480)best[1]=c;return best}
+function shiftRange(k,S=curSet()){if(k==='h24')return'all day and night';const r=SH[k].cov.map(c=>partRange(c,S));return fmtT(r[0][0])+' - '+fmtT(r[r.length-1][1])}
+const SEATS=()=>{const S=curSet(),n=Math.max(0,Math.min(1000,Math.floor(+S.seatCount)||0));return Array.from({length:n},(_,i)=>(S.seatPrefix||'')+(i+1))};
+const nseat=x=>String(x||'').trim().toUpperCase();
+function seatData(){const labels=SEATS(),P=parts(),by={};ST.filter(isAct).forEach(s=>{const k=nseat(s.seat);if(k)(by[k]=by[k]||[]).push(s)});
+ return{labels,P,by,cov:s=>{const c=s.shift&&SH[s.shift]?SH[s.shift].cov.filter(x=>P.includes(x)):P;return c.length?c:P}}}
+function seatCheck(seat,sh,selfId){const k=nseat(seat);if(!k)return'';const D=seatData();
+ if(D.labels.length&&!D.labels.some(l=>nseat(l)===k))return'Seat "'+seat+'" is not on the seat map ('+D.labels[0]+' to '+D.labels[D.labels.length-1]+'). Pick a seat from the list.';
+ const need=sh&&SH[sh]?SH[sh].cov:D.P,o=(D.by[k]||[]).find(s=>s.id!==selfId&&D.cov(s).some(c=>need.includes(c)));
+ return o?'Seat '+seat+' is already taken by '+o.name+' ('+(o.shift&&SH[o.shift]?SH[o.shift].n:'shift not set')+') for overlapping hours. Choose another seat or shift.':''}
+function fillShifts(){const av=shiftsAvail();
+ const build=(sv,req)=>{const ks=av.slice();if(sv&&SH[sv]&&!ks.includes(sv))ks.push(sv);return'<option value="">'+(req?'Choose shift':'Not set')+'</option>'+ks.map(k=>'<option value="'+k+'">'+esc(SH[k].n)+' ('+esc(shiftRange(k))+')'+(av.includes(k)?'':' - not offered now')+'</option>').join('')};
+ [['a_sh',!!SET],['e_sh',false]].forEach(([id,req])=>{const el=$(id),sv=el.value;el.innerHTML=build(sv,req);el.value=[...el.options].some(o=>o.value===sv)?sv:''});
+ seatList()}
+function seatList(){const sh=$('a_sh').value,L=SEATS();if(!L.length){$('sdl').innerHTML='';return}
+ const need=sh&&SH[sh]?SH[sh].cov:parts(),D=seatData();
+ $('sdl').innerHTML=L.filter(l=>!(D.by[nseat(l)]||[]).some(s=>D.cov(s).some(c=>need.includes(c)))).map(l=>'<option value="'+esc(l)+'">').join('')}
+function drawSeats(){const D=seatData(),L=D.labels,P=D.P,fs=$('sm_f'),cur=fs.value;
+ fs.innerHTML='<option value="">All shifts</option>'+shiftsAvail().map(k=>'<option value="'+k+'">'+esc(SH[k].n)+'</option>').join('');if([...fs.options].some(o=>o.value===cur))fs.value=cur;
+ const f=fs.value,need=f?SH[f].cov.filter(c=>P.includes(c)):P;
+ $('sm_set').classList.toggle('hide',!OWN());
+ if(!L.length){$('sm_g').innerHTML='';$('sm_l').innerHTML='';$('sm_u').textContent='';$('sm_s').textContent=OWN()?'No seats set up yet. Enter the number of seats below and save.':'The owner has not set up the seat map yet.';return}
+ let nf=0,np=0,no=0;const col=t=>t?'var(--so)':'var(--sf)';
+ $('sm_g').innerHTML=L.map(l=>{const ss=D.by[nseat(l)]||[],tk=new Set();ss.forEach(s=>D.cov(s).forEach(c=>tk.add(c)));let bg,st;
+  if(f){st=need.some(c=>tk.has(c))?'o':'f';bg=col(st==='o')}
+  else{const n=P.filter(c=>tk.has(c)).length;st=n===0?'f':n===P.length?'o':'p';
+   bg=st==='p'?'linear-gradient(90deg,'+P.map((c,i)=>col(tk.has(c))+' '+(i*100/P.length).toFixed(2)+'% '+((i+1)*100/P.length).toFixed(2)+'%').join(',')+')':col(st==='o')}
+  if(st==='f')nf++;else if(st==='p')np++;else no++;
+  const tip='Seat '+l+': '+P.map(c=>PN[c]+' - '+(ss.filter(s=>D.cov(s).includes(c)).map(s=>s.name).join(', ')||'free')).join('; ');
+  return'<button type="button" class="seat'+(l===SELSEAT?' sel':'')+'" data-l="'+esc(l)+'" style="background:'+bg+'" title="'+esc(tip)+'" aria-label="'+esc(tip)+'">'+esc(l)+'</button>'}).join('');
+ $('sm_s').textContent=L.length+' seats: '+nf+' available'+(f?'':', '+np+' partly occupied')+', '+no+' occupied'+(f?' for '+SH[f].n:'')+'.';
+ $('sm_l').innerHTML='<span><i style="background:var(--sf)"></i>Available</span><span><i style="background:var(--so)"></i>Occupied</span>'+(f?'':'<span><i style="background:linear-gradient(90deg,var(--so) 50%,var(--sf) 50%)"></i>Partly occupied (some shifts free)</span><span>Stripes, left to right: '+esc(P.map(c=>PN[c]).join(' / '))+'</span>');
+ const un=Object.keys(D.by).filter(k=>!L.some(l=>nseat(l)===k));
+ $('sm_u').textContent=un.length?'Note: '+un.reduce((a,k)=>a+D.by[k].length,0)+' active student(s) have a seat that is not on this map ('+un.slice(0,6).join(', ')+(un.length>6?'...':'')+'). Edit the student or the seat settings.':'';
+ if(SELSEAT)seatInfo(SELSEAT)}
+function seatInfo(l){SELSEAT=l;const D=seatData(),ss=D.by[nseat(l)]||[],tk=new Set();ss.forEach(s=>D.cov(s).forEach(c=>tk.add(c)));const fr=D.P.filter(c=>!tk.has(c));
+ $('sm_i').innerHTML='<b>Seat '+esc(l)+'</b><br>'+(ss.length?ss.map(s=>esc(s.name)+' - '+esc(s.shift&&SH[s.shift]?SH[s.shift].n:'shift not set (counts as all shifts)')).join('<br>'):'Nobody is seated here.')+'<br>'+(fr.length?'Free for: '+esc(fr.map(c=>PN[c]).join(', '))+'. <button class="s" type="button" data-l="'+esc(l)+'" onclick="pickSeat(this.dataset.l)">Admit a student here</button>':'Fully occupied.');
+ document.querySelectorAll('#sm_g .seat').forEach(b=>b.classList.toggle('sel',b.dataset.l===l))}
+function pickSeat(l){const D=seatData(),tk=new Set();(D.by[nseat(l)]||[]).forEach(s=>D.cov(s).forEach(c=>tk.add(c)));const fr=D.P.filter(c=>!tk.has(c)),av=shiftsAvail();
+ const k=['h24','full','morning','evening','night'].find(x=>av.includes(x)&&SH[x].cov.every(c=>fr.includes(c)))||'';
+ tab('stu');$('a_sh').value=k;$('a_s').value=l;seatList();$('a_n').scrollIntoView({behavior:'smooth',block:'center'});$('a_n').focus()}
+function fillSet(){const S=SET||DEF;$('st_24').value=S.is24?'1':'0';$('st_o').value=S.is24?'08:00':(S.open||'08:00');$('st_c').value=S.is24?'20:00':(S.close||'20:00');$('st_n').value=S.seatCount||0;$('st_p').value=S.seatPrefix||'';setPreview()}
+const formSet=()=>({is24:$('st_24').value==='1',open:$('st_o').value||'08:00',close:$('st_c').value||'20:00',seatCount:Math.floor(+$('st_n').value)||0,seatPrefix:$('st_p').value.trim()});
+function setPreview(){const S=formSet();$('st_o').disabled=$('st_c').disabled=S.is24;
+ $('st_pv').innerHTML='Shifts that will be offered: '+shiftsAvail(S).map(k=>'<b>'+esc(SH[k].n)+'</b> ('+esc(shiftRange(k,S))+')').join(', ')+'.'}
+async function saveSet(){if(!OWN()||!LIVE)return;const S=formSet(),m=$('st_m'),T=/^([01]\d|2[0-3]):[0-5]\d$/;
+ if(!T.test(S.open)||!T.test(S.close)){m.textContent='Enter valid opening and closing times.';return}
+ if(S.seatCount<0||S.seatCount>1000){m.textContent='Number of seats must be between 0 and 1000.';return}
+ if(!/^[A-Za-z0-9-]{0,5}$/.test(S.seatPrefix)){m.textContent='Seat prefix can have up to 5 letters, numbers or dashes.';return}
+ if(S.is24){S.open='00:00';S.close='00:00'}
+ const labels=Array.from({length:S.seatCount},(_,i)=>S.seatPrefix+(i+1)),bad=ST.filter(isAct).filter(s=>nseat(s.seat)&&!labels.some(l=>nseat(l)===nseat(s.seat))).length;
+ if(bad&&!confirm(bad+' active student(s) have a seat that will not be on the new seat map. Save anyway?'))return;
+ try{await setDoc(doc(db,'libraries',libId,'meta','settings'),S);m.textContent='Saved.'}catch(e){m.textContent='Could not save ('+e.code+')'}}
+async function loadTrash(){if(!OWN())return;try{const r=await getDocs(collection(db,'libraries',libId,'trash'));TR=r.docs.map(d=>({id:d.id,...d.data()}));TRL=true;drawTrash()}catch(e){alert('Recycle bin: '+e.code)}}
+
 const SUP={email:'support@asaanlib.in',phone:'919286733232',show:'+91 92867 33232'};
 const ICW='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.9A9 9 0 1 1 8 19.4L3 21z"/><path d="M9 9.5c.3 2.5 2.6 4.8 5.5 5.5l1.2-1.3-2-1-.9.7a4 4 0 0 1-2-2l.7-.9-1-2L9 9.5z" fill="currentColor" stroke="none"/></svg>';
 const ICT='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
@@ -1720,41 +1839,47 @@ function openSup(){const u=auth.currentUser,ln=lib?lib.name:'',who=(u&&u.email)|
  $('sp_w').href='https://wa.me/'+SUP.phone+'?text='+encodeURIComponent(t);$('sp_we').textContent=SUP.show;
  $('sp').style.display='flex'}
 function closeSup(){$('sp').style.display='none'}
-function trashOps(b,s){const{id,...d}=s;b.set(doc(db,'libraries',libId,'trash',id),{...d,deletedAt:serverTimestamp(),deletedBy:auth.currentUser.uid});b.delete(doc(db,'libraries',libId,'students',id))}
+function trashOps(b,s){const{id,...d}=s;b.set(doc(db,'libraries',libId,'trash',id),{...d,deletedAt:serverTimestamp(),deletedBy:auth.currentUser.uid});b.delete(doc(db,'libraries',libId,'students',id));if(isAct(s))stSub(b,id)}
 async function del(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
- try{if(OWN()){if(confirm('Move '+s.name+' to the Recycle bin? You can restore them from there later.')){const b=writeBatch(db);trashOps(b,s);await b.commit();toast(s.name+' was moved to the Recycle bin.')}}
+ try{if(OWN()){if(confirm('Move '+s.name+' to the Recycle bin? You can restore them from there later.')){const b=writeBatch(db);trashOps(b,s);await b.commit();TRL=false;toast(s.name+' was moved to the Recycle bin.')}}
   else if(confirm('Send a delete request for '+s.name+' to the owner?'))await req('delete_student',id,s.name)}catch(e){alert('Could not save ('+e.code+')')}}
 async function setActive(id,on){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;let ch;
- if(on){const d=prompt('Next fee due date for '+s.name+' (YYYY-MM-DD)',today());if(d===null)return;
+ if(on){if(capLeft()<1){alert(capMsg());return}
+  const d=prompt('Next fee due date for '+s.name+' (YYYY-MM-DD)',today());if(d===null)return;
   if(!/^\d{4}-\d{2}-\d{2}$/.test(d.trim())||isNaN(new Date(d.trim()+'T00:00:00'))){alert('Enter the date like 2026-11-15.');return}ch={active:true,nextDue:d.trim()}}
- else{if(!confirm('Make '+s.name+' inactive? They will no longer appear in fee dues or reminders. You can reactivate them any time.'))return;ch={active:false,inactiveOn:today()}}
- try{if(OWN())await updateDoc(doc(db,'libraries',libId,'students',id),ch);
+ else{if(!confirm('Make '+s.name+' inactive? They will no longer appear in fee dues or reminders, and they stop counting towards your active student limit. You can reactivate them any time.'))return;ch={active:false,inactiveOn:today()}}
+ try{if(OWN()){if(on&&MAXS()&&!STATS){alert(noStats);return}const b=writeBatch(db);if(on)stAdd(b,id);else stSub(b,id);b.update(doc(db,'libraries',libId,'students',id),ch);await b.commit()}
   else if(confirm('Send this request to the owner for approval?'))await req('edit_student',id,s.name,{changes:ch})}catch(e){alert('Could not save ('+e.code+')')}}
-function drawTrash(){if(!OWN())return;const n=TR.length;$('tb_tr').textContent='Recycle bin'+(n?' ('+n+')':'');tmSync();$('te').disabled=!LIVE||!n;
+function drawTrash(){if(!OWN())return;
+ if(!TRL){$('tb_tr').textContent='Recycle bin';tmSync();$('te').disabled=true;$('trl').innerHTML='<p class="mu">Loading...</p>';return}
+ const n=TR.length;$('tb_tr').textContent='Recycle bin'+(n?' ('+n+')':'');tmSync();$('te').disabled=!LIVE||!n;
  const at=x=>(x.deletedAt&&x.deletedAt.seconds)||Infinity;
  $('trl').innerHTML=n?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Deleted</th><th></th></tr>'+TR.slice().sort((a,b)=>at(b)-at(a)).map(s=>{const d=s.deletedAt&&s.deletedAt.toDate?s.deletedAt.toDate():null,k=d?Math.floor((Date.now()-d)/864e5):0;
   return`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td>${d?iso(d)+' ('+(k?k+' day'+(k===1?'':'s')+' ago':'today')+')':'-'}</td><td><button class="s" data-id="${esc(s.id)}" onclick="restoreStu(this.dataset.id)" ${LIVE?'':'disabled'}>Restore</button> <button class="s r" data-id="${esc(s.id)}" onclick="purgeStu(this.dataset.id)" ${LIVE?'':'disabled'}>Delete forever</button></td></tr>`}).join('')+'</table>':'<p class="mu">The recycle bin is empty.</p>'}
 async function restoreStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;const{id:_i,deletedAt,deletedBy,...d}=s;
+ if(isAct(d)){if(capLeft()<1){alert(capMsg());return}if(MAXS()&&!STATS){alert(noStats);return}}
  if(ST.some(x=>x.phone===d.phone)&&!confirm('A student with the mobile number '+d.phone+' already exists. Restore anyway?'))return;
- try{const b=writeBatch(db);b.set(doc(db,'libraries',libId,'students',id),d);b.delete(doc(db,'libraries',libId,'trash',id));await b.commit();toast(s.name+' was restored to Students.')}catch(e){alert('Could not restore ('+e.code+')')}}
+ try{const b=writeBatch(db);b.set(doc(db,'libraries',libId,'students',id),d);b.delete(doc(db,'libraries',libId,'trash',id));if(isAct(d))stAdd(b,id);await b.commit();TR=TR.filter(x=>x.id!==id);drawTrash();toast(s.name+' was restored to Students.')}catch(e){alert('Could not restore ('+e.code+')')}}
 async function purgeStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;
  if(!confirm('Delete '+s.name+' forever? Their details will be gone and this cannot be undone.'))return;
- try{await deleteDoc(doc(db,'libraries',libId,'trash',id))}catch(e){alert('Could not delete ('+e.code+')')}}
+ try{await deleteDoc(doc(db,'libraries',libId,'trash',id));TR=TR.filter(x=>x.id!==id);drawTrash()}catch(e){alert('Could not delete ('+e.code+')')}}
 async function emptyTrash(){if(!LIVE||!OWN()||!TR.length)return;
  if(!confirm('Delete all '+TR.length+' students in the Recycle bin forever? This cannot be undone.'))return;
- try{const b=writeBatch(db);TR.slice(0,450).forEach(x=>b.delete(doc(db,'libraries',libId,'trash',x.id)));await b.commit()}catch(e){alert('Could not empty the bin ('+e.code+')')}}
+ try{const ids=TR.slice(0,450).map(x=>x.id),b=writeBatch(db);ids.forEach(i=>b.delete(doc(db,'libraries',libId,'trash',i)));await b.commit();TR=TR.filter(x=>!ids.includes(x.id));drawTrash()}catch(e){alert('Could not empty the bin ('+e.code+')')}}
 let EID='';
 function editStu(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;EID=id;
  $('e_n').value=s.name;$('e_p').value=s.phone;$('e_s').value=s.seat||'';$('e_f').value=s.fee;$('e_d').value=s.nextDue;$('e_gp').value=s.guardianPhone||'';$('e_pf').value=s.preparingFor||'';$('e_ad2').value=s.address||'';$('emsg').textContent='';
+ $('e_sh').value='';fillShifts();$('e_sh').value=s.shift&&SH[s.shift]?s.shift:'';
  $('eh').textContent=OWN()?'Editing '+s.name+'. Changes are saved immediately.':'Editing '+s.name+'. Your changes will be sent to the owner and applied only after approval.';
  $('ec').classList.remove('hide');$('ec').scrollIntoView({behavior:'smooth',block:'center'})}
 function cancelEdit(){EID='';$('ec').classList.add('hide')}
 async function saveStu(){const s=ST.find(x=>x.id===EID),m=$('emsg');if(!s||!LIVE)return;
- const n=$('e_n').value.trim(),p=$('e_p').value.trim(),st=$('e_s').value.trim(),f=+$('e_f').value,d=$('e_d').value,gp=$('e_gp').value.trim(),pf=$('e_pf').value.trim(),ad=$('e_ad2').value.trim();
+ const n=$('e_n').value.trim(),p=$('e_p').value.trim(),st=$('e_s').value.trim(),f=+$('e_f').value,d=$('e_d').value,gp=$('e_gp').value.trim(),pf=$('e_pf').value.trim(),ad=$('e_ad2').value.trim(),sh=$('e_sh').value;
  if(!n||!/^\d{10}$/.test(p)||!(f>0)||!d){m.textContent='Name, a 10-digit mobile number, fee and next due date are required.';return}
  if(gp&&!/^\d{10}$/.test(gp)){m.textContent='Guardian\'s contact number must be 10 digits.';return}
- const ch={};if(n!==s.name)ch.name=n;if(p!==s.phone)ch.phone=p;if(st!==(s.seat||''))ch.seat=st;if(f!==s.fee)ch.fee=f;if(d!==s.nextDue)ch.nextDue=d;if(gp!==(s.guardianPhone||''))ch.guardianPhone=gp;if(pf!==(s.preparingFor||''))ch.preparingFor=pf;if(ad!==(s.address||''))ch.address=ad;
+ const ch={};if(n!==s.name)ch.name=n;if(p!==s.phone)ch.phone=p;if(st!==(s.seat||''))ch.seat=st;if(f!==s.fee)ch.fee=f;if(d!==s.nextDue)ch.nextDue=d;if(gp!==(s.guardianPhone||''))ch.guardianPhone=gp;if(pf!==(s.preparingFor||''))ch.preparingFor=pf;if(ad!==(s.address||''))ch.address=ad;if(sh&&sh!==(s.shift||''))ch.shift=sh;
  if(!Object.keys(ch).length){m.textContent='Nothing was changed.';return}
+ if(isAct(s)&&('seat' in ch||'shift' in ch)){const sc=seatCheck('seat' in ch?ch.seat:s.seat,'shift' in ch?ch.shift:s.shift,s.id);if(sc){m.textContent=sc;return}}
  try{if(OWN()){await updateDoc(doc(db,'libraries',libId,'students',EID),ch);cancelEdit()}
   else if(await req('edit_student',EID,s.name,{changes:ch}))cancelEdit()}catch(e){m.textContent='Could not save ('+e.code+')'}}
 function drawPay(){const m=$('p_m').value||ym(),r=PY.filter(p=>p.date.startsWith(m));
@@ -1782,8 +1907,8 @@ function drawExp(){const m=$('x_m').value||ym(),r=EX.filter(x=>x.date.startsWith
 async function addExp(){if(!LIVE)return;const d=$('x_d').value,a=+$('x_a').value;if(!d||!(a>0)){alert('Enter a date and an amount.');return}
  try{await addDoc(collection(db,'libraries',libId,'expenses'),{date:d,cat:$('x_c').value,amt:a,note:$('x_n').value.trim()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
 async function delExp(id){if(!OWN()||!LIVE||!confirm('Delete this expense?'))return;try{await deleteDoc(doc(db,'libraries',libId,'expenses',id))}catch(e){alert('Could not delete ('+e.code+')')}}
-const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode',active:'status',inactiveOn:'inactive since',guardianPhone:'guardian mobile',address:'address',preparingFor:'preparing for'};
-const fv=(k,v)=>k==='active'?(v?'Active':'Inactive'):v;
+const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode',active:'status',inactiveOn:'inactive since',guardianPhone:'guardian mobile',address:'address',preparingFor:'preparing for',shift:'shift'};
+const fv=(k,v)=>k==='active'?(v?'Active':'Inactive'):k==='shift'&&SH[v]?SH[v].n:v;
 const chg=(c,o)=>Object.entries(c||{}).map(([k,v])=>(LBL[k]||esc(k))+': '+(o&&o[k]!==undefined?esc(fv(k,o[k]))+' → ':'')+esc(fv(k,v))).join(', ');
 function aDesc(a){const pend=a.status==='pending',s=pend?ST.find(x=>x.id===a.studentId):null,p=PY.find(x=>x.id===a.paymentId),nm=esc(a.studentName),pd=p?inr(p.amt)+' on '+esc(p.date):'an older payment';
  if(a.type==='delete_student'||a.type==='delete')return'Delete student (moves to the Recycle bin): '+nm;
@@ -1797,35 +1922,56 @@ async function decide(id,ok){const a=AP.find(x=>x.id===id);if(!a||!OWN()||!LIVE|
  const b=writeBatch(db),ar=doc(db,'libraries',libId,'approvals',id),sr=doc(db,'libraries',libId,'students',a.studentId),pr=a.paymentId?doc(db,'libraries',libId,'payments',a.paymentId):null,t=a.type==='delete'?'delete_student':a.type;
  if(ok){if(t==='delete_student'){const st=ST.find(x=>x.id===a.studentId);if(st)trashOps(b,st)}
   else if(t==='delete_payment'&&pr)b.delete(pr);
-  else if(t==='edit_student'&&a.changes)b.update(sr,a.changes);
+  else if(t==='edit_student'&&a.changes){const st=ST.find(x=>x.id===a.studentId),c=a.changes;
+   if(st&&('seat' in c||'shift' in c)&&isAct(st)&&c.active!==true){const sc=seatCheck('seat' in c?c.seat:st.seat,'shift' in c?c.shift:st.shift,st.id);if(sc){alert(sc);return}}
+   if(c.active===true&&st&&!isAct(st)){if(capLeft()<1){alert(capMsg());return}if(MAXS()&&!STATS){alert(noStats);return}stAdd(b,st.id)}
+   else if(c.active===false&&st&&isAct(st))stSub(b,st.id);
+   b.update(sr,c)}
   else if(t==='edit_payment'&&pr&&a.changes)b.update(pr,a.changes);
   else{alert('This request is incomplete and cannot be applied. Please reject it.');return}}
  b.update(ar,{status:ok?'approved':'rejected'});
- try{await b.commit()}catch(e){alert('Could not apply ('+e.code+'). The student or payment may no longer exist.')}}
-const HD=['Name','Mobile','Seat','Monthly Fee','Join Date','Aadhaar Last 4','Next Due'],HX=[...HD,'Guardian Mobile','Address','Preparing For'];
+ try{await b.commit();TRL=false}catch(e){alert('Could not apply ('+e.code+'). The student or payment may no longer exist.')}}
+const HD=['Name','Mobile','Seat','Monthly Fee','Join Date','Aadhaar Last 4','Next Due'],HX=[...HD,'Guardian Mobile','Address','Preparing For','Shift'];
 const dx=v=>v instanceof Date?iso(new Date(v.getTime()+12*36e5)):/^\d{4}-\d{2}-\d{2}$/.test(String(v).trim())?String(v).trim():'';
 const sv=(rows,n)=>{const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,XLSX.utils.aoa_to_sheet(rows),'Students');XLSX.writeFile(b,n)};
-function tpl(){const n=new Date(),ws=XLSX.utils.aoa_to_sheet([HX,['Example Student','9876543210','A1',500,'','1234','','9876500000','12 Civil Lines, Meerut','UPSC']]);
+function tpl(){const n=new Date(),ws=XLSX.utils.aoa_to_sheet([HX,['Example Student','9876543210','A1',500,'','1234','','9876500000','12 Civil Lines, Meerut','UPSC','Full day']]);
  // Join Date is a real date; Next Due (column G) is a formula: the same date one month after the Join Date
  ws.E2={t:'d',v:new Date(n.getFullYear(),n.getMonth(),n.getDate(),12),z:'yyyy-mm-dd'};
  for(let r=2;r<=451;r++)ws['G'+r]={t:'n',f:`IF(E${r}="","",EDATE(E${r},1))`,z:'yyyy-mm-dd'};
- ws['!ref']='A1:J451';ws['!cols']=[{wch:22},{wch:14},{wch:8},{wch:12},{wch:13},{wch:15},{wch:13},{wch:16},{wch:30},{wch:18}];
+ ws['!ref']='A1:K451';ws['!cols']=[{wch:22},{wch:14},{wch:8},{wch:12},{wch:13},{wch:15},{wch:13},{wch:16},{wch:30},{wch:18},{wch:12}];
  const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,ws,'Students');XLSX.writeFile(b,'students-template.xlsx',{cellDates:true})}
-function expX(){sv([[...HX,'Status'],...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue,s.guardianPhone||'',s.address||'',s.preparingFor||'',isAct(s)?'Active':'Inactive'])],'students.xlsx')}
+function expX(){sv([[...HX,'Status'],...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue,s.guardianPhone||'',s.address||'',s.preparingFor||'',SH[s.shift]?SH[s.shift].n:'',isAct(s)?'Active':'Inactive'])],'students.xlsx')}
 async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){m.textContent='Choose a file first.';return}
  if(f.size>2097152){m.textContent='This file is too large. Keep it under 2 MB.';return}
  const upOK=$('xu').checked&&OWN();let wb;
  try{wb=XLSX.read(await f.arrayBuffer(),{cellDates:true})}catch(e){m.textContent='Could not read this file.';return}
  const all=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}).filter(r=>String(r['Name']).trim()||String(r['Mobile']).trim()),rows=all.slice(0,450);
- const b=writeBatch(db),col=collection(db,'libraries',libId,'students'),seen=new Set();let add=0,upd=0,bad=0,kept=0;
+ if(MAXS()&&!STATS){m.textContent=noStats;return}
+ const col=collection(db,'libraries',libId,'students'),seen=new Set(),plain=[],counted=[];let add=0,upd=0,bad=0,kept=0,lim=0,room=capLeft(),cnt=STATS?STATS.active:0;
+ const shk=t=>{t=String(t).trim().toLowerCase();return!t?'':/24/.test(t)?'h24':t.startsWith('full')?'full':t.startsWith('morn')?'morning':t.startsWith('even')?'evening':t.startsWith('night')?'night':''};
  for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=String(r['Name']).trim().slice(0,80),fee=+r['Monthly Fee'];
   if(!n||p.length!==10||!(fee>0&&fee<=1000000)||seen.has(p)){bad++;continue}
   seen.add(p);
-  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=String(r['Seat']).trim().slice(0,20),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),gp=gp0.length===10?gp0:'',adr=String(r['Address']).trim().slice(0,200),pf=String(r['Preparing For']).trim().slice(0,60),ex=ST.find(x=>x.phone===p);
-  const stt=String(r['Status']).trim().toLowerCase();
-  if(ex){if(upOK){const d={name:n,fee};if(stt==='inactive'){d.active=false;d.inactiveOn=today()}else if(stt==='active')d.active=true;if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;if(gp)d.guardianPhone=gp;if(adr)d.address=adr;if(pf)d.preparingFor=pf;b.update(doc(col,ex.id),d);upd++}else kept++}
-  else{const j=jn||today(),nw={name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,guardianPhone:gp,address:adr,preparingFor:pf,createdAt:serverTimestamp()};if(stt==='inactive'){nw.active=false;nw.inactiveOn=today()}b.set(doc(col),nw);add++}}
- try{await b.commit();m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(all.length>450?' Only the first 450 rows were read.':'')}catch(e){m.textContent='Import failed ('+e.code+').'}}
+  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=String(r['Seat']).trim().slice(0,20),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),gp=gp0.length===10?gp0:'',adr=String(r['Address']).trim().slice(0,200),pf=String(r['Preparing For']).trim().slice(0,60),sh=shk(r['Shift']),ex=ST.find(x=>x.phone===p),stt=String(r['Status']).trim().toLowerCase();
+  if(ex){if(!upOK){kept++;continue}
+   const d={name:n,fee};if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;if(gp)d.guardianPhone=gp;if(adr)d.address=adr;if(pf)d.preparingFor=pf;if(sh)d.shift=sh;
+   if(stt==='inactive'&&isAct(ex)){d.active=false;d.inactiveOn=today();counted.push({ref:doc(col,ex.id),d,op:'update',sub:true})}
+   else if(stt==='active'&&!isAct(ex)){if(room<1){lim++;continue}room--;d.active=true;counted.push({ref:doc(col,ex.id),d,op:'update',add:true})}
+   else{if(stt==='inactive'){d.active=false;d.inactiveOn=today()}plain.push({ref:doc(col,ex.id),d,op:'update'})}
+   upd++}
+  else{const j=jn||today(),nw={name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,guardianPhone:gp,address:adr,preparingFor:pf,createdAt:serverTimestamp()};if(sh)nw.shift=sh;
+   if(stt==='inactive'){nw.active=false;nw.inactiveOn=today();plain.push({ref:doc(col),d:nw,op:'set'})}
+   else{if(room<1){lim++;continue}room--;counted.push({ref:doc(col),d:nw,op:'set',add:true})}
+   add++}}
+ try{
+  for(let i=0;i<plain.length;i+=400){const b=writeBatch(db);plain.slice(i,i+400).forEach(o=>o.op==='set'?b.set(o.ref,o.d):b.update(o.ref,o.d));await b.commit()}
+  let done=0;
+  for(const o of counted){m.textContent='Importing... '+(++done)+' of '+counted.length;const b=writeBatch(db);o.op==='set'?b.set(o.ref,o.d):b.update(o.ref,o.d);
+   if(o.add&&MAXS())b.update(stRef(),{active:increment(1),lastId:o.ref.id,op:'add'});
+   else if(o.sub&&MAXS()&&cnt>0){b.update(stRef(),{active:increment(-1),lastId:o.ref.id,op:'sub'});cnt--}
+   await b.commit()}
+  m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(lim?` ${lim} row(s) were not added because your limit of ${MAXS()} active students was reached.`:'')+(all.length>450?' Only the first 450 rows were read.':'')+' Seat clashes are not checked during import, so look at the Seats tab afterwards.'
+ }catch(e){m.textContent='Import stopped ('+e.code+'). Rows before the error were saved.'}}
 const aerr=e=>({'app/need-password':'Enter your current password first.','auth/wrong-password':'Current password is wrong.','auth/invalid-credential':'Current password is wrong.','auth/weak-password':'New password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.','auth/password-does-not-meet-requirements':'New password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.','auth/email-already-in-use':'That email is already used by another login.','auth/invalid-email':'That email address is not valid.','auth/too-many-requests':'Too many attempts. Please try again later.','auth/requires-recent-login':'Please sign out, sign in again and retry.','auth/invalid-verification-code':'Wrong or expired code. Try the next code from the app.','auth/second-factor-already-in-use':'Two-step login is already on for this login.'}[e.code]||'Failed ('+(e.code||e.message)+')');
 function openAcc(){const u=auth.currentUser;if(!u)return;$('ac_th').value=themeGet();mfaStatus();$('mf_b').classList.add('hide');$('mf_q').innerHTML='';$('mf_k').textContent='';MFS=null;
  $('ac_e').textContent=FAKE(u.email)?u.email.split('@')[0]+' (no real email added yet)':u.email;
@@ -1863,8 +2009,8 @@ async function makeBackup(auto){if(!OWN()||!libId)return;const m=$('bkm'),btn=$(
   const by=(k,dir)=>(a,b)=>dir*String(a[k]||'').localeCompare(String(b[k]||''));
   st.sort(by('name',1));tr.sort(by('name',1));py.sort(by('date',-1));ex.sort(by('date',-1));ap.sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
   const wb=XLSX.utils.book_new(),add=(n,rows,w)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,n)};
-  add('Students',[[...HX,'Status','ID'],...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',isAct(x)?'Active':'Inactive',x.id])],[22,14,8,12,12,15,12,16,30,18,10,24]);
-  add('Recycle bin',[[...HX,'Deleted on'],...tr.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',x.deletedAt&&x.deletedAt.toDate?iso(x.deletedAt.toDate()):''])],[22,14,8,12,12,15,12,16,30,18,12]);
+  add('Students',[[...HX,'Status','ID'],...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',SH[x.shift]?SH[x.shift].n:'',isAct(x)?'Active':'Inactive',x.id])],[22,14,8,12,12,15,12,16,30,18,12,10,24]);
+  add('Recycle bin',[[...HX,'Deleted on'],...tr.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',SH[x.shift]?SH[x.shift].n:'',x.deletedAt&&x.deletedAt.toDate?iso(x.deletedAt.toDate()):''])],[22,14,8,12,12,15,12,16,30,18,12,12]);
   add('Payments',[['Date','Student','Amount','Mode','Student ID','Payment ID'],...py.map(x=>[x.date,x.studentName,x.amt,x.mode,x.studentId,x.id])],[12,22,10,12,24,34]);
   add('Expenses',[['Date','Category','Amount','Note','ID'],...ex.map(x=>[x.date,x.cat,x.amt,x.note||'',x.id])],[12,16,10,30,24]);
   add('Requests',[['Requested on','Type','Student','Status','Details'],...ap.map(x=>[x.createdAt&&x.createdAt.toDate?iso(x.createdAt.toDate()):'',x.type,x.studentName,x.status,Object.entries(x.changes||{}).map(([k,v])=>k+': '+v).join(', ')])],[14,16,22,10,40]);
@@ -1930,5 +2076,6 @@ async function restoreBackup(){if(!OWN()||!libId)return;const f=$('rf').files[0]
  btn.disabled=false}
 
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{openSup,closeSup,mfaVerify,mfaCancel,mfaSetup,mfaConfirm,tmToggle,setTheme,login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,restoreBackup,bkAuto,setActive,restoreStu,purgeStu,emptyTrash,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,tpl,expX,impX});
+$('sm_g').addEventListener('click',e=>{const b=e.target.closest('button.seat');if(b)seatInfo(b.dataset.l)});
+Object.assign(window,{setLimits,seatList,drawSeats,pickSeat,saveSet,setPreview,openSup,closeSup,mfaVerify,mfaCancel,mfaSetup,mfaConfirm,tmToggle,setTheme,login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,restoreBackup,bkAuto,setActive,restoreStu,purgeStu,emptyTrash,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,tpl,expX,impX});
 </script></body></html>

@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.google.com https://*.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://asaan-keys.asaanlibrary.workers.dev https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.google.com https://*.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <script>if(top!==self){document.documentElement.style.display="none";try{top.location=self.location}catch(e){}}</script>
 <script>try{var t=localStorage.getItem("asaan_theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <title>Asaan Library Management Software - Login</title>
@@ -175,7 +175,7 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <div class="nv" id="nv"><button type="button" id="tmb" class="tmb" aria-expanded="false" aria-controls="tbs" onclick="tmToggle()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="tmt" id="tmt">Dashboard</span><span class="tmn hide" id="tmn"></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
 <div class="tabs" id="tbs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_seat" onclick="tab('seat')">Seats</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button><button id="tb_tr" class="hide" onclick="tab('tr')">Recycle bin</button></div></div>
 <div id="bkn" class="c hide"><div class="top"><span id="bkt"></span><button class="s" onclick="makeBackup(false)">Backup now</button></div></div>
-<div id="t_dash"><div class="k" id="kp"></div>
+<div id="t_dash"><div id="encb" class="c hide" style="border-left:4px solid #e0a21b"><b>Encrypt your records</b><p class="mu" style="margin:6px 0">Some records are still stored as plain text. Press the button once to encrypt them. Download a backup first (Backup tab).</p><button id="encx" onclick="encryptAll()">Encrypt now</button><p class="mu" id="encm"></p></div><div class="k" id="kp"></div>
 <div class="c"><h3>Last 6 months</h3><div id="ch"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
 <div class="c"><h3>Fees due in the next 3 days or overdue</h3><div class="tw" id="ds"></div></div>
 <div class="c"><h3>Payments this month</h3><div class="tw" id="pl"></div></div></div>
@@ -188,6 +188,7 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <div><label>Monthly fee (₹)</label><input id="a_f" type="number"></div>
 <div><label>Join date</label><input id="a_j" type="date"></div>
 <div><label>Aadhaar last 4 digits</label><input id="a_a" inputmode="numeric" maxlength="4"></div>
+<div><label>Guardian's name *</label><input id="a_gn" maxlength="80"></div>
 <div><label>Guardian's contact number</label><input id="a_gp" inputmode="numeric" maxlength="10" placeholder="10 digits"></div>
 <div><label>Preparing for</label><input id="a_pf" list="pfl" maxlength="60" placeholder="e.g. UPSC, NEET, SSC"></div>
 <div style="grid-column:1/-1"><label>Address</label><input id="a_ad2" maxlength="200" placeholder="House no, street, city"></div>
@@ -195,7 +196,7 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <datalist id="pfl"><option value="UPSC"><option value="State PCS"><option value="SSC"><option value="Banking"><option value="Railway"><option value="NEET"><option value="JEE"><option value="CUET"><option value="CA / CS"><option value="Board exams"><option value="Teaching exams"><option value="Defence"><option value="Police"><option value="College studies"></datalist>
 <p class="mu">Only the last 4 digits of Aadhaar are stored. No Aadhaar photo or full number is accepted.</p>
 <p id="am" class="mu"></p></div>
-<div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Shift</label><select id="e_sh"></select></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><div><label>Guardian's contact number</label><input id="e_gp" inputmode="numeric" maxlength="10"></div><div><label>Preparing for</label><input id="e_pf" list="pfl" maxlength="60"></div><div style="grid-column:1/-1"><label>Address</label><input id="e_ad2" maxlength="200"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
+<div class="c hide" id="ec"><h3>Edit student</h3><p class="mu" id="eh"></p><div class="f"><div><label>Name</label><input id="e_n" maxlength="80"></div><div><label>Mobile (10 digits)</label><input id="e_p" inputmode="numeric" maxlength="10"></div><div><label>Shift</label><select id="e_sh"></select></div><div><label>Seat</label><input id="e_s" maxlength="20"></div><div><label>Monthly fee (₹)</label><input id="e_f" type="number"></div><div><label>Next due date</label><input id="e_d" type="date"></div><div><label>Guardian's name *</label><input id="e_gn" maxlength="80"></div><div><label>Guardian's contact number</label><input id="e_gp" inputmode="numeric" maxlength="10"></div><div><label>Preparing for</label><input id="e_pf" list="pfl" maxlength="60"></div><div style="grid-column:1/-1"><label>Address</label><input id="e_ad2" maxlength="200"></div><button id="eb" onclick="saveStu()">Save</button><button class="o" onclick="cancelEdit()">Cancel</button></div><p id="emsg" class="mu"></p></div>
 <div class="c"><div class="top"><h3 style="margin:0">Students</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="sf" style="width:auto" onchange="drawLB()"><option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option></select><input id="q" placeholder="Search name, phone or seat" style="max-width:240px" oninput="drawLB()"></div></div><div class="tw" id="sl"></div></div>
 <div class="c"><h3>Import and export</h3><div class="f"><button class="o" onclick="tpl()">Download blank template</button><button class="o" onclick="expX()">Export students</button><div><label>Excel or CSV file</label><input id="xf" type="file" accept=".xlsx,.xls,.csv"></div><label style="display:flex;gap:6px;align-items:center"><input id="xu" type="checkbox" style="width:auto">Update existing students (owner only, matched by mobile)</label><button id="xi" onclick="impX()">Import students</button></div><p id="xm" class="mu">In the blank template, Next Due fills in automatically as the same date one month after Join Date (you can overwrite it). Only the last 4 digits of any Aadhaar value are kept. Up to 450 rows per import.</p></div>
 </div>
@@ -1576,8 +1577,43 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)sessCheck(
 window.addEventListener('pageshow',sessCheck);
 function logout(){lsDel(K_ACT);lsDel(K_LOGIN);signOut(auth)}
 
+/* ---------- Encryption of personal details (the key comes from the Asaan key service) ---------- */
+const KEYSVC='https://asaan-keys.asaanlibrary.workers.dev/';
+const ENC_ST=['name','phone','guardianName','guardianPhone','address','aadhaarLast4','preparingFor'];
+let CK=null;
+const b64d=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/').padEnd(Math.ceil(s.length/4)*4,'=')),c=>c.charCodeAt(0));
+const b64e=u=>btoa(String.fromCharCode(...u)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const isEnc=v=>typeof v==='string'&&/^v1\.[A-Za-z0-9_-]{16}\.[A-Za-z0-9_-]+$/.test(v);
+async function loadKey(){CK=null;const t=await auth.currentUser.getIdToken(),r=await fetch(KEYSVC,{headers:{authorization:'Bearer '+t}});if(!r.ok)throw new Error('key '+r.status);const j=await r.json();CK=await crypto.subtle.importKey('raw',b64d(j.key),'AES-GCM',false,['encrypt','decrypt'])}
+const aadOf=(id,f)=>new TextEncoder().encode(libId+'|'+id+'|'+f);
+async function encV(v,id,f){v=String(v==null?'':v);if(v==='')return'';const iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:aadOf(id,f)},CK,new TextEncoder().encode(v)));return'v1.'+b64e(iv)+'.'+b64e(ct)}
+async function decV(v,id,f){if(!isEnc(v))return v;const p=v.split('.');try{return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(p[1]),additionalData:aadOf(id,f)},CK,b64d(p[2])))}catch(e){return'(unreadable)'}}
+async function encSt(d,id){const o={...d};for(const f of ENC_ST)if(f in o)o[f]=await encV(o[f],id,f);return o}
+async function encName(s){const r=s._raw&&s._raw.name;return isEnc(r)?r:await encV(s.name,s.id,'name')}
+async function decRec(d,kind){const raw=d.data(),o={id:d.id,...raw};Object.defineProperty(o,'_raw',{value:raw,enumerable:false});
+ if(kind==='st'){for(const f of ENC_ST)if(f in o)o[f]=await decV(o[f],d.id,f)}
+ else if(kind==='py'){if(o.studentName!==undefined)o.studentName=await decV(o.studentName,o.studentId,'name')}
+ else if(kind==='ex'){if(o.note!==undefined)o.note=await decV(o.note,d.id,'note')}
+ else if(kind==='ap'){if(o.studentName!==undefined)o.studentName=await decV(o.studentName,o.studentId,'name');if(o.changes){const c={...o.changes};for(const f of ENC_ST)if(f in c)c[f]=await decV(c[f],o.studentId,f);o.changes=c}}
+ return o}
+const decAll=(docs,kind)=>Promise.all(docs.map(d=>decRec(d,kind)));
+const SQ={};
+const snap=(name,kind,apply)=>s=>{const n=SQ[name]=(SQ[name]||0)+1;decAll(s.docs,kind).then(a=>{if(n===SQ[name])apply(a)}).catch(e=>console.error(e))};
+const plainF=(raw,fs)=>fs.some(f=>typeof raw[f]==='string'&&raw[f]!==''&&!isEnc(raw[f]));
+function encBanner(){const b=$('encb');if(!b)return;b.classList.toggle('hide',!(OWN()&&CK&&(ST.some(s=>plainF(s._raw||{},ENC_ST))||PY.some(p=>plainF(p._raw||{},['studentName']))||EX.some(x=>plainF(x._raw||{},['note'])))))}
+async function encryptAll(){if(!OWN()||!LIVE||!CK)return;const m=$('encm'),btn=$('encx');btn.disabled=true;m.textContent='Encrypting... please keep this page open.';
+ try{const ops=[],col=n=>collection(db,'libraries',libId,n);
+  for(const s of ST){if(!plainF(s._raw||{},ENC_ST))continue;const d={};for(const f of ENC_ST)if(typeof s._raw[f]==='string'&&s._raw[f]!==''&&!isEnc(s._raw[f]))d[f]=s[f];ops.push([doc(col('students'),s.id),await encSt(d,s.id)])}
+  const py=await getDocs(col('payments'));for(const x of py.docs){const r=x.data();if(typeof r.studentName==='string'&&r.studentName!==''&&!isEnc(r.studentName))ops.push([x.ref,{studentName:await encV(r.studentName,r.studentId,'name')}])}
+  const ex=await getDocs(col('expenses'));for(const x of ex.docs){const r=x.data();if(typeof r.note==='string'&&r.note!==''&&!isEnc(r.note))ops.push([x.ref,{note:await encV(r.note,x.id,'note')}])}
+  let k=0;for(let i=0;i<ops.length;i+=400){const b=writeBatch(db);ops.slice(i,i+400).forEach(o=>b.update(o[0],o[1]));await b.commit();k+=Math.min(400,ops.length-i);m.textContent='Encrypting... '+k+' of '+ops.length}
+  m.textContent=ops.length?'Done. '+ops.length+' records are now encrypted. Old handled requests and recycle bin items are not converted: clear or restore them.':'Everything is already encrypted.';
+ }catch(e){m.textContent='Stopped ('+(e.code||e.message)+'). Nothing was lost. You can press the button again.'}
+ btn.disabled=false;encBanner()}
+/* ---------- end encryption ---------- */
+
 onAuthStateChanged(auth,async u=>{
- unsubs.forEach(f=>f());unsubs=[];me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];TR=[];STATS=null;SET=null;STL=false;SOK=false;TRL=false;INITD=false;SELSEAT='';BKDONE=false;RC=null;KPREV={};$('rcb').style.display='none';
+ unsubs.forEach(f=>f());unsubs=[];CK=null;me=null;lib=null;ST=[];PY=[];EX=[];AP=[];US=[];TR=[];STATS=null;SET=null;STL=false;SOK=false;TRL=false;INITD=false;SELSEAT='';BKDONE=false;RC=null;KPREV={};$('rcb').style.display='none';
  if(!u){show('lg');return}
  try{const r=await getDoc(doc(db,'users',u.uid));if(!r.exists())throw 0;me=r.data();if(u.email&&me.email!==u.email)updateDoc(doc(db,'users',u.uid),{email:u.email}).catch(()=>{})}
  catch(e){$('le').textContent='This login is not linked to a library yet. Ask your provider to link it.';signOut(auth);show('lg');return}
@@ -1589,14 +1625,16 @@ onAuthStateChanged(auth,async u=>{
   unsubs.push(onSnapshot(query(collection(db,'libraries'),orderBy('createdAt','desc')),s=>{LIBS=s.docs.map(d=>({id:d.id,...d.data()}));drawSA()},e=>alert('Libraries: '+e.code)));
   unsubs.push(onSnapshot(collection(db,'users'),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawSA()},e=>alert('Logins: '+e.code)));
  }else{
-  libId=me.libId;show('lb');$('x_m').value=ym();$('x_m').min=FROM().slice(0,7);$('p_m').value=ym();$('p_m').min=FROM().slice(0,7);$('x_d').value=today();$('a_j').value=today();tab('dash');
+  libId=me.libId;
+  try{await loadKey()}catch(e){$('le').textContent='Could not reach the Asaan security service, so your data cannot be opened. Check your internet and sign in again.';signOut(auth);show('lg');return}
+  show('lb');$('x_m').value=ym();$('x_m').min=FROM().slice(0,7);$('p_m').value=ym();$('p_m').min=FROM().slice(0,7);$('x_d').value=today();$('a_j').value=today();tab('dash');
   unsubs.push(onSnapshot(doc(db,'libraries',libId),s=>{lib=s.exists()?s.data():null;drawLB()},e=>alert('Library: '+e.code)));
-  unsubs.push(onSnapshot(collection(db,'libraries',libId,'students'),s=>{ST=s.docs.map(d=>({id:d.id,...d.data()}));SOK=true;drawLB()},e=>alert('Students: '+e.code)));
+  unsubs.push(onSnapshot(collection(db,'libraries',libId,'students'),snap('st','st',a=>{ST=a;SOK=true;drawLB()}),e=>alert('Students: '+e.code)));
   unsubs.push(onSnapshot(doc(db,'libraries',libId,'meta','stats'),s=>{STATS=s.exists()?s.data():null;STL=true;drawLB()},e=>{STL=true}));
   unsubs.push(onSnapshot(doc(db,'libraries',libId,'meta','settings'),s=>{SET=s.exists()?s.data():null;fillSet();drawLB()},e=>{}));
-  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'payments'),where('date','>=',FROM()),orderBy('date','desc')),s=>{PY=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Payments: '+e.code)));
-  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'expenses'),where('date','>=',FROM()),orderBy('date','desc')),s=>{EX=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Expenses: '+e.code)));
-  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'approvals'),orderBy('createdAt','desc')),s=>{AP=s.docs.map(d=>({id:d.id,...d.data()}));drawLB()},e=>alert('Approvals: '+e.code)));
+  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'payments'),where('date','>=',FROM()),orderBy('date','desc')),snap('py','py',a=>{PY=a;drawLB()}),e=>alert('Payments: '+e.code)));
+  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'expenses'),where('date','>=',FROM()),orderBy('date','desc')),snap('ex','ex',a=>{EX=a;drawLB()}),e=>alert('Expenses: '+e.code)));
+  unsubs.push(onSnapshot(query(collection(db,'libraries',libId,'approvals'),orderBy('createdAt','desc')),snap('ap','ap',a=>{AP=a;drawLB()}),e=>alert('Approvals: '+e.code)));
   if(me.role==='owner')unsubs.push(onSnapshot(query(collection(db,'users'),where('libId','==',libId)),s=>{US=s.docs.map(d=>({id:d.id,...d.data()}));drawStf()},e=>alert('Logins: '+e.code)));
  }
 });
@@ -1666,7 +1704,7 @@ function drawStf(){if(!OWN())return;const mx=MAXA();$('fq').textContent='Logins 
  $('fl').innerHTML=US.length?'<table><tr><th>Login</th><th>Role</th><th></th></tr>'+US.map(u=>`<tr><td>${esc(ulab(u))}</td><td>${esc(u.role)}</td><td>${u.role==='staff'?`<button class="s r" data-id="${esc(u.id)}" onclick="rmUser(this.dataset.id)">Remove</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No logins yet.</p>'}
 
 /* ---------- Library panel ---------- */
-function drawLB(){
+function drawLB(){encBanner();
  if(!lib){$('ln').textContent='Library not found';return}
  LIVE=isLive(lib);const e=expOf(lib),t=today(),M=ym(),q=$('q').value.toLowerCase(),lim=iso(new Date(Date.now()+3*864e5));
  $('ln').textContent=lib.name;
@@ -1682,7 +1720,7 @@ function drawLB(){
  {const cs=chart();if(cs!==CHL){CHL=cs;$('ch').innerHTML=cs}}
  const sr=AC.filter(s=>s.nextDue<=lim).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
  $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${ctl(s)}</td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
- const sf=$('sf').value,rows=ST.filter(s=>(sf==='all'||(sf==='inactive')===!isAct(s))&&(!q||(s.name+s.phone+s.seat+(s.guardianPhone||'')+(s.address||'')+(s.preparingFor||'')).toLowerCase().includes(q))).sort((a,b)=>sf==='inactive'?a.name.localeCompare(b.name):a.nextDue.localeCompare(b.nextDue));
+ const sf=$('sf').value,rows=ST.filter(s=>(sf==='all'||(sf==='inactive')===!isAct(s))&&(!q||(s.name+s.phone+s.seat+(s.guardianName||'')+(s.guardianPhone||'')+(s.address||'')+(s.preparingFor||'')).toLowerCase().includes(q))).sort((a,b)=>sf==='inactive'?a.name.localeCompare(b.name):a.nextDue.localeCompare(b.nextDue));
  $('sl').innerHTML=rows.length?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Next due</th><th>Aadhaar</th><th></th></tr>'+rows.map(s=>`<tr><td>${esc(s.name)}${isAct(s)?'':' <span class="mu">(inactive since '+esc(s.inactiveOn||'-')+')</span>'}${s.preparingFor?'<br><span class="mu">'+esc(s.preparingFor)+'</span>':''}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}${s.shift&&SH[s.shift]?'<br><span class="mu">'+esc(SH[s.shift].n)+'</span>':''}</td><td>${inr(s.fee)}</td><td class="${isAct(s)&&s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${s.aadhaarLast4?'•••• '+esc(s.aadhaarLast4):'-'}</td><td>${isAct(s)?`${ctl(s)}<button class="s" data-id="${esc(s.id)}" onclick="pay(this.dataset.id)" ${LIVE?'':'disabled'}>Collect fee</button> `:`<button class="s" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,true)" ${LIVE?'':'disabled'}>${OWN()?'Reactivate':'Request reactivate'}</button> `}<button class="s o" data-id="${esc(s.id)}" onclick="editStu(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Edit':'Request change'}</button> ${isAct(s)?`<button class="s o" data-id="${esc(s.id)}" onclick="setActive(this.dataset.id,false)" ${LIVE?'':'disabled'}>${OWN()?'Make inactive':'Request inactive'}</button> `:''}<button class="s r" data-id="${esc(s.id)}" onclick="del(this.dataset.id)" ${LIVE?'':'disabled'}>${OWN()?'Delete':'Request delete'}</button></td></tr>`).join('')+'</table>':'<p class="mu">'+(ST.length?'No students match this filter.':'No students yet. Add the first admission, or import an Excel file.')+'</p>';
  $('pl').innerHTML=pm.length?'<table><tr><th>Date</th><th>Student</th><th>Amount</th><th>Mode</th><th></th></tr>'+pm.slice(0,10).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.studentName)}</td><td>${inr(p.amt)}</td><td>${esc(p.mode)}</td><td><button class="s o" data-id="${esc(p.id)}" onclick="rcpt(this.dataset.id)">Receipt</button></td></tr>`).join('')+'</table>':'<p class="mu">No payments recorded this month.</p>';
  drawExp();drawApr();drawPay();drawTrash();fillShifts();drawSeats();capUI();initStats();
@@ -1691,13 +1729,14 @@ async function admit(){
  if(!LIVE)return;const v=i=>$(i).value.trim(),a=v('a_a'),m=$('am'),sh=$('a_sh').value,seat=v('a_s');
  if(!v('a_n')||!/^\d{10}$/.test(v('a_p'))||!(+v('a_f')>0)||!v('a_j')){m.textContent='Name, a 10-digit mobile number, fee and join date are required.';return}
  if(a&&!/^\d{4}$/.test(a)){m.textContent='Enter only the last 4 digits of Aadhaar.';return}
+ if(!san(v('a_gn'))){m.textContent='Guardian\'s name is required.';return}
  if(v('a_gp')&&!/^\d{10}$/.test(v('a_gp'))){m.textContent='Guardian\'s contact number must be 10 digits.';return}
  if(SET&&!sh){m.textContent='Choose a shift.';return}
  const sc=seatCheck(seat,sh,null);if(sc){m.textContent=sc;return}
  if(MAXS()){if(capLeft()<1){m.textContent=capMsg();return}if(!STATS){m.textContent=noStats;return}}
- try{const ref=doc(collection(db,'libraries',libId,'students')),b=writeBatch(db),d={name:san(v('a_n')),phone:v('a_p'),seat:san(seat),fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,guardianPhone:v('a_gp'),address:san(v('a_ad2')),preparingFor:san(v('a_pf')),createdAt:serverTimestamp()};
-  if(sh)d.shift=sh;b.set(ref,d);stAdd(b,ref.id);await b.commit();
-  ['a_n','a_p','a_s','a_f','a_a','a_gp','a_pf','a_ad2'].forEach(i=>$(i).value='');m.textContent='Student admitted.'}catch(e){m.textContent='Could not save ('+e.code+')'}
+ try{const ref=doc(collection(db,'libraries',libId,'students')),b=writeBatch(db),d={name:san(v('a_n')),phone:v('a_p'),seat:san(seat),fee:+v('a_f'),joined:v('a_j'),nextDue:v('a_j'),aadhaarLast4:a,guardianName:san(v('a_gn')),guardianPhone:v('a_gp'),address:san(v('a_ad2')),preparingFor:san(v('a_pf')),createdAt:serverTimestamp()};
+  if(sh)d.shift=sh;b.set(ref,await encSt(d,ref.id));stAdd(b,ref.id);await b.commit();
+  ['a_n','a_p','a_s','a_f','a_a','a_gn','a_gp','a_pf','a_ad2'].forEach(i=>$(i).value='');m.textContent='Student admitted.'}catch(e){m.textContent='Could not save ('+e.code+')'}
 }
 async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;if(!isAct(s)){alert('This student is inactive. Reactivate the student first.');return}
  const a=+prompt('Amount received from '+s.name+' (₹)',s.fee);if(!(a>0))return;
@@ -1707,7 +1746,7 @@ async function pay(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;if(!isA
  try{const b=writeBatch(db);
   const nd=addM(s.nextDue.slice(0,8)+(s.joined||s.nextDue).slice(8,10),1),pr=doc(db,'libraries',libId,'payments',id+'_'+nd);
   if((await getDoc(pr)).exists()){alert('A payment for this due date is already recorded for this student. Ask the owner to check the Payments tab.');return}
-  b.set(pr,{studentId:id,studentName:san(s.name),amt:a,date:today(),mode,by:auth.currentUser.uid,at:serverTimestamp()});
+  b.set(pr,{studentId:id,studentName:await encName(s),amt:a,date:today(),mode,by:auth.currentUser.uid,at:serverTimestamp()});
   b.update(doc(db,'libraries',libId,'students',id),{nextDue:nd});
   await b.commit();
   const rp={id:pr.id,date:today(),studentName:s.name,amt:a,mode};RC={phone:s.phone,p:rp,nd,text:rcText(rp,nd)};
@@ -1774,7 +1813,7 @@ function tab(n){if(n==='tr'&&OWN()&&!TRL)loadTrash();
 ['dash','stu','seat','pay','exp','apr','stf','bk','tr'].forEach(x=>{$('t_'+x).classList.toggle('hide',x!==n);$('tb_'+x).classList.toggle('act',x===n)});tmSync();tmToggle(false);if(matchMedia('(max-width:759px)').matches)window.scrollTo({top:0})}
 async function req(type,sid,sname,extra){
  if(AP.some(a=>a.status==='pending'&&(a.type===type||(type==='delete_student'&&a.type==='delete'))&&a.studentId===sid&&(a.paymentId||'')===((extra&&extra.paymentId)||''))){alert('A similar request is already waiting for the owner.');return false}
- try{await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:((ST.find(x=>x.id===sid)||{}).name||sname),...(extra||{}),by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
+ try{const st0=ST.find(x=>x.id===sid),ex2={...(extra||{})};if(ex2.changes)ex2.changes=await encSt(ex2.changes,sid);await addDoc(collection(db,'libraries',libId,'approvals'),{type,studentId:sid,studentName:st0?await encName(st0):sname,...ex2,by:auth.currentUser.uid,status:'pending',createdAt:serverTimestamp()});
   alert('Request sent to the owner. Nothing changes until the owner approves it.');return true}catch(e){alert('Could not send the request ('+e.code+')');return false}}
 const isAct=s=>s.active!==false;
 /* ---------- plan limits (set by the provider, enforced by the database rules) ---------- */
@@ -1854,7 +1893,7 @@ async function saveSet(){if(!OWN()||!LIVE)return;const S=formSet(),m=$('st_m'),T
  const labels=Array.from({length:S.seatCount},(_,i)=>S.seatPrefix+(i+1)),bad=ST.filter(isAct).filter(s=>nseat(s.seat)&&!labels.some(l=>nseat(l)===nseat(s.seat))).length;
  if(bad&&!confirm(bad+' active student(s) have a seat that will not be on the new seat map. Save anyway?'))return;
  try{await setDoc(doc(db,'libraries',libId,'meta','settings'),S);m.textContent='Saved.'}catch(e){m.textContent='Could not save ('+e.code+')'}}
-async function loadTrash(){if(!OWN())return;try{const r=await getDocs(collection(db,'libraries',libId,'trash'));TR=r.docs.map(d=>({id:d.id,...d.data()}));TRL=true;drawTrash()}catch(e){alert('Recycle bin: '+e.code)}}
+async function loadTrash(){if(!OWN())return;try{const r=await getDocs(collection(db,'libraries',libId,'trash'));TR=await decAll(r.docs,'st');TRL=true;drawTrash()}catch(e){alert('Recycle bin: '+e.code)}}
 
 const SUP={email:'support@asaanlib.in',phone:'919286733232',show:'+91 92867 33232'};
 const ICW='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.9A9 9 0 1 1 8 19.4L3 21z"/><path d="M9 9.5c.3 2.5 2.6 4.8 5.5 5.5l1.2-1.3-2-1-.9.7a4 4 0 0 1-2-2l.7-.9-1-2L9 9.5z" fill="currentColor" stroke="none"/></svg>';
@@ -1868,7 +1907,7 @@ function openSup(){const u=auth.currentUser,ln=lib?lib.name:'',who=(u&&u.email)|
  $('sp_w').href='https://wa.me/'+SUP.phone+'?text='+encodeURIComponent(t);$('sp_we').textContent=SUP.show;
  $('sp').style.display='flex'}
 function closeSup(){$('sp').style.display='none'}
-function trashOps(b,s){const{id,...d}=s;b.set(doc(db,'libraries',libId,'trash',id),{...d,deletedAt:serverTimestamp(),deletedBy:auth.currentUser.uid});b.delete(doc(db,'libraries',libId,'students',id));if(isAct(s))stSub(b,id)}
+function trashOps(b,s){const id=s.id,d={...(s._raw||{})};b.set(doc(db,'libraries',libId,'trash',id),{...d,deletedAt:serverTimestamp(),deletedBy:auth.currentUser.uid});b.delete(doc(db,'libraries',libId,'students',id));if(isAct(s))stSub(b,id)}
 async function del(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;
  try{if(OWN()){if(confirm('Move '+s.name+' to the Recycle bin? You can restore them from there later.')){const b=writeBatch(db);trashOps(b,s);await b.commit();TRL=false;toast(s.name+' was moved to the Recycle bin.')}}
   else if(confirm('Send a delete request for '+s.name+' to the owner?'))await req('delete_student',id,s.name)}catch(e){alert('Could not save ('+e.code+')')}}
@@ -1885,9 +1924,9 @@ function drawTrash(){if(!OWN())return;
  const at=x=>(x.deletedAt&&x.deletedAt.seconds)||Infinity;
  $('trl').innerHTML=n?'<table><tr><th>Name</th><th>Mobile</th><th>Seat</th><th>Fee</th><th>Deleted</th><th></th></tr>'+TR.slice().sort((a,b)=>at(b)-at(a)).map(s=>{const d=s.deletedAt&&s.deletedAt.toDate?s.deletedAt.toDate():null,k=d?Math.floor((Date.now()-d)/864e5):0;
   return`<tr><td>${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td>${d?iso(d)+' ('+(k?k+' day'+(k===1?'':'s')+' ago':'today')+')':'-'}</td><td><button class="s" data-id="${esc(s.id)}" onclick="restoreStu(this.dataset.id)" ${LIVE?'':'disabled'}>Restore</button> <button class="s r" data-id="${esc(s.id)}" onclick="purgeStu(this.dataset.id)" ${LIVE?'':'disabled'}>Delete forever</button></td></tr>`}).join('')+'</table>':'<p class="mu">The recycle bin is empty.</p>'}
-async function restoreStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;const{id:_i,deletedAt,deletedBy,...d}=s;
+async function restoreStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;const{deletedAt,deletedBy,...d}=s._raw;
  if(isAct(d)){if(capLeft()<1){alert(capMsg());return}if(MAXS()&&!STATS){alert(noStats);return}}
- if(ST.some(x=>x.phone===d.phone)&&!confirm('A student with the mobile number '+d.phone+' already exists. Restore anyway?'))return;
+ if(ST.some(x=>x.phone===s.phone)&&!confirm('A student with the mobile number '+s.phone+' already exists. Restore anyway?'))return;
  try{const b=writeBatch(db);b.set(doc(db,'libraries',libId,'students',id),d);b.delete(doc(db,'libraries',libId,'trash',id));if(isAct(d))stAdd(b,id);await b.commit();TR=TR.filter(x=>x.id!==id);drawTrash();toast(s.name+' was restored to Students.')}catch(e){alert('Could not restore ('+e.code+')')}}
 async function purgeStu(id){const s=TR.find(x=>x.id===id);if(!s||!LIVE||!OWN())return;
  if(!confirm('Delete '+s.name+' forever? Their details will be gone and this cannot be undone.'))return;
@@ -1897,19 +1936,20 @@ async function emptyTrash(){if(!LIVE||!OWN()||!TR.length)return;
  try{const ids=TR.slice(0,450).map(x=>x.id),b=writeBatch(db);ids.forEach(i=>b.delete(doc(db,'libraries',libId,'trash',i)));await b.commit();TR=TR.filter(x=>!ids.includes(x.id));drawTrash()}catch(e){alert('Could not empty the bin ('+e.code+')')}}
 let EID='';
 function editStu(id){const s=ST.find(x=>x.id===id);if(!s||!LIVE)return;EID=id;
- $('e_n').value=s.name;$('e_p').value=s.phone;$('e_s').value=s.seat||'';$('e_f').value=s.fee;$('e_d').value=s.nextDue;$('e_gp').value=s.guardianPhone||'';$('e_pf').value=s.preparingFor||'';$('e_ad2').value=s.address||'';$('emsg').textContent='';
+ $('e_n').value=s.name;$('e_p').value=s.phone;$('e_s').value=s.seat||'';$('e_f').value=s.fee;$('e_d').value=s.nextDue;$('e_gn').value=s.guardianName||'';$('e_gp').value=s.guardianPhone||'';$('e_pf').value=s.preparingFor||'';$('e_ad2').value=s.address||'';$('emsg').textContent='';
  $('e_sh').value='';fillShifts();$('e_sh').value=s.shift&&SH[s.shift]?s.shift:'';
  $('eh').textContent=OWN()?'Editing '+s.name+'. Changes are saved immediately.':'Editing '+s.name+'. Your changes will be sent to the owner and applied only after approval.';
  $('ec').classList.remove('hide');$('ec').scrollIntoView({behavior:'smooth',block:'center'})}
 function cancelEdit(){EID='';$('ec').classList.add('hide')}
 async function saveStu(){const s=ST.find(x=>x.id===EID),m=$('emsg');if(!s||!LIVE)return;
- const n=san($('e_n').value.trim()),p=$('e_p').value.trim(),st=san($('e_s').value.trim()),f=+$('e_f').value,d=$('e_d').value,gp=$('e_gp').value.trim(),pf=san($('e_pf').value.trim()),ad=san($('e_ad2').value.trim()),sh=$('e_sh').value;
+ const n=san($('e_n').value.trim()),p=$('e_p').value.trim(),st=san($('e_s').value.trim()),f=+$('e_f').value,d=$('e_d').value,gn=san($('e_gn').value.trim()),gp=$('e_gp').value.trim(),pf=san($('e_pf').value.trim()),ad=san($('e_ad2').value.trim()),sh=$('e_sh').value;
  if(!n||!/^\d{10}$/.test(p)||!(f>0)||!d){m.textContent='Name, a 10-digit mobile number, fee and next due date are required.';return}
+ if(!gn){m.textContent='Guardian\'s name is required. Please enter it.';return}
  if(gp&&!/^\d{10}$/.test(gp)){m.textContent='Guardian\'s contact number must be 10 digits.';return}
- const ch={};if(n!==s.name)ch.name=n;if(p!==s.phone)ch.phone=p;if(st!==(s.seat||''))ch.seat=st;if(f!==s.fee)ch.fee=f;if(d!==s.nextDue)ch.nextDue=d;if(gp!==(s.guardianPhone||''))ch.guardianPhone=gp;if(pf!==(s.preparingFor||''))ch.preparingFor=pf;if(ad!==(s.address||''))ch.address=ad;if(sh&&sh!==(s.shift||''))ch.shift=sh;
+ const ch={};if(n!==s.name)ch.name=n;if(p!==s.phone)ch.phone=p;if(st!==(s.seat||''))ch.seat=st;if(f!==s.fee)ch.fee=f;if(d!==s.nextDue)ch.nextDue=d;if(gn!==(s.guardianName||''))ch.guardianName=gn;if(gp!==(s.guardianPhone||''))ch.guardianPhone=gp;if(pf!==(s.preparingFor||''))ch.preparingFor=pf;if(ad!==(s.address||''))ch.address=ad;if(sh&&sh!==(s.shift||''))ch.shift=sh;
  if(!Object.keys(ch).length){m.textContent='Nothing was changed.';return}
  if(isAct(s)&&('seat' in ch||'shift' in ch)){const sc=seatCheck('seat' in ch?ch.seat:s.seat,'shift' in ch?ch.shift:s.shift,s.id);if(sc){m.textContent=sc;return}}
- try{if(OWN()){await updateDoc(doc(db,'libraries',libId,'students',EID),ch);cancelEdit()}
+ try{if(OWN()){await updateDoc(doc(db,'libraries',libId,'students',EID),await encSt(ch,EID));cancelEdit()}
   else if(await req('edit_student',EID,s.name,{changes:ch}))cancelEdit()}catch(e){m.textContent='Could not save ('+e.code+')'}}
 function drawPay(){const m=$('p_m').value||ym(),r=PY.filter(p=>p.date.startsWith(m));
  $('ps').textContent='Total '+inr(r.reduce((a,p)=>a+p.amt,0))+' from '+r.length+' payment'+(r.length===1?'':'s')+'. Showing the last 6 months.';
@@ -1934,9 +1974,9 @@ function drawExp(){const m=$('x_m').value||ym(),r=EX.filter(x=>x.date.startsWith
  $('xs').textContent='Total '+inr(r.reduce((a,x)=>a+x.amt,0))+(r.length?': '+Object.entries(by).map(([k,v])=>k+' '+inr(v)).join(', '):'')+'. Showing the last 6 months.';
  $('xl').innerHTML=r.length?'<table><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th><th></th></tr>'+r.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.cat)}</td><td>${inr(x.amt)}</td><td>${esc(x.note)}</td><td>${OWN()?`<button class="s r" data-id="${esc(x.id)}" onclick="delExp(this.dataset.id)" ${LIVE?'':'disabled'}>Delete</button>`:''}</td></tr>`).join('')+'</table>':'<p class="mu">No expenses recorded for this month.</p>'}
 async function addExp(){if(!LIVE)return;const d=$('x_d').value,a=+$('x_a').value;if(!d||!(a>0)){alert('Enter a date and an amount.');return}
- try{await addDoc(collection(db,'libraries',libId,'expenses'),{date:d,cat:$('x_c').value,amt:a,note:san($('x_n').value.trim()),by:auth.currentUser.uid,at:serverTimestamp()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
+ try{const er=doc(collection(db,'libraries',libId,'expenses'));await setDoc(er,{date:d,cat:$('x_c').value,amt:a,note:await encV(san($('x_n').value.trim()),er.id,'note'),by:auth.currentUser.uid,at:serverTimestamp()});$('x_a').value='';$('x_n').value=''}catch(e){alert('Could not save ('+e.code+')')}}
 async function delExp(id){if(!OWN()||!LIVE||!confirm('Delete this expense?'))return;try{await deleteDoc(doc(db,'libraries',libId,'expenses',id))}catch(e){alert('Could not delete ('+e.code+')')}}
-const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode',active:'status',inactiveOn:'inactive since',guardianPhone:'guardian mobile',address:'address',preparingFor:'preparing for',shift:'shift'};
+const LBL={name:'name',phone:'mobile',seat:'seat',fee:'monthly fee',nextDue:'next due',amt:'amount',mode:'mode',active:'status',inactiveOn:'inactive since',guardianName:'guardian name',guardianPhone:'guardian mobile',address:'address',preparingFor:'preparing for',shift:'shift'};
 const fv=(k,v)=>k==='active'?(v?'Active':'Inactive'):k==='shift'&&SH[v]?SH[v].n:v;
 const chg=(c,o)=>Object.entries(c||{}).map(([k,v])=>(LBL[k]||esc(k))+': '+(o&&o[k]!==undefined?esc(fv(k,o[k]))+' → ':'')+esc(fv(k,v))).join(', ');
 function aDesc(a){const pend=a.status==='pending',s=pend?ST.find(x=>x.id===a.studentId):null,p=PY.find(x=>x.id===a.paymentId),nm=esc(a.studentName),pd=p?inr(p.amt)+' on '+esc(p.date):'an older payment';
@@ -1955,51 +1995,52 @@ async function decide(id,ok){const a=AP.find(x=>x.id===id);if(!a||!OWN()||!LIVE|
    if(st&&('seat' in c||'shift' in c)&&isAct(st)&&c.active!==true){const sc=seatCheck('seat' in c?c.seat:st.seat,'shift' in c?c.shift:st.shift,st.id);if(sc){alert(sc);return}}
    if(c.active===true&&st&&!isAct(st)){if(capLeft()<1){alert(capMsg());return}if(MAXS()&&!STATS){alert(noStats);return}stAdd(b,st.id)}
    else if(c.active===false&&st&&isAct(st))stSub(b,st.id);
-   b.update(sr,c)}
+   b.update(sr,(a._raw&&a._raw.changes)||c)}
   else if(t==='edit_payment'&&pr&&a.changes)b.update(pr,a.changes);
   else{alert('This request is incomplete and cannot be applied. Please reject it.');return}}
  b.update(ar,{status:ok?'approved':'rejected'});
  try{await b.commit();TRL=false}catch(e){alert('Could not apply ('+e.code+'). The student or payment may no longer exist.')}}
-const HD=['Name','Mobile','Seat','Monthly Fee','Join Date','Aadhaar Last 4','Next Due'],HX=[...HD,'Guardian Mobile','Address','Preparing For','Shift'];
+const HD=['Name','Mobile','Seat','Monthly Fee','Join Date','Aadhaar Last 4','Next Due'],HX=[...HD,'Guardian Name','Guardian Mobile','Address','Preparing For','Shift'];
 const dx=v=>v instanceof Date?iso(new Date(v.getTime()+12*36e5)):/^\d{4}-\d{2}-\d{2}$/.test(String(v).trim())?String(v).trim():'';
 const sv=(rows,n)=>{const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,XLSX.utils.aoa_to_sheet(rows),'Students');XLSX.writeFile(b,n)};
-function tpl(){const n=new Date(),ws=XLSX.utils.aoa_to_sheet([HX,['Example Student','9876543210','A1',500,'','1234','','9876500000','12 Civil Lines, Meerut','UPSC','Full day']]);
+function tpl(){const n=new Date(),ws=XLSX.utils.aoa_to_sheet([HX,['Example Student','9876543210','A1',500,'','1234','','Parent Name','9876500000','12 Civil Lines, Meerut','UPSC','Full day']]);
  // Join Date is a real date; Next Due (column G) is a formula: the same date one month after the Join Date
  ws.E2={t:'d',v:new Date(n.getFullYear(),n.getMonth(),n.getDate(),12),z:'yyyy-mm-dd'};
  for(let r=2;r<=451;r++)ws['G'+r]={t:'n',f:`IF(E${r}="","",EDATE(E${r},1))`,z:'yyyy-mm-dd'};
- ws['!ref']='A1:K451';ws['!cols']=[{wch:22},{wch:14},{wch:8},{wch:12},{wch:13},{wch:15},{wch:13},{wch:16},{wch:30},{wch:18},{wch:12}];
+ ws['!ref']='A1:L451';ws['!cols']=[{wch:22},{wch:14},{wch:8},{wch:12},{wch:13},{wch:15},{wch:13},{wch:20},{wch:16},{wch:30},{wch:18},{wch:12}];
  const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,ws,'Students');XLSX.writeFile(b,'students-template.xlsx',{cellDates:true})}
-function expX(){sv([[...HX,'Status'],...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue,s.guardianPhone||'',s.address||'',s.preparingFor||'',SH[s.shift]?SH[s.shift].n:'',isAct(s)?'Active':'Inactive'])],'students.xlsx')}
+function expX(){sv([[...HX,'Status'],...ST.map(s=>[s.name,s.phone,s.seat,s.fee,s.joined,s.aadhaarLast4,s.nextDue,s.guardianName||'',s.guardianPhone||'',s.address||'',s.preparingFor||'',SH[s.shift]?SH[s.shift].n:'',isAct(s)?'Active':'Inactive'])],'students.xlsx')}
 async function impX(){if(!LIVE)return;const f=$('xf').files[0],m=$('xm');if(!f){m.textContent='Choose a file first.';return}
  if(f.size>2097152){m.textContent='This file is too large. Keep it under 2 MB.';return}
  const upOK=$('xu').checked&&OWN();let wb;
  try{wb=XLSX.read(await f.arrayBuffer(),{cellDates:true})}catch(e){m.textContent='Could not read this file.';return}
  const all=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}).filter(r=>String(r['Name']).trim()||String(r['Mobile']).trim()),rows=all.slice(0,450);
  if(MAXS()&&!STATS){m.textContent=noStats;return}
- const col=collection(db,'libraries',libId,'students'),seen=new Set(),plain=[],counted=[];let add=0,upd=0,bad=0,kept=0,lim=0,room=capLeft(),cnt=STATS?STATS.active:0;
+ const col=collection(db,'libraries',libId,'students'),seen=new Set(),plain=[],counted=[];let add=0,upd=0,bad=0,kept=0,lim=0,noGn=0,room=capLeft(),cnt=STATS?STATS.active:0;
  const shk=t=>{t=String(t).trim().toLowerCase();return!t?'':/24/.test(t)?'h24':t.startsWith('full')?'full':t.startsWith('morn')?'morning':t.startsWith('even')?'evening':t.startsWith('night')?'night':''};
  for(const r of rows){const p=String(r['Mobile']).replace(/\D/g,'').slice(-10),n=san(String(r['Name']).trim()).slice(0,80),fee=+r['Monthly Fee'];
   if(!n||p.length!==10||!(fee>0&&fee<=1000000)||seen.has(p)){bad++;continue}
   seen.add(p);
-  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=san(String(r['Seat']).trim()).slice(0,20),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),gp=gp0.length===10?gp0:'',adr=san(String(r['Address']).trim()).slice(0,200),pf=san(String(r['Preparing For']).trim()).slice(0,60),sh=shk(r['Shift']),ex=ST.find(x=>x.phone===p),stt=String(r['Status']).trim().toLowerCase();
+  const jn=dx(r['Join Date']),nd=dx(r['Next Due']),ad=String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),seat=san(String(r['Seat']).trim()).slice(0,20),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),gp=gp0.length===10?gp0:'',adr=san(String(r['Address']).trim()).slice(0,200),pf=san(String(r['Preparing For']).trim()).slice(0,60),gn=san(String(r['Guardian Name']||'').trim()).slice(0,80),sh=shk(r['Shift']),ex=ST.find(x=>x.phone===p),stt=String(r['Status']).trim().toLowerCase();
   if(ex){if(!upOK){kept++;continue}
-   const d={name:n,fee};if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;if(gp)d.guardianPhone=gp;if(adr)d.address=adr;if(pf)d.preparingFor=pf;if(sh)d.shift=sh;
+   const d={name:n,fee};if(seat)d.seat=seat;if(jn)d.joined=jn;if(nd)d.nextDue=nd;if(ad)d.aadhaarLast4=ad;if(gn)d.guardianName=gn;if(gp)d.guardianPhone=gp;if(adr)d.address=adr;if(pf)d.preparingFor=pf;if(sh)d.shift=sh;
    if(stt==='inactive'&&isAct(ex)){d.active=false;d.inactiveOn=today();counted.push({ref:doc(col,ex.id),d,op:'update',sub:true})}
    else if(stt==='active'&&!isAct(ex)){if(room<1){lim++;continue}room--;d.active=true;counted.push({ref:doc(col,ex.id),d,op:'update',add:true})}
    else{if(stt==='inactive'){d.active=false;d.inactiveOn=today()}plain.push({ref:doc(col,ex.id),d,op:'update'})}
    upd++}
-  else{const j=jn||today(),nw={name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,guardianPhone:gp,address:adr,preparingFor:pf,createdAt:serverTimestamp()};if(sh)nw.shift=sh;
+  else{if(!gn){noGn++;continue}const j=jn||today(),nw={name:n,phone:p,seat,fee,joined:j,nextDue:nd||j,aadhaarLast4:ad,guardianName:gn,guardianPhone:gp,address:adr,preparingFor:pf,createdAt:serverTimestamp()};if(sh)nw.shift=sh;
    if(stt==='inactive'){nw.active=false;nw.inactiveOn=today();plain.push({ref:doc(col),d:nw,op:'set'})}
    else{if(room<1){lim++;continue}room--;counted.push({ref:doc(col),d:nw,op:'set',add:true})}
    add++}}
  try{
+  for(const o of plain)o.d=await encSt(o.d,o.ref.id);
   for(let i=0;i<plain.length;i+=400){const b=writeBatch(db);plain.slice(i,i+400).forEach(o=>o.op==='set'?b.set(o.ref,o.d):b.update(o.ref,o.d));await b.commit()}
   let done=0;
-  for(const o of counted){m.textContent='Importing... '+(++done)+' of '+counted.length;const b=writeBatch(db);o.op==='set'?b.set(o.ref,o.d):b.update(o.ref,o.d);
+  for(const o of counted){m.textContent='Importing... '+(++done)+' of '+counted.length;o.d=await encSt(o.d,o.ref.id);const b=writeBatch(db);o.op==='set'?b.set(o.ref,o.d):b.update(o.ref,o.d);
    if(o.add&&MAXS())b.update(stRef(),{active:increment(1),lastId:o.ref.id,op:'add'});
    else if(o.sub&&MAXS()&&cnt>0){b.update(stRef(),{active:increment(-1),lastId:o.ref.id,op:'sub'});cnt--}
    await b.commit()}
-  m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(lim?` ${lim} row(s) were not added because your limit of ${MAXS()} active students was reached.`:'')+(all.length>450?' Only the first 450 rows were read.':'')+' Seat clashes are not checked during import, so look at the Seats tab afterwards.'
+  m.textContent=`Imported ${add} new, updated ${upd}, left ${kept} existing students unchanged, skipped ${bad} invalid or duplicate rows.`+(noGn?` ${noGn} new student(s) were skipped because the Guardian Name column was empty.`:'')+(lim?` ${lim} row(s) were not added because your limit of ${MAXS()} active students was reached.`:'')+(all.length>450?' Only the first 450 rows were read.':'')+' Seat clashes are not checked during import, so look at the Seats tab afterwards.'
  }catch(e){m.textContent='Import stopped ('+e.code+'). Rows before the error were saved.'}}
 const aerr=e=>({'app/need-password':'Enter your current password first.','auth/wrong-password':'Current password is wrong.','auth/invalid-credential':'Current password is wrong.','auth/weak-password':'New password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.','auth/password-does-not-meet-requirements':'New password is too weak. It needs at least 8 characters with a capital letter, a small letter, a number and a symbol.','auth/email-already-in-use':'That email is already used by another login.','auth/invalid-email':'That email address is not valid.','auth/too-many-requests':'Too many attempts. Please try again later.','auth/requires-recent-login':'Please sign out, sign in again and retry.','auth/invalid-verification-code':'Wrong or expired code. Try the next code from the app.','auth/second-factor-already-in-use':'Two-step login is already on for this login.'}[e.code]||'Failed ('+(e.code||e.message)+')');
 function openAcc(){const u=auth.currentUser;if(!u)return;$('ac_th').value=themeGet();mfaStatus();$('mf_b').classList.add('hide');$('mf_q').innerHTML='';$('mf_k').textContent='';MFS=null;
@@ -2033,13 +2074,13 @@ function bkAuto(){const on=$('bka').checked;bkSet({...bkGet(),auto:on});$('bkm')
 async function autoBackupCheck(){if(OWN()&&bkGet().auto&&bkDue())await makeBackup(true)}
 async function makeBackup(auto){if(!OWN()||!libId)return;const m=$('bkm'),btn=$('bkb');btn.disabled=true;m.textContent='Preparing your backup...';
  try{
-  const rd=n=>getDocs(collection(db,'libraries',libId,n)).then(r=>r.docs.map(d=>({id:d.id,...d.data()})));
-  const [st,py,ex,ap,tr]=await Promise.all([rd('students'),rd('payments'),rd('expenses'),rd('approvals'),rd('trash')]);
+  const rd=(n,k)=>getDocs(collection(db,'libraries',libId,n)).then(r=>decAll(r.docs,k));
+  const [st,py,ex,ap,tr]=await Promise.all([rd('students','st'),rd('payments','py'),rd('expenses','ex'),rd('approvals','ap'),rd('trash','st')]);
   const by=(k,dir)=>(a,b)=>dir*String(a[k]||'').localeCompare(String(b[k]||''));
   st.sort(by('name',1));tr.sort(by('name',1));py.sort(by('date',-1));ex.sort(by('date',-1));ap.sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
   const wb=XLSX.utils.book_new(),add=(n,rows,w)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,n)};
-  add('Students',[[...HX,'Status','ID'],...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',SH[x.shift]?SH[x.shift].n:'',isAct(x)?'Active':'Inactive',x.id])],[22,14,8,12,12,15,12,16,30,18,12,10,24]);
-  add('Recycle bin',[[...HX,'Deleted on'],...tr.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',SH[x.shift]?SH[x.shift].n:'',x.deletedAt&&x.deletedAt.toDate?iso(x.deletedAt.toDate()):''])],[22,14,8,12,12,15,12,16,30,18,12,12]);
+  add('Students',[[...HX,'Status','ID'],...st.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianName||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',SH[x.shift]?SH[x.shift].n:'',isAct(x)?'Active':'Inactive',x.id])],[22,14,8,12,12,15,12,16,30,18,12,10,24]);
+  add('Recycle bin',[[...HX,'Deleted on'],...tr.map(x=>[x.name,x.phone,x.seat||'',x.fee,x.joined||'',x.aadhaarLast4||'',x.nextDue||'',x.guardianName||'',x.guardianPhone||'',x.address||'',x.preparingFor||'',SH[x.shift]?SH[x.shift].n:'',x.deletedAt&&x.deletedAt.toDate?iso(x.deletedAt.toDate()):''])],[22,14,8,12,12,15,12,16,30,18,12,12]);
   add('Payments',[['Date','Student','Amount','Mode','Student ID','Payment ID'],...py.map(x=>[x.date,x.studentName,x.amt,x.mode,x.studentId,x.id])],[12,22,10,12,24,34]);
   add('Expenses',[['Date','Category','Amount','Note','ID'],...ex.map(x=>[x.date,x.cat,x.amt,x.note||'',x.id])],[12,16,10,30,24]);
   add('Requests',[['Requested on','Type','Student','Status','Details'],...ap.map(x=>[x.createdAt&&x.createdAt.toDate?iso(x.createdAt.toDate()):'',x.type,x.studentName,x.status,Object.entries(x.changes||{}).map(([k,v])=>k+': '+v).join(', ')])],[14,16,22,10,40]);
@@ -2065,6 +2106,7 @@ function planRestore(o){const {rs,rp,rx,ST,haveP,haveE,keyP,keyE,newId}=o,vid=v=
   seen.add(p);const id=vid(bid)?bid:newId();byPh.set(p,id);if(vid(bid))rid.set(bid,id);addName(n,id);
   const jn=dx(r['Join Date']),nd=dx(r['Next Due']),j=jn||today(),gp0=String(r['Guardian Mobile']).replace(/\D/g,'').slice(-10),
    d={name:n,phone:p,seat:san(String(r['Seat']).trim()).slice(0,20),fee,joined:j,nextDue:nd||j,aadhaarLast4:String(r['Aadhaar Last 4']).replace(/\D/g,'').slice(-4),guardianPhone:gp0.length===10?gp0:'',address:san(String(r['Address']).trim()).slice(0,200),preparingFor:san(String(r['Preparing For']).trim()).slice(0,60)};
+  const gnr=san(String(r['Guardian Name']||'').trim()).slice(0,80);if(gnr)d.guardianName=gnr;
   if(String(r['Status']).trim().toLowerCase()==='inactive'){d.active=false;d.inactiveOn=today()}
   stu.push({id,d})}
  for(const r of rp){const amt=+r['Amount'],date=dx(r['Date']),mode=san(String(r['Mode']).trim()).slice(0,30),nm=san(String(r['Student']).trim()).slice(0,80),sb=String(r['Student ID']).trim(),pid=String(r['Payment ID']).trim();
@@ -2095,16 +2137,16 @@ async function restoreBackup(){if(!OWN()||!libId)return;const f=$('rf').files[0]
   if(!nS&&!nP&&!nE){m.textContent='Nothing to restore: everything in this file is already here.'+(plan.skP?' ('+plan.skP+' payments could not be linked to a student.)':'');btn.disabled=false;return}
   if(!confirm('Restore '+nS+' missing students, '+nP+' missing payments and '+nE+' missing expenses? Existing records will not be changed.')){m.textContent='Restore cancelled.';btn.disabled=false;return}
   const chunk=(a,n)=>{const o=[];for(let i=0;i<a.length;i+=n)o.push(a.slice(i,i+n));return o};let done=0;
-  for(const g of chunk(plan.stu,400)){const b=writeBatch(db);g.forEach(x=>b.set(doc(col('students'),x.id),{...x.d,createdAt:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring students... '+done+' of '+nS}
+  for(const g of chunk(plan.stu,400)){const b=writeBatch(db);const eg=await Promise.all(g.map(async x=>[x,await encSt(x.d,x.id)]));eg.forEach(([x,d])=>b.set(doc(col('students'),x.id),{...d,createdAt:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring students... '+done+' of '+nS}
   plan.pay.sort((a,b)=>a.d.studentId<b.d.studentId?-1:a.d.studentId>b.d.studentId?1:0);
   const pb=[];let cur=[],ids=new Set();for(const x of plan.pay){if(cur.length&&(cur.length>=400||(!ids.has(x.d.studentId)&&ids.size>=8))){pb.push(cur);cur=[];ids=new Set()}cur.push(x);ids.add(x.d.studentId)}if(cur.length)pb.push(cur);
-  done=0;for(const g of pb){const b=writeBatch(db);g.forEach(x=>b.set(x.id?doc(col('payments'),x.id):doc(col('payments')),{...x.d,by:auth.currentUser.uid,at:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring payments... '+done+' of '+nP}
-  done=0;for(const g of chunk(plan.exp,400)){const b=writeBatch(db);g.forEach(x=>b.set(x.id?doc(col('expenses'),x.id):doc(col('expenses')),{...x.d,by:auth.currentUser.uid,at:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring expenses... '+done+' of '+nE}
+  done=0;for(const g of pb){const b=writeBatch(db);const eg=await Promise.all(g.map(async x=>[x,await encV(x.d.studentName,x.d.studentId,'name')]));eg.forEach(([x,nm])=>b.set(x.id?doc(col('payments'),x.id):doc(col('payments')),{...x.d,studentName:nm,by:auth.currentUser.uid,at:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring payments... '+done+' of '+nP}
+  done=0;for(const g of chunk(plan.exp,400)){const b=writeBatch(db);const eg=await Promise.all(g.map(async x=>{const r=x.id?doc(col('expenses'),x.id):doc(col('expenses'));return[r,{...x.d,note:await encV(x.d.note,r.id,'note')}]}));eg.forEach(([r,d])=>b.set(r,{...d,by:auth.currentUser.uid,at:serverTimestamp()}));await b.commit();done+=g.length;m.textContent='Restoring expenses... '+done+' of '+nE}
   m.textContent='Restore finished: '+nS+' students, '+nP+' payments and '+nE+' expenses added. Skipped '+(plan.skS+plan.skP+plan.skE)+' rows that were invalid or could not be linked to a student, and left '+(plan.dupS+plan.dupP+plan.dupE)+' rows that already existed.';
  }catch(e){m.textContent='Restore stopped ('+(e.code||e.message)+'). Nothing already saved was changed. You can run it again to continue.'}
  btn.disabled=false}
 
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 $('sm_g').addEventListener('click',e=>{const b=e.target.closest('button.seat');if(b)seatInfo(b.dataset.l)});
-Object.assign(window,{setLimits,seatList,drawSeats,pickSeat,saveSet,setPreview,openSup,closeSup,mfaVerify,mfaCancel,mfaSetup,mfaConfirm,tmToggle,setTheme,login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,restoreBackup,bkAuto,setActive,restoreStu,purgeStu,emptyTrash,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,tpl,expX,impX});
+Object.assign(window,{encryptAll,setLimits,seatList,drawSeats,pickSeat,saveSet,setPreview,openSup,closeSup,mfaVerify,mfaCancel,mfaSetup,mfaConfirm,tmToggle,setTheme,login,logout,addLib,ext,tog,mkUser,rmUser,mkStaff,makeBackup,restoreBackup,bkAuto,setActive,restoreStu,purgeStu,emptyTrash,rcSend,rcSendPdf,rcClose,rcpt,forgot,openAcc,closeAcc,changePw,changeEm,mailReset,admit,pay,del,editStu,saveStu,cancelEdit,drawPay,editPay,delPay,drawLB,tab,remind,addExp,delExp,drawExp,decide,tpl,expX,impX});
 </script></body></html>

@@ -126,7 +126,11 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 .spb{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--bd);border-radius:12px;color:var(--tx);text-decoration:none;margin-bottom:10px;transition:background .15s,transform .15s}
 .spb:hover{background:var(--hi);transform:translateY(-1px)}
 .spi{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;color:#fff;flex:none;font-style:normal}
-.pie{display:flex;gap:18px;flex-wrap:wrap;align-items:center}.pie ul{list-style:none;margin:0;padding:0;flex:1;min-width:210px}.pie li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid rgba(128,128,128,.25)}.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:8px}
+.dash .k{margin:16px 0 0;gap:6px 10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.dash .k>div{background:transparent;border:0;border-radius:12px;box-shadow:none;padding:8px 6px;transition:none}.dash .k>div::before{display:none}.dash .k>div:hover{transform:none;box-shadow:none}
+@media(max-width:560px){.dash .k b{font-size:1.1rem}.dash .k .ik{width:34px;height:34px}.dash .k>div{gap:8px;padding:8px 2px}}
+.dch{display:grid;grid-template-columns:1.15fr 1fr;gap:28px}@media(max-width:760px){.dch{grid-template-columns:1fr}}.dch h4{margin:0 0 10px;font-size:.95rem}
+.pie{display:flex;flex-direction:column;align-items:center;gap:12px}.pie svg{flex:none}.pie ul{list-style:none;margin:0;padding:0;width:100%}.pie li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid rgba(128,128,128,.22);font-size:.92rem}.pie li:last-child{border-bottom:0}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:8px}.lgd{display:flex;gap:16px;justify-content:center;margin-top:8px;font-size:.85rem}
 </style></head><body><div class="w">
 
 <div id="lg" class="c" style="max-width:360px;margin:50px auto">
@@ -176,10 +180,9 @@ button.ib.wa{background:#1fa855}.ib.call{background:#2f6fb0}
 <div class="nv" id="nv"><button type="button" id="tmb" class="tmb" aria-expanded="false" aria-controls="tbs" onclick="tmToggle()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="tmt" id="tmt">Dashboard</span><span class="tmn hide" id="tmn"></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
 <div class="tabs" id="tbs"><button id="tb_dash" class="act" onclick="tab('dash')">Dashboard</button><button id="tb_stu" onclick="tab('stu')">Students</button><button id="tb_seat" onclick="tab('seat')">Seats</button><button id="tb_pay" onclick="tab('pay')">Payments</button><button id="tb_exp" onclick="tab('exp')">Expenses</button><button id="tb_apr" onclick="tab('apr')">Approvals</button><button id="tb_stf" class="hide" onclick="tab('stf')">Staff logins</button><button id="tb_bk" class="hide" onclick="tab('bk')">Backup</button><button id="tb_tr" class="hide" onclick="tab('tr')">Recycle bin</button></div></div>
 <div id="bkn" class="c hide"><div class="top"><span id="bkt"></span><button class="s" onclick="makeBackup(false)">Backup now</button></div></div>
-<div id="t_dash"><div id="encb" class="c hide" style="border-left:4px solid #e0a21b"><b>Encrypt your records</b><p class="mu" style="margin:6px 0">Some records are still stored as plain text. Press the button once to encrypt them. Download a backup first (Backup tab).</p><button id="encx" onclick="encryptAll()">Encrypt now</button><p class="mu" id="encm"></p></div><div class="c"><div class="top"><h3 style="margin:0">Dashboard</h3><label style="margin:0">Month <select id="dm" onchange="setDM(this.value)" style="width:auto"></select></label></div><p class="mu" style="margin:6px 0 0">Students and fees due show today's position. Collected, spent and net are for the month you choose.</p></div>
-<div class="k" id="kp"></div>
-<div class="c"><h3 id="dgh">Fees collected and spent each day</h3><div id="dg"></div><span class="mu">Green: fees collected. Amber: expenses.</span></div>
-<div class="c"><h3 id="dph">Where the money was spent</h3><div id="dp"></div></div>
+<div id="t_dash"><div id="encb" class="c hide" style="border-left:4px solid #e0a21b"><b>Encrypt your records</b><p class="mu" style="margin:6px 0">Some records are still stored as plain text. Press the button once to encrypt them. Download a backup first (Backup tab).</p><button id="encx" onclick="encryptAll()">Encrypt now</button><p class="mu" id="encm"></p></div><div class="c dash"><div class="top"><h3 style="margin:0">Dashboard</h3><label style="margin:0">Month <select id="dm" onchange="setDM(this.value)" style="width:auto"></select></label></div>
+<div class="k" id="kp"></div><p class="mu" style="margin:10px 0 0">Students and fees due are as of today. Collected, spent and net are for the month you choose.</p></div>
+<div class="c"><div class="dch"><div><h4>Collected vs spent, week by week</h4><div id="dg"></div></div><div><h4>Where the money was spent</h4><div id="dp"></div></div></div></div>
 <div class="c"><h3>Fees due in the next 3 days or overdue</h3><div class="tw" id="ds"></div></div>
 <div class="c"><h3 id="plh">Payments this month</h3><div class="tw" id="pl"></div></div></div>
 <div id="t_stu" class="hide"><div class="c"><h3>New admission</h3><p class="mu" id="cap"></p>
@@ -262,7 +265,7 @@ const esc=s=>String(s??'').replace(/[&<>"'`]/g,c=>({'&':'&amp;','<':'&lt;','>':'
 const san=s=>String(s??'').replace(/[<>"`]/g,'');
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const today=()=>iso(new Date());
-const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const inr=n=>{n=Math.round(n);return(n<0?'-':'')+'₹'+Math.abs(n).toLocaleString('en-IN')};
 const addM=(s,m)=>{const[y,mo,d]=s.split('-').map(Number),t=new Date(y,mo-1+m,1),l=new Date(t.getFullYear(),t.getMonth()+1,0).getDate();return iso(new Date(t.getFullYear(),t.getMonth(),Math.min(d,l)))};
 const show=v=>['lg','sa','lb'].forEach(i=>$(i).classList.toggle('hide',i!==v));
 const expOf=l=>l&&l.expiry&&l.expiry.toDate?l.expiry.toDate():null;
@@ -1718,11 +1721,11 @@ function drawLB(){encBanner();
  const AC=ST.filter(isAct),due=AC.filter(s=>s.nextDue<=t),pm=PY.filter(p=>p.date.startsWith(D)),coll=pm.reduce((a,p)=>a+p.amt,0),spent=EX.filter(x=>x.date.startsWith(D)).reduce((a,x)=>a+x.amt,0);
  $('kp').innerHTML=kc('k1','<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',AC.length,0,'Active students'+(MAXS()?' (limit '+MAXS()+')':'')+(ST.length>AC.length?' ('+(ST.length-AC.length)+' inactive)':''))
   +kc('k2','<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',due.length,0,'Fee due ('+inr(due.reduce((a,s)=>a+s.fee,0))+')',due.length?'bad':'')
-  +kc('k3','<path d="M6 3h12"/><path d="M6 8h12"/><path d="M6 13l8.5 8"/><path d="M6 13h3a4 4 0 0 0 0-8"/>',coll,1,'Collected '+dl)
-  +kc('k4','<path d="M7 17L17 7"/><path d="M7 7h10v10"/>',spent,1,'Spent '+dl)
-  +kc('k5','<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',coll-spent,1,'Net '+dl);
+  +kc('k3','<path d="M6 3h12"/><path d="M6 8h12"/><path d="M6 13l8.5 8"/><path d="M6 13h3a4 4 0 0 0 0-8"/>',coll,1,'Collected')
+  +kc('k4','<path d="M7 17L17 7"/><path d="M7 7h10v10"/>',spent,1,'Spent')
+  +kc('k5','<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',coll-spent,1,'Net');
  kpiAnim();
- {const g=dayChart(D),p=pieChart(D);if(g!==DGL){DGL=g;$('dg').innerHTML=g}if(p!==DPL){DPL=p;$('dp').innerHTML=p}$('dgh').textContent='Fees collected and spent each day ('+mLabel(D)+')';$('dph').textContent='Where the money was spent ('+mLabel(D)+')';$('plh').textContent='Payments '+(D===M?'this month':'in '+mLabel(D));}
+ {const g=weekChart(D),p=pieChart(D);if(g!==DGL){DGL=g;$('dg').innerHTML=g}if(p!==DPL){DPL=p;$('dp').innerHTML=p}$('plh').textContent='Payments '+(D===M?'this month':'in '+mLabel(D));}
  const sr=AC.filter(s=>s.nextDue<=lim).sort((a,b)=>a.nextDue.localeCompare(b.nextDue));
  $('ds').innerHTML=sr.length?'<table><tr><th>Name</th><th>Seat</th><th>Fee</th><th>Due</th><th></th></tr>'+sr.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.seat)}</td><td>${inr(s.fee)}</td><td class="${s.nextDue<=t?'bad':''}">${esc(s.nextDue)}</td><td>${ctl(s)}</td></tr>`).join('')+'</table>':'<p class="mu">No fees are due in the next 3 days.</p>';
  const sf=$('sf').value,rows=ST.filter(s=>(sf==='all'||(sf==='inactive')===!isAct(s))&&(!q||(s.name+s.phone+s.seat+(s.guardianName||'')+(s.guardianPhone||'')+(s.address||'')+(s.preparingFor||'')).toLowerCase().includes(q))).sort((a,b)=>sf==='inactive'?a.name.localeCompare(b.name):a.nextDue.localeCompare(b.nextDue));
@@ -1815,15 +1818,15 @@ function setDM(v){DM=v;drawLB()}
 function dmOpts(){const cur=ym(),b=FROM(),arr=[0,1,2,3,4,5].map(i=>addM(b,i).slice(0,7)).reverse(),sel=$('dm');
  if(sel.dataset.cur!==cur){sel.innerHTML=arr.map(m=>'<option value="'+m+'">'+mLabel(m)+'</option>').join('');sel.dataset.cur=cur}
  if(!DM||!arr.includes(DM))DM=cur;sel.value=DM}
-function dayChart(m){const y=+m.slice(0,4),mo=+m.slice(5,7),n=new Date(y,mo,0).getDate(),inc=Array(n).fill(0),ex=Array(n).fill(0);
- PY.forEach(p=>{if(p.date.startsWith(m))inc[+p.date.slice(8,10)-1]+=p.amt});EX.forEach(x=>{if(x.date.startsWith(m))ex[+x.date.slice(8,10)-1]+=x.amt});
- if(!inc.some(v=>v)&&!ex.some(v=>v))return'<p class="mu">Nothing has been recorded in this month yet.</p>';
- const mx=Math.max(1,...inc,...ex),w=350/n,bw=Math.max(2,w*.4);
- return'<svg viewBox="0 0 360 140" width="100%" role="img" aria-label="Fees collected and expenses for each day of '+mLabel(m)+'"><defs><linearGradient id="gG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3fa37f"/><stop offset="1" stop-color="#1d5a47"/></linearGradient><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efbd5c"/><stop offset="1" stop-color="#c9892b"/></linearGradient></defs>'
-  +[5,38,71,105].map(y=>'<line x1="4" x2="356" y1="'+y+'" y2="'+y+'" stroke="currentColor" stroke-opacity="'+(y===105?.25:.1)+'"/>').join('')
-  +inc.map((v,i)=>{const x=5+i*w,h1=v/mx*100,h2=ex[i]/mx*100,d=String(i+1).padStart(2,'0'),lb=(i===0||(i+1)%5===0)?'<text x="'+(x+bw)+'" y="123" font-size="10" text-anchor="middle" fill="currentColor">'+(i+1)+'</text>':'';
-   return(v?'<rect rx="1.5" x="'+x.toFixed(1)+'" y="'+(105-h1).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h1.toFixed(1)+'" fill="url(#gG)"><title>'+m+'-'+d+' collected '+inr(v)+'</title></rect>':'')
-    +(ex[i]?'<rect rx="1.5" x="'+(x+bw+.5).toFixed(1)+'" y="'+(105-h2).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h2.toFixed(1)+'" fill="url(#gA)"><title>'+m+'-'+d+' spent '+inr(ex[i])+'</title></rect>':'')+lb}).join('')+'</svg>'}
+function weekChart(m){const n=new Date(+m.slice(0,4),+m.slice(5,7),0).getDate(),k=Math.floor((n-1)/7)+1,wk=Array.from({length:k},()=>({i:0,e:0}));
+ PY.forEach(p=>{if(p.date.startsWith(m))wk[Math.min(k-1,Math.floor((+p.date.slice(8,10)-1)/7))].i+=p.amt});EX.forEach(x=>{if(x.date.startsWith(m))wk[Math.min(k-1,Math.floor((+x.date.slice(8,10)-1)/7))].e+=x.amt});
+ if(!wk.some(w=>w.i||w.e))return'<p class="mu">Nothing has been recorded in this month yet.</p>';
+ const mx=Math.max(...wk.flatMap(w=>[w.i,w.e])),gw=340/k,bw=Math.min(34,gw*.34),sh=v=>v>=100000?(v/100000).toFixed(1).replace('.0','')+'L':v>=1000?(v/1000).toFixed(1).replace('.0','')+'k':String(v);
+ let g='';wk.forEach((w,j)=>{const cx=10+gw*(j+.5),a=w.i/mx*105,b=w.e/mx*105,r=(j*7+1)+'-'+Math.min(n,j*7+7);
+  if(w.i)g+='<rect rx="3" x="'+(cx-bw-1.5).toFixed(1)+'" y="'+(150-a).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+a.toFixed(1)+'" fill="#2e9e6b"><title>Days '+r+': collected '+inr(w.i)+'</title></rect><text x="'+(cx-bw/2-1.5).toFixed(1)+'" y="'+(146-a).toFixed(1)+'" font-size="10" text-anchor="middle" fill="currentColor">'+sh(w.i)+'</text>';
+  if(w.e)g+='<rect rx="3" x="'+(cx+1.5).toFixed(1)+'" y="'+(150-b).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+b.toFixed(1)+'" fill="#e0a21b"><title>Days '+r+': spent '+inr(w.e)+'</title></rect><text x="'+(cx+bw/2+1.5).toFixed(1)+'" y="'+(146-b).toFixed(1)+'" font-size="10" text-anchor="middle" fill="currentColor">'+sh(w.e)+'</text>';
+  g+='<text x="'+cx.toFixed(1)+'" y="168" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".7">Days '+r+'</text>'});
+ return'<svg viewBox="0 0 360 178" width="100%" role="img" aria-label="Fees collected and expenses for each week"><line x1="4" x2="356" y1="150" y2="150" stroke="currentColor" stroke-opacity=".25"/>'+g+'</svg><div class="lgd"><span><i class="sw" style="background:#2e9e6b"></i>Collected</span><span><i class="sw" style="background:#e0a21b"></i>Spent</span></div>'}
 const PC=['#1d5a47','#e0a21b','#c8473a','#3b7ddd','#8a5cc2','#2e9e6b','#d96aa7','#6b7a72'];
 function pieChart(m){const by={};EX.forEach(x=>{if(x.date.startsWith(m)){const k=x.cat||'Other';by[k]=(by[k]||0)+x.amt}});
  let ent=Object.entries(by).sort((a,b)=>b[1]-a[1]);const tot=ent.reduce((t,e)=>t+e[1],0);if(!tot)return'<p class="mu">No expenses have been recorded in this month.</p>';
